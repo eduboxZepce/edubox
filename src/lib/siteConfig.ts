@@ -86,9 +86,9 @@ export const SITE: SiteConfig = {
 
   contact: {
     /** General enquiries. Also the fallback recipient of the contact form. PLACEHOLDER */
-    email: 'info@edubox.ba',
+    email: 'info@edubox-zepce.ba',
     /** Shown on /kontakt for students already enrolled. PLACEHOLDER */
-    supportEmail: 'podrska@edubox.ba',
+    supportEmail: 'podrska@edubox-zepce.ba',
     /**
      * `display` is what people read, `tel` is what a phone dials — written
      * separately because spacing that helps reading breaks a `tel:` link.

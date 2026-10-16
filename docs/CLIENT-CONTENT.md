@@ -295,9 +295,9 @@ things the client types in.
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project for production (account owned by the client, or access to it) | All |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | from that Supabase project | All |
 | `SUPABASE_SERVICE_ROLE_KEY` | from that Supabase project (secret) | All |
-| `NEXT_PUBLIC_SITE_URL` | **The production domain**, e.g. `https://edubox.ba`, and DNS access for it | Production only |
+| `NEXT_PUBLIC_SITE_URL` | **The production domain**, e.g. `https://www.edubox-zepce.ba`, and DNS access for it | Production only |
 | `RESEND_API_KEY` | Resend account (or approval to create one) + DNS access to verify the domain | Production |
-| `EMAIL_FROM` | Sender name and address for system mail, e.g. `Edubox Žepče <obavijesti@edubox.ba>` | Production |
+| `EMAIL_FROM` | Sender name and address for system mail, e.g. `Edubox Žepče <obavijesti@edubox-zepce.ba>` | Production |
 | `CONTACT_EMAIL_TO` | Inbox that should receive contact-form messages | Production |
 | `NEXT_PUBLIC_FEATURE_*` (11 flags) | Decision: which features are live at launch and the order the rest are switched on (see the roadmap) | Production |
 | `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED` | Decision: offer Google sign-in? If yes: a Google Cloud project/OAuth consent screen under the client's Google account | Production |
@@ -321,8 +321,8 @@ numbered, because line numbers in this file move whenever a field is added.
 | `shortName` | Edubox | logo, admin sidebar, the " — Edubox" suffix on page titles |
 | `tagline` | online kursevi sa certifikatom | home page title, share image |
 | `description` | Platforma za online kurseve s pregledom zadataka i certifikatom po završetku. | footer, default search snippet, share image |
-| `contact.email` | info@edubox.ba (domain unconfirmed) | footer, /kontakt, contact-form fallback |
-| `contact.supportEmail` | podrska@edubox.ba (domain unconfirmed) | /kontakt |
+| `contact.email` | info@edubox-zepce.ba | footer, /kontakt, contact-form fallback |
+| `contact.supportEmail` | podrska@edubox-zepce.ba | /kontakt |
 | `contact.phone` (display + dialable form) | +387 33 000 000 | footer, /kontakt |
 | `contact.hours` | Ponedjeljak – petak, 09:00 – 17:00 | /kontakt |
 | `service.replyTime` | u toku istog dana | /kontakt (text and search snippet), FAQ |

@@ -50,6 +50,9 @@ export const POST = withRoute(async (req) => {
       <p>${escapeHtml(body.message).replace(/\n/g, '<br>')}</p>
         `,
     text: `Od: ${body.name} (${body.email})\nTema: ${body.subject}\n\n${body.message}`,
+    // The message arrives from the send-only address; this makes "Reply" in
+    // the inbox answer the visitor instead of bouncing.
+    replyTo: body.email,
   });
 
   if (result.status !== 'sent') {

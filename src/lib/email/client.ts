@@ -51,6 +51,12 @@ export async function sendEmail(input: {
   subject: string;
   html: string;
   text: string;
+  /**
+   * Only for mail whose natural reply goes to someone else — the contact form,
+   * where it is the visitor. Everything else goes out with no Reply-To on
+   * purpose: the sender address is send-only and nobody reads it.
+   */
+  replyTo?: string;
 }): Promise<EmailResult> {
   const resend = getClient();
 
@@ -72,6 +78,7 @@ export async function sendEmail(input: {
       // Sent alongside the HTML, not instead of it. Some clients prefer it, and
       // a plain-text part measurably helps deliverability.
       text: input.text,
+      ...(input.replyTo ? { replyTo: input.replyTo } : {}),
     });
 
     if (error) {

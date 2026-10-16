@@ -120,7 +120,7 @@ export function metaDescription(text: string | null | undefined, max = 155): str
   return `${(lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).replace(/[\s,.;:–—-]+$/, '')}…`;
 }
 
-/** `/kontakt` → `https://edubox.ba/kontakt`. For structured data, which needs absolute URLs. */
+/** `/kontakt` → `https://www.edubox-zepce.ba/kontakt`. For structured data, which needs absolute URLs. */
 export function absoluteUrl(path: string): string {
   if (/^https?:\/\//.test(path)) return path;
   return `${publicEnv.siteUrl}${path.startsWith('/') ? path : `/${path}`}`;

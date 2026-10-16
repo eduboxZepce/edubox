@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-16T08:14:03.500Z",
+  "updatedAt": "2026-10-16T17:03:51.261Z",
   "sections": {
     "database": {
       "label": "Baza podataka",
@@ -90,8 +90,8 @@
         "updatedAt": "2026-10-02T08:48:40.912Z"
       },
       "backend": {
-        "version": "1.1.2",
-        "updatedAt": "2026-10-02T08:48:40.912Z"
+        "version": "1.1.3",
+        "updatedAt": "2026-10-16T17:03:51.261Z"
       }
     },
     "users": {
@@ -146,12 +146,12 @@
       "label": "Javni sajt",
       "description": "Naslovna, blog, kontakt, SEO i javno zaglavlje",
       "frontend": {
-        "version": "1.22.0",
-        "updatedAt": "2026-10-16T08:14:03.500Z"
+        "version": "1.23.0",
+        "updatedAt": "2026-10-16T17:03:51.261Z"
       },
       "backend": {
-        "version": "1.1.3",
-        "updatedAt": "2026-10-16T08:14:03.500Z"
+        "version": "1.1.4",
+        "updatedAt": "2026-10-16T17:03:51.261Z"
       }
     },
     "courses": {
@@ -180,6 +180,30 @@
     }
   },
   "history": [
+    {
+      "at": "2026-10-16T17:03:51.261Z",
+      "section": "public",
+      "layer": "frontend",
+      "from": "1.22.0",
+      "to": "1.23.0",
+      "files": 3
+    },
+    {
+      "at": "2026-10-16T17:03:51.261Z",
+      "section": "public",
+      "layer": "backend",
+      "from": "1.1.3",
+      "to": "1.1.4",
+      "files": 1
+    },
+    {
+      "at": "2026-10-16T17:03:51.261Z",
+      "section": "notifications",
+      "layer": "backend",
+      "from": "1.1.2",
+      "to": "1.1.3",
+      "files": 2
+    },
     {
       "at": "2026-10-16T08:14:03.500Z",
       "section": "core",
@@ -955,30 +979,6 @@
       "from": "1.5.1",
       "to": "1.6.0",
       "files": 9
-    },
-    {
-      "at": "2026-08-28T22:22:18+02:00",
-      "section": "modules",
-      "layer": "frontend",
-      "from": "1.5.2",
-      "to": "1.6.0",
-      "files": 2
-    },
-    {
-      "at": "2026-08-28T22:22:18+02:00",
-      "section": "core",
-      "layer": "frontend",
-      "from": "1.8.0",
-      "to": "1.9.0",
-      "files": 14
-    },
-    {
-      "at": "2026-08-28T22:22:18+02:00",
-      "section": "purchases",
-      "layer": "frontend",
-      "from": "1.5.0",
-      "to": "1.6.0",
-      "files": 7
     }
   ]
 }

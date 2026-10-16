@@ -102,9 +102,14 @@ export function renderEmail(content: EmailContent): { html: string; text: string
    * unsubscribe route. Getting that wrong on marketing mail is a compliance
    * problem, not a copy one.
    */
-  const footerLines = footer?.lines ?? [
-    'Ovo obavještenje ste dobili jer je uključeno u podešavanjima vašeg naloga.',
-    'Možete ga isključiti na stranici „Obavještenja”.',
+  const footerLines = [
+    ...(footer?.lines ?? [
+      'Ovo obavještenje ste dobili jer je uključeno u podešavanjima vašeg naloga.',
+      'Možete ga isključiti na stranici „Obavještenja”.',
+    ]),
+    // The sender address is send-only, so a reply would go nowhere. Say so,
+    // and say where a person actually reads mail.
+    `Na ovu poruku nije moguće odgovoriti — pišite nam na ${SITE.contact.email}.`,
   ];
   const footerHtml = `<p style="margin:0;font-size:12px;line-height:1.6;color:#6b7280;">
                   ${footerLines.map(escapeHtml).join('<br />')}
