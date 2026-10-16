@@ -2112,8 +2112,17 @@ course-scoped page, add it there or it is URL-only.
   `npm run brand:assets`, which renders `public/og-image.jpg` and the manifest icons
   `icon-192.png` / `icon-512.png`). The PDF route cannot read `public/` — on Vercel it is
   not in the function bundle, the certificate-fonts trap again. After a logo change, re-run
-  `npm run brand:assets` and commit the output. Emails stay text-only:
-  the template uses no external assets by design, and Gmail does not render SVG.
+  `npm run brand:assets` and commit the output. Emails use a fourth form,
+  `public/email-logo.png` — a PNG because Gmail does not render SVG — loaded by absolute URL
+  from `publicEnv.siteUrl`; it is hand-made, so replace it by hand too.
+
+- **Every email has one frame** (`src/lib/email/template.ts`): logo + name header,
+  heading, "Poštovani/a {ime}," greeting, body, button, "Srdačan pozdrav, Tim Edubox
+  Žepče", then the why-you-got-this footer and a brand/legal line. Call sites supply only
+  the heading and the body. The brand name sits beside the logo as text, so the header
+  still reads when a client blocks images. Notifications render per recipient for the
+  greeting; the newsletter renders once and so goes out without one. Never tell a reader
+  to "reply to this email" — the sender is send-only, and the footer says so.
 
 - **Replacing a `public/` image under the same name serves the old one.** The image
   optimiser caches per URL + width + quality + format, not per file contents, so after

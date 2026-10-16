@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { uuidSchema } from '@/lib/schemas/common.schema';
 import { markDeliveredSchema } from '@/lib/schemas/certificates.schema';
 import { notifyAfterResponse } from '@/lib/services/notifications';
+import { SITE } from '@/lib/siteConfig';
 
 export const dynamic = 'force-dynamic';
 
@@ -107,7 +108,8 @@ export const PATCH = withRoute(async (req, ctx: Ctx) => {
         lines: [
           `Štampani primjerak vašeg certifikata za kurs „${courseName}” je poslat poštom.`,
           `Broj certifikata: ${existing.readable_id}.`,
-          'Ako ne stigne u razumnom roku, javite nam se odgovorom na ovaj email.',
+          // Not "reply to this email": the sender address is send-only.
+          `Ako ne stigne u razumnom roku, javite nam se na ${SITE.contact.email}.`,
         ],
         action: { label: 'Pogledaj certifikat', href: `/certificates/${existing.readable_id}` },
       },

@@ -134,19 +134,22 @@ export async function notifyUsers(svc: ServiceClient, input: NotifyInput): Promi
   );
   if (emailRecipients.length === 0) return;
 
-  const { html, text } = renderEmail({
-    heading: input.email.heading,
-    lines: input.email.lines,
-    preheader: input.body,
-    action: input.email.action
-      ? { label: input.email.action.label, href: absoluteUrl(input.email.action.href) }
-      : undefined,
-  });
+  const action = input.email.action
+    ? { label: input.email.action.label, href: absoluteUrl(input.email.action.href) }
+    : undefined;
 
   // Sequential rather than `Promise.all`: these are a handful of addresses, and
   // a provider rate limit is far more annoying to debug than a few extra
   // milliseconds spent after the response has already been sent.
   for (const recipient of emailRecipients) {
+    // Rendered per recipient, because the greeting carries their name.
+    const { html, text } = renderEmail({
+      heading: input.email.heading,
+      recipientName: recipient.full_name ?? '',
+      lines: input.email.lines,
+      preheader: input.body,
+      action,
+    });
     await sendEmail({ to: recipient.email, subject: input.email.subject, html, text });
   }
 }
