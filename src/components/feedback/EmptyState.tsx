@@ -18,8 +18,14 @@ export default function EmptyState({
   description,
   icon,
   action,
+  titleComponent = 'h5',
 }: {
   title: string;
+  /**
+   * The heading element. `h1` when the empty state *is* the page — the 404 —
+   * so the page still has its one top-level heading.
+   */
+  titleComponent?: React.ElementType;
   description?: string;
   /** Defaults to a generic empty-inbox glyph. */
   icon?: React.ReactNode;
@@ -52,7 +58,9 @@ export default function EmptyState({
       </Box>
 
       <Stack spacing={0.5} sx={{ maxWidth: 420 }}>
-        <Typography variant="h5">{title}</Typography>
+        <Typography variant="h5" component={titleComponent}>
+          {title}
+        </Typography>
         {description ? (
           <Typography variant="body2" color="text.secondary">
             {description}

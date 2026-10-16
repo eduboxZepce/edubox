@@ -70,7 +70,7 @@ function LoginForm() {
   }
 
   return (
-    <AuthCard title="Prijava" subtitle="Dobrodošli nazad.">
+    <>
       <form onSubmit={handleSubmit} noValidate>
         <Stack spacing={2}>
           {error ? <Alert severity="error">{error}</Alert> : null}
@@ -116,16 +116,19 @@ function LoginForm() {
         label="Prijavi se sa Google nalogom"
         redirectTo={redirectTo ?? undefined}
       />
-    </AuthCard>
+    </>
   );
 }
 
 export default function LoginPage() {
   // useSearchParams needs a Suspense boundary to avoid opting the whole route
-  // into client-side rendering.
+  // into client-side rendering. The card sits outside it, so its title — the
+  // page's <h1> — is in the server HTML rather than appearing after hydration.
   return (
-    <React.Suspense fallback={null}>
-      <LoginForm />
-    </React.Suspense>
+    <AuthCard title="Prijava" subtitle="Dobrodošli nazad.">
+      <React.Suspense fallback={null}>
+        <LoginForm />
+      </React.Suspense>
+    </AuthCard>
   );
 }

@@ -52,6 +52,8 @@ export default function StatsBar() {
             >
               <Typography
                 variant="h1"
+                // Display size only: the page's one <h1> is the hero headline.
+                component="p"
                 color="primary"
                 sx={{ fontWeight: 700, fontSize: { xs: 34, md: 44 }, lineHeight: 1 }}
               >

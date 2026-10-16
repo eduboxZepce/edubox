@@ -44,7 +44,13 @@ export default function PublicHeader() {
           <Logo />
         </Typography>
 
-        <Stack direction="row" spacing={2.5} sx={{ ml: 2, display: { xs: 'none', sm: 'flex' } }}>
+        <Stack
+          component="nav"
+          aria-label="Glavna navigacija"
+          direction="row"
+          spacing={2.5}
+          sx={{ ml: 2, display: { xs: 'none', sm: 'flex' } }}
+        >
           <Link href="/" variant="body2" underline="hover" color="text.secondary">
             Početna
           </Link>

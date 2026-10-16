@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import Image from 'next/image';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -77,14 +78,17 @@ export default function CourseCard({
           }}
         >
           {thumbnail ? (
-            // Plain <img>: next/image would need the Supabase storage host
-            // allow-listed in next.config.ts, and these are CDN-served already.
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            // next/image (bucket allow-listed in next.config.ts): resized to the
+            // card and served as WebP, lazy by default. The 16:9 box above
+            // reserves the space, so nothing shifts when it arrives. `alt` is
+            // empty because the course name sits right beneath it — announcing
+            // it twice helps nobody.
+            <Image
               src={thumbnail}
               alt=""
-              loading="lazy"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              fill
+              sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 400px"
+              style={{ objectFit: 'cover' }}
             />
           ) : (
             <ImageOutlinedIcon />

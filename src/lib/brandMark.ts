@@ -1,15 +1,15 @@
 /**
  * The Edubox mark as raw vector data, for code that draws it itself.
  *
- * The browser loads `public/logo.svg`; this is the same three paths for the two
- * server-side renderers that cannot: the share image (`/og`), which needs it in
- * white on the brand gradient, and the certificate PDF, which draws it with
- * pdf-lib. Files in `public/` are not part of a serverless function's bundle on
+ * The browser loads `public/logo.svg`; this is the same three paths for code
+ * that draws the mark itself: the certificate PDF (pdf-lib), and
+ * `scripts/generate-brand-assets.mjs`, which renders the share image and the
+ * manifest icons. Files in `public/` are not part of a serverless function's bundle on
  * Vercel, so reading the SVG from disk there would work locally and fail once
  * deployed — the same trap the certificate fonts hit.
  *
  * **If the logo changes, replace `public/logo.svg`, `src/app/icon.svg` and the
- * paths below together.**
+ * paths below together, then run `npm run brand:assets`.**
  */
 export const BRAND_MARK = {
   width: 490,

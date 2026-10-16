@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import './globals.css';
@@ -12,7 +12,7 @@ import ToastHost from '@/components/feedback/ToastHost';
 import { NavProgressBar } from '@/components/feedback/NavProgress';
 import { SITE } from '@/lib/siteConfig';
 import { publicEnv } from '@/lib/env';
-import { DEFAULT_OG_IMAGE, NO_INDEX } from '@/lib/seo';
+import { DEFAULT_OG_IMAGE, NO_INDEX, TITLE_SUFFIX } from '@/lib/seo';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -40,7 +40,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(publicEnv.siteUrl),
   applicationName: SITE.name,
-  title: { default: SITE.name, template: `%s — ${SITE.shortName}` },
+  title: { default: SITE.name, template: `%s${TITLE_SUFFIX}` },
   description: SITE.description,
   openGraph: {
     type: 'website',
@@ -48,7 +48,20 @@ export const metadata: Metadata = {
     locale: 'bs_BA',
     images: [DEFAULT_OG_IMAGE],
   },
+  twitter: { card: 'summary_large_image', images: [DEFAULT_OG_IMAGE.url] },
   ...(!publicEnv.isIndexable && { robots: NO_INDEX }),
+};
+
+/*
+ * The browser chrome colour on mobile (address bar, task switcher): the brand
+ * blue, or the dark background for a dark-scheme device. Matches
+ * `theme_color` in `manifest.ts` and the palettes in `theme.ts`.
+ */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#2f5bea' },
+    { media: '(prefers-color-scheme: dark)', color: '#0e0f13' },
+  ],
 };
 
 export default function RootLayout({

@@ -33,7 +33,7 @@ export default function ContactPage() {
         <Typography variant="overline" color="primary" sx={{ letterSpacing: 1.2 }}>
           Kontakt
         </Typography>
-        <Typography variant="h3" sx={{ fontSize: { xs: 28, md: 36 } }}>
+        <Typography variant="h3" component="h1" sx={{ fontSize: { xs: 28, md: 36 } }}>
           Pitaj nas prije nego se upišeš
         </Typography>
         <Typography variant="body1" color="text.secondary">

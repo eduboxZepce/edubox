@@ -1,6 +1,6 @@
 {
   "name": "kursevi-raz",
-  "version": "1.34.2",
+  "version": "1.35.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -13,6 +13,7 @@
     "format:check": "prettier --check .",
     "check": "npm run typecheck && npm run lint && npm run format:check",
     "db:types": "supabase gen types typescript --linked > src/types/database.types.ts",
+    "brand:assets": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/generate-brand-assets.mjs",
     "db:seed": "node scripts/seed.mjs",
     "db:verify-rls": "node scripts/verify-teacher-rls.mjs",
     "versions:init": "node scripts/versions.mjs init",

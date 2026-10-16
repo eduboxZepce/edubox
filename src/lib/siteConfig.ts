@@ -31,6 +31,7 @@
  * Values marked `PLACEHOLDER` must be replaced before launch.
  */
 type SiteConfig = {
+  url: string;
   name: string;
   shortName: string;
   tagline: string;
@@ -57,6 +58,14 @@ type SiteConfig = {
 const REVIEW_HOURS = 48;
 
 export const SITE: SiteConfig = {
+  /**
+   * The canonical production origin — `www`, `https`, no trailing slash. The
+   * apex domain redirects here (`next.config.ts`). Used when a production build
+   * has no `NEXT_PUBLIC_SITE_URL`, so canonical URLs, the sitemap and share
+   * images can never point at a `*.vercel.app` alias. See `publicEnv.siteUrl`.
+   */
+  url: 'https://www.edubox-zepce.ba',
+
   /**
    * The brand in full. Wherever the platform introduces itself: the home page
    * title, meta descriptions, the footer copyright, emails and the certificate.

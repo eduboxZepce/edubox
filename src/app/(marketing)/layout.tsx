@@ -1,4 +1,6 @@
 import Box from '@mui/material/Box';
+import JsonLd from '@/components/seo/JsonLd';
+import { organizationJsonLd } from '@/lib/seo';
 import PublicFooter from '@/components/layout/PublicFooter';
 import PublicHeader from '@/components/layout/PublicHeader';
 import { MARKETING_GUTTER } from '@/components/layout/marketingGutter';
@@ -28,12 +30,17 @@ import { MARKETING_GUTTER } from '@/components/layout/marketingGutter';
  * and `<Section>` undoes exactly this padding to get them there. See
  * `marketingGutter.ts`.
  *
+ * The organisation's structured data is here too, so every public page says who
+ * runs the site; pages add their own (`Course`, `BlogPosting`) and refer back to
+ * it by `@id`.
+ *
  * No auth check: these pages are public by design. What a signed-in visitor
  * sees differs per page (see `useCourseAccess`), not per layout.
  */
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   return (
     <Box sx={{ minHeight: '100dvh', bgcolor: 'background.default' }}>
+      <JsonLd data={organizationJsonLd()} />
       <PublicHeader />
       <Box component="main" sx={{ p: MARKETING_GUTTER }}>
         {children}

@@ -57,10 +57,10 @@ export default async function PublicFooter() {
         ]
       : []),
     {
-      // TODO: the /o-nama page doesn't exist yet — write it or drop this link.
+      // "O nama" (/o-nama) was linked here before the page existed, which put a
+      // link to a 404 on every public page. Add it back together with the page.
       title: 'Platforma',
       links: [
-        { label: 'O nama', href: '/o-nama' },
         ...(FEATURES.blog ? [{ label: 'Blog', href: '/blog' }] : []),
         { label: 'Kontakt', href: '/kontakt' },
         ...(FEATURES.certificates

@@ -4,8 +4,6 @@ import * as React from 'react';
 import { useSearchParams } from 'next/navigation';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
-import PageContainer from '@/components/layout/PageContainer';
-import PageHeader from '@/components/layout/PageHeader';
 import QueryState from '@/components/feedback/QueryState';
 import EmptyState from '@/components/feedback/EmptyState';
 import SearchField from '@/components/data/SearchField';
@@ -55,9 +53,7 @@ export default function CourseCatalogue() {
   const categories = useCategoryOptions();
 
   return (
-    <PageContainer>
-      <PageHeader title="Kursevi" description="Izaberite kurs i pošaljite zahtjev za pristup." />
-
+    <>
       <Stack
         direction={{ xs: 'column', md: 'row' }}
         spacing={2}
@@ -121,6 +117,6 @@ export default function CourseCatalogue() {
           </>
         )}
       </QueryState>
-    </PageContainer>
+    </>
   );
 }

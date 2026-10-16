@@ -1,3 +1,5 @@
+import { SITE } from '@/lib/siteConfig';
+
 /**
  * Env access with a fail-fast check, so a missing variable surfaces as a clear
  * error at the call site instead of `undefined` reaching the Supabase SDK.
@@ -27,15 +29,19 @@ export const publicEnv = {
    *
    * Resolution order, so each environment needs as little as possible:
    * 1. `NEXT_PUBLIC_SITE_URL` — set it for **Production** (the custom domain).
-   * 2. `NEXT_PUBLIC_VERCEL_URL` — Vercel provides this per deployment, so a
+   * 2. `SITE.url` on a Vercel **Production** build. Without this, a forgotten
+   *    variable would make every canonical URL, sitemap entry and share image
+   *    point at the deployment's `*.vercel.app` alias.
+   * 3. `NEXT_PUBLIC_VERCEL_URL` — Vercel provides this per deployment, so a
    *    **Preview** deployment links to itself rather than to production. Leave
    *    `NEXT_PUBLIC_SITE_URL` unset for Preview to get this.
-   * 3. `http://localhost:3000` — local development.
+   * 4. `http://localhost:3000` — local development.
    */
   get siteUrl() {
     const vercelUrl = process.env.NEXT_PUBLIC_VERCEL_URL;
     const url =
       process.env.NEXT_PUBLIC_SITE_URL ||
+      (process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' ? SITE.url : '') ||
       (vercelUrl ? `https://${vercelUrl}` : 'http://localhost:3000');
     return url.replace(/\/$/, '');
   },

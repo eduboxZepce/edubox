@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import Image from 'next/image';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import ViewModuleOutlinedIcon from '@mui/icons-material/ViewModuleOutlined';
@@ -228,6 +229,7 @@ export default function CoursePageView({ slug }: { slug: string }) {
                     >
                       <Box
                         sx={{
+                          position: 'relative',
                           flexShrink: 0,
                           width: { xs: '100%', sm: 220 },
                           aspectRatio: '16 / 9',
@@ -242,11 +244,15 @@ export default function CoursePageView({ slug }: { slug: string }) {
                         }}
                       >
                         {thumbnail ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img
+                          // Above the fold, so preloaded rather than lazy. Empty
+                          // alt: the course name is the heading beside it.
+                          <Image
                             src={thumbnail}
                             alt=""
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            fill
+                            preload
+                            sizes="(max-width: 600px) 100vw, 220px"
+                            style={{ objectFit: 'cover' }}
                           />
                         ) : (
                           <ImageOutlinedIcon sx={{ fontSize: 40 }} />

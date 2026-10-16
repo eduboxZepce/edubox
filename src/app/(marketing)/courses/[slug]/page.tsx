@@ -26,6 +26,9 @@ import { courseThumbnailUrl } from '@/lib/storage';
  * never gets public metadata — even when the person loading it is the admin
  * previewing it.
  */
+/** Below this, a course's own description is too thin for a search snippet. */
+const MIN_AUTHORED_DESCRIPTION = 70;
+
 export async function generateMetadata(props: PageProps<'/courses/[slug]'>) {
   const { slug } = await props.params;
   const course = await getPublishedCourse(slug);
@@ -36,12 +39,18 @@ export async function generateMetadata(props: PageProps<'/courses/[slug]'>) {
   if (!course) return { title: 'Kurs', robots: NO_INDEX };
 
   const thumbnail = courseThumbnailUrl(course.thumbnail_path);
+  // The author's own description when it is long enough to be a search snippet;
+  // a one-liner ("Kurs o Gitu.") wastes the space, so it gets the template.
+  const authored = metaDescription(course.description);
 
   return pageMetadata({
     title: course.name,
     description:
-      metaDescription(course.description) ??
-      `Online kurs „${course.name}“ na platformi ${SITE.name}: video lekcije, materijali, zadaci i certifikat po završetku.`,
+      authored && authored.length >= MIN_AUTHORED_DESCRIPTION
+        ? authored
+        : metaDescription(
+            `Online kurs „${course.name}“ na platformi ${SITE.name}: video lekcije, materijali, zadaci i certifikat po završetku.`,
+          )!,
     path: `/courses/${course.slug}`,
     image: thumbnail ? { url: thumbnail, alt: course.name } : null,
   });

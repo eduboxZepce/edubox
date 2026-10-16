@@ -8,7 +8,7 @@ import CtaBanner from '@/components/landing/CtaBanner';
 import { SITE } from '@/lib/siteConfig';
 import { FEATURES } from '@/lib/features';
 import JsonLd from '@/components/seo/JsonLd';
-import { absoluteUrl, organizationJsonLd, pageMetadata } from '@/lib/seo';
+import { absoluteUrl, pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
   title: `${SITE.name} — ${SITE.tagline}`,
@@ -19,22 +19,17 @@ export const metadata = pageMetadata({
 });
 
 /*
- * Who runs the site, and what the site is. Google uses the pair for the name
- * and logo it shows beside results; it lives on the home page only, which is
- * where search engines look for it.
+ * What the site is. Google uses it for the site name shown beside results. The
+ * organisation it points at is rendered on every public page by the marketing
+ * layout, so it is referenced here by `@id` rather than repeated.
  */
 const SITE_JSON_LD = {
-  '@graph': [
-    organizationJsonLd(),
-    {
-      '@type': 'WebSite',
-      '@id': absoluteUrl('/#website'),
-      name: SITE.name,
-      url: absoluteUrl('/'),
-      inLanguage: 'bs',
-      publisher: { '@id': absoluteUrl('/#organization') },
-    },
-  ],
+  '@type': 'WebSite',
+  '@id': absoluteUrl('/#website'),
+  name: SITE.name,
+  url: absoluteUrl('/'),
+  inLanguage: 'bs',
+  publisher: { '@id': absoluteUrl('/#organization') },
 };
 
 /**

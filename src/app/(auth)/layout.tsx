@@ -1,4 +1,6 @@
 import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
+import Stack from '@mui/material/Stack';
 
 /**
  * Chrome for the auth pages: one centred card, and deliberately no nav bar.
@@ -21,6 +23,12 @@ import Box from '@mui/material/Box';
  * hardcoded rgba, so it follows the colour scheme: in dark mode the tints mix
  * toward the dark background instead of glowing. `currentColor`-free and
  * CSS-only — no image to load, and nothing that shifts layout while it arrives.
+ *
+ * ## The legal links
+ *
+ * No nav, but a quiet footer with the terms and privacy policy: someone
+ * creating an account is exactly who should be able to read them, and every
+ * public page links to the privacy policy.
  */
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -29,6 +37,9 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         minHeight: '100dvh',
         display: 'grid',
         placeItems: 'center',
+        // Card and legal links packed together in the middle, rather than the
+        // two grid rows splitting the viewport height between them.
+        alignContent: 'center',
         p: 2,
         position: 'relative',
         bgcolor: 'background.default',
@@ -58,6 +69,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
     >
       {/* Above the ::before grid. */}
       <Box
+        component="main"
         sx={{
           position: 'relative',
           zIndex: 1,
@@ -68,6 +80,19 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       >
         {children}
       </Box>
+      <Stack
+        component="footer"
+        direction="row"
+        spacing={2}
+        sx={{ position: 'relative', zIndex: 1, mt: 3, justifyContent: 'center' }}
+      >
+        <Link href="/uvjeti-koristenja" variant="caption" color="text.secondary">
+          Uvjeti korištenja
+        </Link>
+        <Link href="/politika-privatnosti" variant="caption" color="text.secondary">
+          Politika privatnosti
+        </Link>
+      </Stack>
     </Box>
   );
 }

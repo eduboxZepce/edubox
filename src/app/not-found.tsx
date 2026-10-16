@@ -26,6 +26,7 @@ export default function NotFound() {
         <EmptyState
           icon={<SearchOffOutlinedIcon />}
           title="Stranica nije pronađena"
+          titleComponent="h1"
           description="Adresa koju ste otvorili ne postoji, ili je sadržaj u međuvremenu uklonjen."
           action={
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
