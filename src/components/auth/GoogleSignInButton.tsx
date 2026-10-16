@@ -16,11 +16,8 @@ import { FEATURES } from '@/lib/features';
  *
  * Not in this app. Supabase performs the OAuth dance itself, so the client id
  * and secret are entered in the **Supabase dashboard** (Authentication →
- * Providers → Google), not in `.env.local`. The env vars this project ships
- * (`GOOGLE_OAUTH_CLIENT_ID` / `GOOGLE_OAUTH_CLIENT_SECRET`) are placeholders
- * documenting what to obtain from Google Cloud Console — nothing reads them at
- * runtime, and that is why there is no "is it configured" check here to gate
- * the button.
+ * Providers → Google), not in `.env.local` — the app never sees them, which is
+ * why there is no "is it configured" check here to gate the button.
  *
  * `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED` is the switch that matters to the UI: with
  * the provider disabled in Supabase, clicking this returns a 400 and the user

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-07T08:07:09.937Z",
+  "updatedAt": "2026-10-16T07:57:52.287Z",
   "sections": {
     "database": {
       "label": "Baza podataka",
@@ -134,12 +134,12 @@
       "label": "Prijava i nalozi",
       "description": "Registracija, prijava, lozinke i zaštita ruta",
       "frontend": {
-        "version": "1.3.0",
-        "updatedAt": "2026-10-01T18:38:49+02:00"
+        "version": "1.3.1",
+        "updatedAt": "2026-10-16T07:57:52.287Z"
       },
       "backend": {
-        "version": "1.3.1",
-        "updatedAt": "2026-10-02T08:48:40.912Z"
+        "version": "1.3.2",
+        "updatedAt": "2026-10-16T07:57:52.287Z"
       }
     },
     "public": {
@@ -180,6 +180,22 @@
     }
   },
   "history": [
+    {
+      "at": "2026-10-16T07:57:52.287Z",
+      "section": "auth",
+      "layer": "frontend",
+      "from": "1.3.0",
+      "to": "1.3.1",
+      "files": 5
+    },
+    {
+      "at": "2026-10-16T07:57:52.287Z",
+      "section": "auth",
+      "layer": "backend",
+      "from": "1.3.1",
+      "to": "1.3.2",
+      "files": 1
+    },
     {
       "at": "2026-10-07T08:07:09.937Z",
       "section": "public",
@@ -963,22 +979,6 @@
       "from": "1.0.2",
       "to": "1.1.0",
       "files": 2
-    },
-    {
-      "at": "2026-08-28T22:22:18+02:00",
-      "section": "auth",
-      "layer": "backend",
-      "from": "1.2.1",
-      "to": "1.2.2",
-      "files": 1
-    },
-    {
-      "at": "2026-08-28T22:22:18+02:00",
-      "section": "database",
-      "layer": "backend",
-      "from": "1.5.0",
-      "to": "1.6.0",
-      "files": 1
     }
   ]
 }

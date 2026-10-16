@@ -34,13 +34,14 @@ export default function ForgotPasswordPage() {
 
   if (sent) {
     return (
-      <AuthCard title="Check your email">
+      <AuthCard title="Provjerite email">
         <Stack spacing={2}>
           <Alert severity="info">
-            If an account exists for <strong>{email}</strong>, we have sent a password reset link.
+            Ako postoji nalog za <strong>{email}</strong>, poslali smo link za postavljanje nove
+            lozinke.
           </Alert>
           <Link href="/login" variant="body2">
-            Back to sign in
+            Nazad na prijavu
           </Link>
         </Stack>
       </AuthCard>
@@ -48,7 +49,10 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <AuthCard title="Reset password" subtitle="We'll email you a link to set a new password.">
+    <AuthCard
+      title="Zaboravljena lozinka"
+      subtitle="Poslat ćemo vam email s linkom za postavljanje nove lozinke."
+    >
       <form onSubmit={handleSubmit} noValidate>
         <Stack spacing={2}>
           <TextField
@@ -60,10 +64,10 @@ export default function ForgotPasswordPage() {
             required
           />
           <Button type="submit" variant="contained" size="large" disabled={pending}>
-            {pending ? 'Sending…' : 'Send reset link'}
+            {pending ? 'Slanje…' : 'Pošalji link'}
           </Button>
           <Link href="/login" variant="body2">
-            Back to sign in
+            Nazad na prijavu
           </Link>
         </Stack>
       </form>

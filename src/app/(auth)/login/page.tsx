@@ -12,14 +12,28 @@ import GoogleSignInButton from '@/components/auth/GoogleSignInButton';
 import { createClient } from '@/lib/supabase/client';
 import { landingPathForRole, useAuthStore, type AuthProfile } from '@/store/useAuthStore';
 
+/**
+ * Errors `/auth/callback` sends back as `?error=…`. Without these, a failed
+ * Google sign-in or an expired confirmation link lands on a plain login form
+ * with no word about what went wrong.
+ */
+const CALLBACK_ERRORS: Record<string, string> = {
+  oauth_failed: 'Prijava putem Google naloga nije uspjela. Pokušajte ponovo.',
+  missing_code: 'Link za prijavu nije ispravan. Pokušajte ponovo.',
+  invalid_or_expired_link: 'Link je istekao ili je već iskorišten. Pokušajte ponovo.',
+};
+
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const setProfile = useAuthStore((s) => s.setProfile);
+  const redirectTo = searchParams.get('redirectTo');
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [error, setError] = React.useState<string | null>(null);
+  const [error, setError] = React.useState<string | null>(
+    () => CALLBACK_ERRORS[searchParams.get('error') ?? ''] ?? null,
+  );
   const [pending, setPending] = React.useState(false);
 
   async function handleSubmit(event: React.FormEvent) {
@@ -49,7 +63,6 @@ function LoginForm() {
     const profile: AuthProfile | null = res.ok ? ((await res.json()).profile ?? null) : null;
     if (profile) setProfile(profile);
 
-    const redirectTo = searchParams.get('redirectTo');
     router.replace(
       redirectTo && redirectTo.startsWith('/') ? redirectTo : landingPathForRole(profile?.role),
     );
@@ -61,6 +74,10 @@ function LoginForm() {
       <form onSubmit={handleSubmit} noValidate>
         <Stack spacing={2}>
           {error ? <Alert severity="error">{error}</Alert> : null}
+          {/* Set by the reset-password page after a successful change. */}
+          {!error && searchParams.get('reset') === 'success' ? (
+            <Alert severity="success">Lozinka je promijenjena. Prijavite se novom lozinkom.</Alert>
+          ) : null}
 
           <TextField
             label="Email"
@@ -95,7 +112,10 @@ function LoginForm() {
       </form>
 
       {/* Renders nothing unless NEXT_PUBLIC_GOOGLE_AUTH_ENABLED is "true". */}
-      <GoogleSignInButton label="Prijavi se sa Google nalogom" />
+      <GoogleSignInButton
+        label="Prijavi se sa Google nalogom"
+        redirectTo={redirectTo ?? undefined}
+      />
     </AuthCard>
   );
 }

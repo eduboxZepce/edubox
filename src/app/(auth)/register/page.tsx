@@ -27,11 +27,11 @@ export default function RegisterPage() {
     setError(null);
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match.');
+      setError('Lozinke se ne podudaraju.');
       return;
     }
     if (password.length < 8) {
-      setError('Password must be at least 8 characters.');
+      setError('Lozinka mora imati najmanje 8 znakova.');
       return;
     }
 
@@ -60,14 +60,14 @@ export default function RegisterPage() {
 
   if (sent) {
     return (
-      <AuthCard title="Check your email">
+      <AuthCard title="Provjerite email">
         <Stack spacing={2}>
           <Alert severity="success">
-            We sent a confirmation link to <strong>{email}</strong>. Click it to activate your
-            account, then sign in.
+            Poslali smo link za potvrdu na <strong>{email}</strong>. Kliknite na njega da aktivirate
+            nalog, a zatim se prijavite.
           </Alert>
           <Link href="/login" variant="body2">
-            Back to sign in
+            Nazad na prijavu
           </Link>
         </Stack>
       </AuthCard>
@@ -75,13 +75,13 @@ export default function RegisterPage() {
   }
 
   return (
-    <AuthCard title="Create account" subtitle="Start learning in a couple of minutes.">
+    <AuthCard title="Kreiraj nalog" subtitle="Počnite učiti za par minuta.">
       <form onSubmit={handleSubmit} noValidate>
         <Stack spacing={2}>
           {error ? <Alert severity="error">{error}</Alert> : null}
 
           <TextField
-            label="Full name"
+            label="Ime i prezime"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             autoComplete="name"
@@ -96,31 +96,31 @@ export default function RegisterPage() {
             required
           />
           <TextField
-            label="Password"
+            label="Lozinka"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="new-password"
-            helperText="At least 8 characters."
+            helperText="Najmanje 8 znakova."
             required
           />
           <TextField
-            label="Confirm password"
+            label="Potvrdite lozinku"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             autoComplete="new-password"
             error={passwordMismatch}
-            helperText={passwordMismatch ? 'Passwords do not match.' : ' '}
+            helperText={passwordMismatch ? 'Lozinke se ne podudaraju.' : ' '}
             required
           />
 
           <Button type="submit" variant="contained" size="large" disabled={pending}>
-            {pending ? 'Creating account…' : 'Create account'}
+            {pending ? 'Kreiranje naloga…' : 'Kreiraj nalog'}
           </Button>
 
           <Link href="/login" variant="body2">
-            Already have an account? Sign in
+            Već imate nalog? Prijavite se
           </Link>
         </Stack>
       </form>

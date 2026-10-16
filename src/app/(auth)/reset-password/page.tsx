@@ -4,6 +4,7 @@ import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import AuthCard from '@/components/AuthCard';
@@ -36,11 +37,11 @@ export default function ResetPasswordPage() {
     setError(null);
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match.');
+      setError('Lozinke se ne podudaraju.');
       return;
     }
     if (password.length < 8) {
-      setError('Password must be at least 8 characters.');
+      setError('Lozinka mora imati najmanje 8 znakova.');
       return;
     }
 
@@ -63,43 +64,43 @@ export default function ResetPasswordPage() {
 
   if (!hasRecoverySession) {
     return (
-      <AuthCard title="Link expired">
+      <AuthCard title="Link je istekao">
         <Alert severity="warning">
-          This password reset link is invalid or has expired. Request a new one from the forgot
-          password page.
+          Link za postavljanje lozinke nije ispravan ili je istekao. Zatražite novi na stranici{' '}
+          <Link href="/forgot-password">Zaboravljena lozinka</Link>.
         </Alert>
       </AuthCard>
     );
   }
 
   return (
-    <AuthCard title="Set a new password">
+    <AuthCard title="Nova lozinka">
       <form onSubmit={handleSubmit} noValidate>
         <Stack spacing={2}>
           {error ? <Alert severity="error">{error}</Alert> : null}
 
           <TextField
-            label="New password"
+            label="Nova lozinka"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="new-password"
-            helperText="At least 8 characters."
+            helperText="Najmanje 8 znakova."
             required
           />
           <TextField
-            label="Confirm new password"
+            label="Potvrdite novu lozinku"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             autoComplete="new-password"
             error={passwordMismatch}
-            helperText={passwordMismatch ? 'Passwords do not match.' : ' '}
+            helperText={passwordMismatch ? 'Lozinke se ne podudaraju.' : ' '}
             required
           />
 
           <Button type="submit" variant="contained" size="large" disabled={pending}>
-            {pending ? 'Updating…' : 'Update password'}
+            {pending ? 'Čuvanje…' : 'Sačuvaj lozinku'}
           </Button>
         </Stack>
       </form>
