@@ -72,8 +72,20 @@ const FEATURE_LABELS: Record<FeatureName, string> = {
   googleAuth: 'Prijava putem Google naloga',
 };
 
-/** How many history entries "Nedavne promjene" shows. */
-const RECENT_LIMIT = 20;
+/**
+ * Flags switched on first, then the rest; within each group the order of
+ * `FEATURE_LABELS`. `sort` is stable, so that second rule comes for free.
+ */
+const FEATURE_ORDER = (Object.keys(FEATURE_LABELS) as FeatureName[]).sort(
+  (a, b) => Number(FEATURES[b]) - Number(FEATURES[a]),
+);
+
+/**
+ * Tighter cells for the reference tables. `size="small"` still leaves each row
+ * tall enough that a dozen of them fill the screen; these are lists to scan,
+ * not records to read.
+ */
+const COMPACT_TABLE_SX = { '& .MuiTableCell-root': { py: 0.5 } } as const;
 
 /** Declared range → plain version: `^9.2.0` → `9.2.0`. */
 function dependencyVersion(name: keyof typeof packageJson.dependencies): string {
@@ -92,7 +104,7 @@ export default async function AboutAppPage() {
     <PageContainer>
       <PageHeader
         title="O aplikaciji"
-        description={`Izdanje, verzije po cjelinama i posljednje izmjene platforme ${SITE.name}.`}
+        description={`Izdanje, verzije po cjelinama i dostupnost dijelova platforme ${SITE.name}.`}
       />
 
       <ContentCard title="Izdanje">
@@ -125,11 +137,11 @@ export default async function AboutAppPage() {
         />
       </ContentCard>
 
-      {/* The three reference sections start collapsed: they are long, and the
+      {/* The two reference sections start collapsed: they are long, and the
           release card above is what most visits are for. */}
       <CollapsibleCard title="Verzije po cjelinama" disablePadding>
         <TableContainer>
-          <Table size="small">
+          <Table size="small" sx={COMPACT_TABLE_SX}>
             <TableHead>
               <TableRow>
                 <TableCell>Cjelina</TableCell>
@@ -144,7 +156,11 @@ export default async function AboutAppPage() {
                     <Typography variant="body2" sx={{ fontWeight: 600 }}>
                       {section.label}
                     </Typography>
-                    <Typography variant="caption" color="text.secondary">
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      sx={{ display: 'block', lineHeight: 1.3 }}
+                    >
                       {section.description}
                     </Typography>
                   </TableCell>
@@ -161,45 +177,9 @@ export default async function AboutAppPage() {
         </TableContainer>
       </CollapsibleCard>
 
-      <CollapsibleCard title="Nedavne promjene" disablePadding>
-        <TableContainer>
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell>Vrijeme</TableCell>
-                <TableCell>Cjelina</TableCell>
-                <TableCell>Sloj</TableCell>
-                <TableCell align="center" sx={{ width: 180 }}>
-                  Verzija
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {versions.history.slice(0, RECENT_LIMIT).map((entry, index) => {
-                const section = versions.sections[
-                  entry.section as keyof typeof versions.sections
-                ] as Section | undefined;
-                return (
-                  <TableRow key={`${entry.at}-${entry.section}-${entry.layer}-${index}`}>
-                    <TableCell sx={{ whiteSpace: 'nowrap' }}>{formatDateTime(entry.at)}</TableCell>
-                    <TableCell>{section?.label ?? entry.section}</TableCell>
-                    <TableCell>
-                      {LAYER_LABEL[entry.layer as keyof typeof LAYER_LABEL] ?? entry.layer}
-                    </TableCell>
-                    <TableCell sx={{ width: 180 }}>
-                      <VersionChange from={entry.from} to={entry.to} />
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </CollapsibleCard>
-
       <CollapsibleCard title="Dostupnost" disablePadding>
         <TableContainer>
-          <Table size="small">
+          <Table size="small" sx={COMPACT_TABLE_SX}>
             <TableHead>
               <TableRow>
                 <TableCell>Cjelina</TableCell>
@@ -209,7 +189,7 @@ export default async function AboutAppPage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {(Object.keys(FEATURE_LABELS) as FeatureName[]).map((feature) => (
+              {FEATURE_ORDER.map((feature) => (
                 <TableRow key={feature}>
                   <TableCell>{FEATURE_LABELS[feature]}</TableCell>
                   <TableCell align="center">
@@ -249,41 +229,14 @@ function VersionCell({ slot }: { slot: Slot }) {
     );
   }
   return (
-    <Stack spacing={0.25} sx={{ alignItems: 'flex-start' }}>
+    // Chip and age side by side rather than stacked: stacked, this cell set
+    // the height of every row in the table.
+    <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
       <Chip label={`v${slot.version}`} size="small" variant="outlined" sx={{ fontFamily: MONO }} />
-      <Typography variant="caption" color="text.secondary">
+      <Typography variant="caption" color="text.secondary" sx={{ whiteSpace: 'nowrap' }}>
         {formatRelativeTime(slot.updatedAt)}
       </Typography>
     </Stack>
-  );
-}
-
-/**
- * `1.2.0 → 1.3.0` with the arrow in the same place on every row.
- *
- * Version strings differ in width (`1.9.9` vs `1.10.0`, or `—` for a new
- * section), so plain inline text drifts the arrow left and right down the
- * column. Two equal flexible tracks either side of it keep it centred: the old
- * version hugs the arrow from the left, the new one from the right.
- */
-function VersionChange({ from, to }: { from: string | null; to: string }) {
-  return (
-    <Box
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: '1fr auto 1fr',
-        columnGap: 1,
-        alignItems: 'center',
-        fontFamily: MONO,
-        whiteSpace: 'nowrap',
-      }}
-    >
-      <Box sx={{ textAlign: 'right' }}>{from ?? '—'}</Box>
-      <Box aria-hidden sx={{ color: 'text.secondary' }}>
-        →
-      </Box>
-      <Box>{to}</Box>
-    </Box>
   );
 }
 
