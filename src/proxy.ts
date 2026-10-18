@@ -147,8 +147,10 @@ export async function proxy(request: NextRequest) {
 export const config = {
   // Skip static assets and image optimisation so auth logic never blocks CSS,
   // JS or images. `/api/openapi.json` is matched explicitly because the general
-  // `api` exclusion would otherwise skip it.
+  // `api` exclusion would otherwise skip it. `api/keep-alive` is the daily cron:
+  // it carries no session and checks its own secret, so it skips the auth round
+  // trip entirely.
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|api/keep-alive|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)',
   ],
 };

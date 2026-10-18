@@ -28,3 +28,11 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+### Supabase keep-alive cron
+
+A free-tier Supabase project is paused after 7 days without database activity.
+`vercel.json` schedules a daily call (01:00 UTC) to `/api/keep-alive`, which runs
+one tiny query. **Set `CRON_SECRET` in the Vercel project's environment variables
+(Production)** — Vercel sends it as a bearer token, and the route rejects every
+request with 401 while it is unset.

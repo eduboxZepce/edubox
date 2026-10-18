@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-18T09:43:46.199Z",
+  "updatedAt": "2026-10-18T12:41:36.350Z",
   "sections": {
     "database": {
       "label": "Baza podataka",
@@ -138,16 +138,16 @@
         "updatedAt": "2026-10-18T08:59:19.607Z"
       },
       "backend": {
-        "version": "1.3.3",
-        "updatedAt": "2026-10-18T08:49:52.228Z"
+        "version": "1.3.4",
+        "updatedAt": "2026-10-18T12:41:36.350Z"
       }
     },
     "public": {
       "label": "Javni sajt",
       "description": "Naslovna, blog, kontakt, SEO i javno zaglavlje",
       "frontend": {
-        "version": "1.23.2",
-        "updatedAt": "2026-10-18T09:42:47.393Z"
+        "version": "1.23.3",
+        "updatedAt": "2026-10-18T12:41:36.350Z"
       },
       "backend": {
         "version": "1.1.4",
@@ -170,16 +170,48 @@
       "label": "Jezgro",
       "description": "Zajedničke komponente, tema, rasporedi i infrastruktura",
       "frontend": {
-        "version": "1.16.0",
-        "updatedAt": "2026-10-18T09:43:46.199Z"
+        "version": "1.17.0",
+        "updatedAt": "2026-10-18T12:41:36.350Z"
       },
       "backend": {
-        "version": "1.5.6",
-        "updatedAt": "2026-10-18T09:38:55.131Z"
+        "version": "1.6.0",
+        "updatedAt": "2026-10-18T12:41:36.350Z"
       }
     }
   },
   "history": [
+    {
+      "at": "2026-10-18T12:41:36.350Z",
+      "section": "core",
+      "layer": "backend",
+      "from": "1.5.6",
+      "to": "1.6.0",
+      "files": 1
+    },
+    {
+      "at": "2026-10-18T12:41:36.350Z",
+      "section": "core",
+      "layer": "frontend",
+      "from": "1.16.0",
+      "to": "1.17.0",
+      "files": 4
+    },
+    {
+      "at": "2026-10-18T12:41:36.350Z",
+      "section": "public",
+      "layer": "frontend",
+      "from": "1.23.2",
+      "to": "1.23.3",
+      "files": 1
+    },
+    {
+      "at": "2026-10-18T12:41:36.350Z",
+      "section": "auth",
+      "layer": "backend",
+      "from": "1.3.3",
+      "to": "1.3.4",
+      "files": 1
+    },
     {
       "at": "2026-10-18T09:43:46.199Z",
       "section": "core",
@@ -947,38 +979,6 @@
       "from": "1.9.1",
       "to": "1.10.0",
       "files": 1
-    },
-    {
-      "at": "2026-09-04T23:36:34+02:00",
-      "section": "public",
-      "layer": "frontend",
-      "from": "1.14.0",
-      "to": "1.15.0",
-      "files": 5
-    },
-    {
-      "at": "2026-09-04T00:13:01+02:00",
-      "section": "public",
-      "layer": "frontend",
-      "from": "1.13.1",
-      "to": "1.14.0",
-      "files": 5
-    },
-    {
-      "at": "2026-09-02T15:39:12+02:00",
-      "section": "core",
-      "layer": "frontend",
-      "from": "1.9.0",
-      "to": "1.9.1",
-      "files": 1
-    },
-    {
-      "at": "2026-09-02T15:39:12+02:00",
-      "section": "settings",
-      "layer": "frontend",
-      "from": "1.1.0",
-      "to": "1.2.0",
-      "files": 2
     }
   ]
 }

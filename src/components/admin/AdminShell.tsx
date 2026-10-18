@@ -12,6 +12,7 @@ import AdminNavList from './AdminNavList';
 import type { StaffRole } from './adminNav';
 import AppHeader from '@/components/layout/AppHeader';
 import { LogoMark, LogoName } from '@/components/layout/Logo';
+import { roleSurfaceSx } from '@/components/layout/roleChrome';
 
 const SIDEBAR_WIDTH = 264;
 
@@ -47,6 +48,9 @@ export default function AdminShell({
         color: 'text.primary',
         borderBottom: 1,
         borderColor: 'divider',
+        // Level with the top bar and tinted like it, so the role colour reads as
+        // one band across the screen. The role *label* lives in the bar.
+        ...roleSurfaceSx(profile.role),
       }}
     >
       <Typography
@@ -56,18 +60,6 @@ export default function AdminShell({
       >
         <LogoMark />
         <LogoName />
-      </Typography>
-      <Typography
-        variant="overline"
-        sx={{
-          color: 'primary.main',
-          bgcolor: 'action.hover',
-          px: 0.75,
-          borderRadius: 0.75,
-          lineHeight: 1.8,
-        }}
-      >
-        {profile.role === 'teacher' ? 'Predavač' : 'Admin'}
       </Typography>
     </Stack>
   );
@@ -119,30 +111,27 @@ export default function AdminShell({
 
       <Box sx={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
         {/*
-          The same bar every signed-in page gets. It duplicates two of the
-          sidebar's links, which is the price of the bar being identical
-          everywhere — and that consistency is worth more than the saved pixels,
-          because it is what stops each section feeling like its own app.
-
-          The drawer toggle rides on top of it rather than inside, since only
-          this shell has a sidebar to open.
+          The same bar every signed-in page gets, in its `shell` form: the
+          sidebar already lists every destination, so the bar carries none of
+          its own. The drawer toggle goes in its `leading` slot — it used to be
+          laid over the bar from a wrapper Box, which also stopped the sticky
+          bar from sticking (sticky is bounded by its parent, and the wrapper
+          was exactly the bar's height).
         */}
-        <Box sx={{ position: 'relative' }}>
-          <AppHeader profile={profile} />
-          <IconButton
-            onClick={() => setMobileOpen(true)}
-            aria-label="Otvori navigaciju"
-            sx={{
-              display: { md: 'none' },
-              position: 'absolute',
-              top: 8,
-              left: 4,
-              zIndex: (theme) => theme.zIndex.appBar + 1,
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Box>
+        <AppHeader
+          profile={profile}
+          variant="shell"
+          leading={
+            <IconButton
+              onClick={() => setMobileOpen(true)}
+              aria-label="Otvori navigaciju"
+              edge="start"
+              sx={{ display: { md: 'none' } }}
+            >
+              <MenuIcon />
+            </IconButton>
+          }
+        />
 
         <Box component="main" sx={{ flex: 1, p: { xs: 2, sm: 3, lg: 4 } }}>
           {children}

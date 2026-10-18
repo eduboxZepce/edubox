@@ -35,7 +35,9 @@ export default function PublicHeader() {
   const profile = useAuthStore((s) => s.profile);
   const loading = useAuthStore((s) => s.loading);
 
-  if (profile) return <AppHeader showNav />;
+  // App links, not the marketing ones below — see "Public pages do not mix in"
+  // on `<AppHeader>`.
+  if (profile) return <AppHeader />;
 
   return (
     <AppBar position="sticky" color="inherit" sx={{ bgcolor: 'background.paper' }}>

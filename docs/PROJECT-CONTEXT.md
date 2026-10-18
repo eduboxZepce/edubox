@@ -1436,9 +1436,33 @@ purchase` shape `assertCourseAccess` exists to prevent — so a teacher clicking
   session is read on the client, so painting "Prijavi se" first would make a signed-in
   visitor watch the header flip to their own name on every public page load.
 
-- The admin bar duplicates two of the sidebar's links. That is the price of the bar being
-  identical everywhere, and it is worth paying: the sidebar is the section's own deep
-  navigation, the bar is the application's.
+- ~~The admin bar duplicates two of the sidebar's links.~~ **Superseded** by the rule
+  below — in practice links were shown on public pages only, so the same student saw
+  links on `/courses`, none on `/dashboard`, none on `/notifications`.
+
+- **One rule for the bar's links: always show the role's top-level destinations, unless
+  a sidebar on the same screen already lists them.** Student: Kontrolna tabla · Moji
+  kursevi · Katalog. Staff: Kontrolna tabla · Kursevi · Katalog. The only exception is
+  `<AdminShell>` (`variant="shell"`), whose sidebar is that list in full; there the bar
+  shows the logo only below `md`, and the drawer toggle sits in its `leading` slot (it
+  used to be overlaid from a wrapper Box, which also stopped the sticky bar sticking).
+
+- **Signed-in visitors never get the marketing links** (Početna, Blog, Kontakt) — those
+  are in the footer of every public page. "Katalog" is the one public destination a
+  signed-in user needs, so it is a role link. It highlights on `/courses` exactly, since
+  module pages sit under `/courses/…` too. This is a quiet nav link, not the
+  "Pregledaj kurseve" header button that was removed from student pages.
+
+- **The role is shown by colour.** `roleChrome.ts`: admin bars tinted `secondary`
+  (purple), teacher bars `primary` (blue) — the `USER_ROLE` pairing — plus a role chip
+  beside the logo (`sm`+), and the admin sidebar's brand block carries the same tint so
+  it reads as one band. Students get the plain bar: the tint marks the views where a
+  click changes what other people see. The old "Admin"/"Predavač" overline in the
+  sidebar is gone.
+
+- **The account menu opens from an avatar + chevron** — a bare name read as a label, not
+  a button. It holds everything about _this account_: Podrška (admin → `/admin/issues`,
+  everyone else → `/issues`), Podešavanja, Odjavi se; below `md` the role links join it.
 
 ### The student dashboard is a hub, not a wall
 
