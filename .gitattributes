@@ -1,0 +1,18 @@
+# Every text file is stored and checked out with LF, on every OS.
+#
+# Prettier enforces `endOfLine: "lf"`. Without this file, a Windows clone with
+# Git's default `core.autocrlf=true` checks everything out as CRLF, so
+# `npm run format:check` fails on every file and hides the genuine failures.
+* text=auto eol=lf
+
+# Binary assets — never touch their bytes. `text=auto` would detect these
+# anyway; naming them makes the intent explicit and guards against a file
+# that happens to look like text.
+*.jpg  binary
+*.jpeg binary
+*.png  binary
+*.ico  binary
+*.ttf  binary
+*.woff binary
+*.woff2 binary
+*.pdf  binary
