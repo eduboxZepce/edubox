@@ -41,7 +41,11 @@ export default function AdminShell({
       sx={{
         alignItems: 'center',
         gap: 1,
+        // The top bar is a 64px toolbar *plus* the AppBar's 1px bottom border
+        // (theme.ts). Under the global border-box, `height: 64` would put this
+        // border inside the 64 and leave the brand a pixel short of the bar.
         height: 64,
+        boxSizing: 'content-box',
         px: 3,
         flexShrink: 0,
         textDecoration: 'none',
