@@ -1,6 +1,8 @@
 'use client';
 
 import * as React from 'react';
+import Fade from '@mui/material/Fade';
+import LinearProgress from '@mui/material/LinearProgress';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -24,7 +26,17 @@ export default function AuthCard({
   return (
     <Paper
       elevation={0}
-      sx={{ p: 4, width: '100%', maxWidth: 420, border: 1, borderColor: 'divider' }}
+      // `relative` + `overflow: hidden` are what <AuthCardProgress> pins itself
+      // to: it sits on the card's top edge, clipped to the rounded corners.
+      sx={{
+        p: 4,
+        width: '100%',
+        maxWidth: 420,
+        border: 1,
+        borderColor: 'divider',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
     >
       <Stack spacing={1} sx={{ mb: 3 }}>
         <Typography variant="h2" component="h1">
@@ -38,5 +50,28 @@ export default function AuthCard({
       </Stack>
       {children}
     </Paper>
+  );
+}
+
+/**
+ * A moving bar along the top edge of the card while a request is in flight.
+ *
+ * A greyed-out button alone reads as "broken" rather than "working" — the
+ * spinner inside it is small, and the wait after a successful sign-in (loading
+ * the dashboard) has no request of its own to show. The bar is the signal that
+ * is visible wherever the user is looking on the card.
+ *
+ * Rendered by the form rather than taken as an `AuthCard` prop, because on the
+ * login page the form's state lives inside a Suspense boundary the card sits
+ * outside of. Absolutely positioned, so appearing never shifts the layout.
+ */
+export function AuthCardProgress({ active }: { active: boolean }) {
+  return (
+    <Fade in={active} unmountOnExit>
+      <LinearProgress
+        aria-label="Učitavanje"
+        sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3 }}
+      />
+    </Fade>
   );
 }

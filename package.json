@@ -1,6 +1,6 @@
 {
   "name": "kursevi-raz",
-  "version": "1.36.1",
+  "version": "1.36.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -52,6 +52,7 @@
     "zustand": "^5.0.14"
   },
   "devDependencies": {
+    "@types/google.accounts": "^0.0.18",
     "@types/node": "^20",
     "@types/qrcode": "^1.5.6",
     "@types/react": "^19",

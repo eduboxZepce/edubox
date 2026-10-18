@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-16T17:11:53.203Z",
+  "updatedAt": "2026-10-18T08:49:52.228Z",
   "sections": {
     "database": {
       "label": "Baza podataka",
@@ -134,12 +134,12 @@
       "label": "Prijava i nalozi",
       "description": "Registracija, prijava, lozinke i zaštita ruta",
       "frontend": {
-        "version": "1.3.2",
-        "updatedAt": "2026-10-16T08:14:03.500Z"
+        "version": "1.3.3",
+        "updatedAt": "2026-10-18T08:49:52.228Z"
       },
       "backend": {
-        "version": "1.3.2",
-        "updatedAt": "2026-10-16T07:57:52.287Z"
+        "version": "1.3.3",
+        "updatedAt": "2026-10-18T08:49:52.228Z"
       }
     },
     "public": {
@@ -174,12 +174,36 @@
         "updatedAt": "2026-10-16T08:14:03.500Z"
       },
       "backend": {
-        "version": "1.5.3",
-        "updatedAt": "2026-10-16T08:14:03.500Z"
+        "version": "1.5.4",
+        "updatedAt": "2026-10-18T08:49:52.228Z"
       }
     }
   },
   "history": [
+    {
+      "at": "2026-10-18T08:49:52.228Z",
+      "section": "core",
+      "layer": "backend",
+      "from": "1.5.3",
+      "to": "1.5.4",
+      "files": 1
+    },
+    {
+      "at": "2026-10-18T08:49:52.228Z",
+      "section": "auth",
+      "layer": "frontend",
+      "from": "1.3.2",
+      "to": "1.3.3",
+      "files": 4
+    },
+    {
+      "at": "2026-10-18T08:49:52.228Z",
+      "section": "auth",
+      "layer": "backend",
+      "from": "1.3.2",
+      "to": "1.3.3",
+      "files": 1
+    },
     {
       "at": "2026-10-16T17:11:53.203Z",
       "section": "certificates",
@@ -954,30 +978,6 @@
       "layer": "backend",
       "from": "1.3.3",
       "to": "1.3.4",
-      "files": 3
-    },
-    {
-      "at": "2026-08-28T22:22:18+02:00",
-      "section": "certificates",
-      "layer": "frontend",
-      "from": "1.4.1",
-      "to": "1.5.0",
-      "files": 7
-    },
-    {
-      "at": "2026-08-28T22:22:18+02:00",
-      "section": "support",
-      "layer": "frontend",
-      "from": "1.0.2",
-      "to": "1.1.0",
-      "files": 7
-    },
-    {
-      "at": "2026-08-28T22:22:18+02:00",
-      "section": "notifications",
-      "layer": "frontend",
-      "from": "1.0.2",
-      "to": "1.1.0",
       "files": 3
     }
   ]

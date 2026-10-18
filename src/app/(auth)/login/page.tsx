@@ -7,20 +7,20 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import AuthCard from '@/components/AuthCard';
+import AuthCard, { AuthCardProgress } from '@/components/AuthCard';
 import GoogleSignInButton from '@/components/auth/GoogleSignInButton';
 import { createClient } from '@/lib/supabase/client';
 import { landingPathForRole, useAuthStore, type AuthProfile } from '@/store/useAuthStore';
 
 /**
- * Errors `/auth/callback` sends back as `?error=…`. Without these, a failed
- * Google sign-in or an expired confirmation link lands on a plain login form
- * with no word about what went wrong.
+ * Errors `/auth/callback` sends back as `?error=…`. Without these, an expired
+ * confirmation or recovery link lands on a plain login form with no word about
+ * what went wrong. (Google sign-in no longer passes through the callback; it
+ * reports its own errors in place.)
  */
 const CALLBACK_ERRORS: Record<string, string> = {
-  oauth_failed: 'Prijava putem Google naloga nije uspjela. Pokušajte ponovo.',
-  missing_code: 'Link za prijavu nije ispravan. Pokušajte ponovo.',
-  invalid_or_expired_link: 'Link je istekao ili je već iskorišten. Pokušajte ponovo.',
+  missing_code: 'Link za prijavu nije ispravan. Pokušaj ponovo.',
+  invalid_or_expired_link: 'Link je istekao ili je već iskorišten. Pokušaj ponovo.',
 };
 
 function LoginForm() {
@@ -35,6 +35,10 @@ function LoginForm() {
     () => CALLBACK_ERRORS[searchParams.get('error') ?? ''] ?? null,
   );
   const [pending, setPending] = React.useState(false);
+  // Sign-in succeeded and the landing page is loading. That wait has no
+  // request of its own on screen, so without saying so it feels like the
+  // button simply stopped responding.
+  const [redirecting, setRedirecting] = React.useState(false);
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -50,12 +54,14 @@ function LoginForm() {
       // rewrite it into something that reveals which.
       setError(
         signInError.message === 'Email nije potvrđen'
-          ? 'Molimo potvrdite svoju email adresu prije prijavljivanja. Link za potvrdu se nalazi u vašem inbox-u.'
+          ? 'Potvrdi svoju email adresu prije prijave. Link za potvrdu stigao ti je na email.'
           : signInError.message,
       );
       setPending(false);
       return;
     }
+
+    setRedirecting(true);
 
     // Read the role to pick a landing page, and seed the store so the next page
     // does not flash an unauthenticated state.
@@ -71,12 +77,17 @@ function LoginForm() {
 
   return (
     <>
+      <AuthCardProgress active={pending} />
+
       <form onSubmit={handleSubmit} noValidate>
         <Stack spacing={2}>
           {error ? <Alert severity="error">{error}</Alert> : null}
+          {redirecting ? (
+            <Alert severity="success">Prijava je uspjela. Otvaramo tvoju stranicu…</Alert>
+          ) : null}
           {/* Set by the reset-password page after a successful change. */}
-          {!error && searchParams.get('reset') === 'success' ? (
-            <Alert severity="success">Lozinka je promijenjena. Prijavite se novom lozinkom.</Alert>
+          {!error && !redirecting && searchParams.get('reset') === 'success' ? (
+            <Alert severity="success">Lozinka je promijenjena. Prijavi se novom lozinkom.</Alert>
           ) : null}
 
           <TextField
@@ -85,6 +96,7 @@ function LoginForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="email"
+            disabled={pending}
             required
           />
           <TextField
@@ -93,11 +105,18 @@ function LoginForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="current-password"
+            disabled={pending}
             required
           />
 
-          <Button type="submit" variant="contained" size="large" disabled={pending}>
-            {pending ? 'Prijavljivanje…' : 'Prijavi se'}
+          <Button
+            type="submit"
+            variant="contained"
+            size="large"
+            loading={pending}
+            loadingPosition="start"
+          >
+            {redirecting ? 'Učitavanje…' : pending ? 'Prijavljivanje…' : 'Prijavi se'}
           </Button>
 
           <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
@@ -111,11 +130,9 @@ function LoginForm() {
         </Stack>
       </form>
 
-      {/* Renders nothing unless NEXT_PUBLIC_GOOGLE_AUTH_ENABLED is "true". */}
-      <GoogleSignInButton
-        label="Prijavi se sa Google nalogom"
-        redirectTo={redirectTo ?? undefined}
-      />
+      {/* Renders nothing unless NEXT_PUBLIC_GOOGLE_AUTH_ENABLED is "true" and
+          NEXT_PUBLIC_GOOGLE_CLIENT_ID is set. */}
+      <GoogleSignInButton text="signin_with" redirectTo={redirectTo ?? undefined} />
     </>
   );
 }
@@ -125,7 +142,7 @@ export default function LoginPage() {
   // into client-side rendering. The card sits outside it, so its title — the
   // page's <h1> — is in the server HTML rather than appearing after hydration.
   return (
-    <AuthCard title="Prijava" subtitle="Dobrodošli nazad.">
+    <AuthCard title="Prijava" subtitle="Drago nam je što si opet tu.">
       <React.Suspense fallback={null}>
         <LoginForm />
       </React.Suspense>

@@ -14,10 +14,10 @@ export async function GET(request: NextRequest) {
   const next = searchParams.get('next');
 
   if (!code) {
-    // An OAuth provider reports failure (the user cancelled on Google's consent
-    // screen, a banned account, a misconfigured provider) as `?error=…` instead
-    // of a code. Kept distinct from a malformed link so the login page can say so.
-    const reason = searchParams.get('error') ? 'oauth_failed' : 'missing_code';
+    // Supabase reports a dead email link (expired, already used) as
+    // `?error=…&error_code=otp_expired` instead of a code. Google sign-in no
+    // longer comes through here — it uses signInWithIdToken in the browser.
+    const reason = searchParams.get('error') ? 'invalid_or_expired_link' : 'missing_code';
     return NextResponse.redirect(`${origin}/login?error=${reason}`);
   }
 

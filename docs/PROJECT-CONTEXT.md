@@ -1810,21 +1810,39 @@ course-scoped page, add it there or it is URL-only.
   this _is_ the action the admin took, so they are owed the counts. A list in the thousands
   would want a queue.
 
-### Google sign-in is wired but off
+### Google sign-in: Identity Services + `signInWithIdToken`, not the OAuth redirect
 
-- Supabase performs the OAuth exchange itself, so the client id and secret go in the
-  **Supabase dashboard**, not `.env.local`. They used to sit in `.env.example` "for
-  reference"; they were removed because nothing reads them, and an unread variable on
-  Vercel looks like configuration that matters.
+- **It used `signInWithOAuth`, and Google's consent screen named the Supabase project.**
+  In the redirect flow Supabase is the OAuth client, so the popup read "continue to
+  `<ref>.supabase.co`" — a domain no visitor recognises, on the screen where trust is the
+  whole question. `<GoogleSignInButton>` now loads Google Identity Services, renders
+  Google's own button, and trades the returned ID token for a session with
+  `signInWithIdToken`. The popup names our origin.
 
-- `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED` is the switch the UI reads, and `<GoogleSignInButton>`
-  renders `null` unless it is `"true"`. A visible provider button that 400s is worse than no
-  button, because the user cannot fix it.
+- **The nonce goes in hashed to Google and raw to Supabase.** Google embeds what it is
+  given in the token; Supabase hashes what it is given and compares. Swap them and every
+  sign-in fails. A fresh nonce per `initialize`; a cancelled-flag in the effect makes
+  Strict Mode's double run initialise once.
 
-- In Google Cloud the authorised redirect URI must be Supabase's callback
-  (`<project-ref>.supabase.co/auth/v1/callback`), **not** this app's `/auth/callback` —
-  that is only where Supabase sends the browser afterwards, and it already handles the code
-  exchange and role landing.
+- **Two env vars, both public:** `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED` (`"true"` to show it)
+  and `NEXT_PUBLIC_GOOGLE_CLIENT_ID`. The button renders nothing unless both are set. The
+  client id must be the one in Supabase → Providers → Google (audience check), and each
+  origin must be an authorised **JavaScript origin** in Google Cloud — so Vercel previews
+  get no button.
+
+- **`/auth/callback` stays**: email confirmation (`register`) and password recovery
+  (`forgot-password`) still redirect through it. Only its Google-specific error branch
+  (`oauth_failed`) went; a `?error=` there now means a dead email link.
+
+- **Profiles are unaffected.** `handle_new_user()` fires on insert into `auth.users`
+  whichever way the user arrives; Google's token supplies `full_name`. The callback never
+  did any per-user setup beyond picking a landing page, which the button now does itself
+  (`/api/me` → `landingPathForRole`, honouring `redirectTo`).
+
+- **Known gap, unchanged from before:** signing up through Google records no
+  `terms_accepted_at` (the email form puts it in signup metadata; `signInWithIdToken` has
+  no metadata option). The button is held back until the consent box is ticked, but the
+  timestamp is not stored.
 
 ### PDF materials fit the page, not the width
 
