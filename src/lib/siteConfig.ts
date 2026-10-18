@@ -38,7 +38,6 @@ type SiteConfig = {
   description: string;
   contact: {
     email: string;
-    supportEmail: string;
     phone: { display: string; tel: string };
     hours: string;
   };
@@ -85,16 +84,18 @@ export const SITE: SiteConfig = {
   description: 'Platforma za online kurseve s pregledom zadataka i certifikatom po završetku.',
 
   contact: {
-    /** General enquiries. Also the fallback recipient of the contact form. PLACEHOLDER */
+    /**
+     * The one public address — /kontakt, the footer, the legal texts, and the
+     * fallback recipient of the contact form. There used to be a separate
+     * support address beside it; one inbox is what the client asked for, and
+     * enrolled students also have the in-app support channel.
+     */
     email: 'info@edubox-zepce.ba',
-    /** Shown on /kontakt for students already enrolled. PLACEHOLDER */
-    supportEmail: 'podrska@edubox-zepce.ba',
     /**
      * `display` is what people read, `tel` is what a phone dials — written
      * separately because spacing that helps reading breaks a `tel:` link.
-     * PLACEHOLDER
      */
-    phone: { display: '+387 33 000 000', tel: '+38733000000' },
+    phone: { display: '+387 32 880 273', tel: '+38732880273' },
     /** When the phone is answered. */
     hours: 'Ponedjeljak – petak, 09:00 – 17:00',
   },
@@ -119,13 +120,14 @@ export const SITE: SiteConfig = {
    * is the right state until real numbers exist: invented ones are worse than
    * none. `suffix` follows the number ("h", "%"); thousands are grouped
    * automatically.
-   * PLACEHOLDER — all four figures are invented.
+   * PLACEHOLDER — still not real figures, only scaled down (2026-10-18) so they
+   * read as plausible for a new local platform. Replace with real numbers.
    */
   stats: [
-    { value: 42, label: 'OBJAVLJENA KURSA U PET OBLASTI' },
-    { value: 6800, label: 'REGISTROVANIH STUDENATA' },
+    { value: 12, label: 'OBJAVLJENIH KURSEVA U ČETIRI OBLASTI' },
+    { value: 350, label: 'REGISTROVANIH STUDENATA' },
     { value: REVIEW_HOURS, suffix: 'h', label: 'ROK ZA PREGLED PREDANOG ZADATKA' },
-    { value: 91, suffix: '%', label: 'STUDENATA ZAVRŠI UPISANI KURS' },
+    { value: 78, suffix: '%', label: 'STUDENATA ZAVRŠI UPISANI KURS' },
   ],
 
   /**
@@ -142,14 +144,15 @@ export const SITE: SiteConfig = {
   /**
    * The legal entity behind the site, printed under the footer's copyright.
    * Empty fields are skipped, so the line grows as the details are confirmed.
-   * PLACEHOLDER — all empty until the client provides them.
+   * Must match the controller named in the privacy policy and the provider
+   * named in the terms (both in `legal_documents`).
    */
   company: {
-    /** Registered name, e.g. "Edubox d.o.o." */
-    legalName: '',
+    /** Registered name. */
+    legalName: 'Razvojna agencija Žepče',
     /** Address of the registered seat. */
-    address: '',
+    address: 'Ulica Prva bb, 72230 Žepče',
     /** Identification number (JIB / ID broj). */
-    idNumber: '',
+    idNumber: '4218693330009',
   },
 };

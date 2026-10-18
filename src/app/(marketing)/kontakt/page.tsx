@@ -58,19 +58,10 @@ export default function ContactPage() {
 
               <Stack spacing={0.5}>
                 <Typography variant="body2" color="text.secondary">
-                  Opšti upiti
+                  Email
                 </Typography>
                 <Link href={`mailto:${SITE.contact.email}`} variant="h6" underline="hover">
                   {SITE.contact.email}
-                </Link>
-              </Stack>
-
-              <Stack spacing={0.5}>
-                <Typography variant="body2" color="text.secondary">
-                  Podrška studentima
-                </Typography>
-                <Link href={`mailto:${SITE.contact.supportEmail}`} variant="h6" underline="hover">
-                  {SITE.contact.supportEmail}
                 </Link>
               </Stack>
 
@@ -107,7 +98,7 @@ export default function ContactPage() {
                   Česta pitanja o certifikatu
                 </Link>
                 <Link href="/uvjeti-koristenja" underline="hover" color="text.primary">
-                  Uslovi korištenja i plaćanje
+                  Uvjeti korištenja i plaćanje
                 </Link>
                 <Link href="/politika-privatnosti" underline="hover" color="text.primary">
                   Politika privatnosti

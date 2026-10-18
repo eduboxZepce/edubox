@@ -224,11 +224,11 @@ Note "Uslovi korištenja" (page line 107) is the Serbian form; elsewhere the sit
 ### 1.8 Legal pages `/uvjeti-koristenja`, `/politika-privatnosti`
 
 **Not in code.** The texts are stored in the database and edited at
-`/admin/settings/legal` (Markdown). Both are currently empty and show a "not written yet"
-notice. A lawyer should write them (BiH data-protection law). They must cover payment by
-bank transfer, refunds, how long access lasts, certificates, and the newsletter as
-marketing mail. The privacy policy's search snippet (§1.11) promises it explains
-retention and how to request access or deletion, so the text needs to cover both.
+`/admin/settings/legal` (Markdown). First versions of both were written in 2026-10 and
+seeded by migration `0034_legal_texts.sql`. The client confirmed the company details,
+the refund terms (14 days, no module finished), the minimum age (18, or with a parent's
+consent), "PDV ako se obračunava" for VAT, and the rest as drafted (2026-10-18). A lawyer
+should still review both texts before launch.
 
 ### 1.9 Sign-in pages
 
@@ -322,16 +322,15 @@ numbered, because line numbers in this file move whenever a field is added.
 | `tagline` | online kursevi sa certifikatom | home page title, share image |
 | `description` | Platforma za online kurseve s pregledom zadataka i certifikatom po završetku. | footer, default search snippet, share image |
 | `contact.email` | info@edubox-zepce.ba | footer, /kontakt, contact-form fallback |
-| `contact.supportEmail` | podrska@edubox-zepce.ba | /kontakt |
-| `contact.phone` (display + dialable form) | +387 33 000 000 | footer, /kontakt |
+| `contact.phone` (display + dialable form) | +387 32 880 273 ✓ | footer, /kontakt |
 | `contact.hours` | Ponedjeljak – petak, 09:00 – 17:00 | /kontakt |
 | `service.replyTime` | u toku istog dana | /kontakt (text and search snippet), FAQ |
 | `service.reviewHours` | 48 | FAQ answer, stats band |
-| `stats` (value, suffix, label; an empty list hides the band) | 42 · 6.800 · 48h · 91% (invented) | home page stats band |
+| `stats` (value, suffix, label; an empty list hides the band) | 12 · 350 · 48h · 78% (scaled down, still invented) | home page stats band |
 | `social` (Instagram / LinkedIn / Facebook URLs; an empty `href` hides one) | the networks' home pages | footer, organisation data for search engines |
-| `company.legalName` | *(empty)* | footer, organisation data for search engines |
-| `company.address` | *(empty)* | footer, organisation data for search engines |
-| `company.idNumber` (JIB) | *(empty)* | footer |
+| `company.legalName` | Razvojna agencija Žepče ✓ | footer, organisation data for search engines |
+| `company.address` | Ulica Prva bb, 72230 Žepče ✓ | footer, organisation data for search engines |
+| `company.idNumber` (JIB) | 4218693330009 ✓ | footer |
 
 ### 2.3 Payment details — entered at `/admin/settings/payment` (database)
 

@@ -44,12 +44,12 @@ export default function ContactForm() {
       });
       if (!res.ok) throw new Error('Request failed');
 
-      toast.success('Upit je poslan. odgovaramo vam uskoro na navedeni email.');
+      toast.success('Upit je poslan. Odgovorit ćemo ti uskoro na navedeni email.');
       setValues({ name: '', email: '', subject: '', message: '' });
       setConsent(false);
     } catch {
       toast.error(
-        'Trenutno ne možemo poslati upit ovim putem — koristite „Pošalji email direktno" ispod.',
+        'Trenutno ne možemo poslati upit ovim putem — koristi „Pošalji email direktno” ispod.',
       );
     } finally {
       setSubmitting(false);
@@ -85,7 +85,7 @@ export default function ContactForm() {
 
         <TextField
           label="Tema upita"
-          placeholder="Npr. Uvod u web razvoj - pitanje o zadacima"
+          placeholder="Npr. Uvod u web razvoj – pitanje o zadacima"
           value={values.subject}
           onChange={handleChange('subject')}
           required

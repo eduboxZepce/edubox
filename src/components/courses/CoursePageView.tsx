@@ -288,7 +288,7 @@ export default function CoursePageView({ slug }: { slug: string }) {
                       title="Sadržaj kursa"
                       description={
                         access.canOpenModules
-                          ? 'Moduli se otključavaju redom, kako ih završavate.'
+                          ? 'Moduli se otključavaju redom, kako ih završavaš.'
                           : 'Pregled modula. Sadržaj postaje dostupan nakon odobrenog pristupa.'
                       }
                       disablePadding
@@ -313,7 +313,7 @@ export default function CoursePageView({ slug }: { slug: string }) {
                             courseSlug={courseData.slug}
                             lockedHint={
                               access.canOpenModules
-                                ? 'Završite prethodni modul da biste otključali ovaj.'
+                                ? 'Završi prethodni modul da otključaš ovaj.'
                                 : 'Potreban je odobren pristup kursu.'
                             }
                           />

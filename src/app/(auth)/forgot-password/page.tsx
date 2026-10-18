@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import AuthCard from '@/components/AuthCard';
+import AuthCard, { AuthCardProgress } from '@/components/AuthCard';
 import { createClient } from '@/lib/supabase/client';
 import { publicEnv } from '@/lib/env';
 
@@ -34,7 +34,7 @@ export default function ForgotPasswordPage() {
 
   if (sent) {
     return (
-      <AuthCard title="Provjerite email">
+      <AuthCard title="Provjeri email">
         <Stack spacing={2}>
           <Alert severity="info">
             Ako postoji nalog za <strong>{email}</strong>, poslali smo link za postavljanje nove
@@ -51,8 +51,9 @@ export default function ForgotPasswordPage() {
   return (
     <AuthCard
       title="Zaboravljena lozinka"
-      subtitle="Poslat ćemo vam email s linkom za postavljanje nove lozinke."
+      subtitle="Poslat ćemo ti email s linkom za postavljanje nove lozinke."
     >
+      <AuthCardProgress active={pending} />
       <form onSubmit={handleSubmit} noValidate>
         <Stack spacing={2}>
           <TextField
@@ -63,7 +64,13 @@ export default function ForgotPasswordPage() {
             autoComplete="email"
             required
           />
-          <Button type="submit" variant="contained" size="large" disabled={pending}>
+          <Button
+            type="submit"
+            variant="contained"
+            size="large"
+            loading={pending}
+            loadingPosition="start"
+          >
             {pending ? 'Slanje…' : 'Pošalji link'}
           </Button>
           <Link href="/login" variant="body2">

@@ -36,7 +36,7 @@ const FAQS = [
   {
     question: 'Koliko traje pristup materijalima?',
     answer:
-      'Pristup je trajan. Nakon što upišeš kurs, lekcije i materijali ostaju u tvom računu i poslije završetka.',
+      'Pristup je trajan. Nakon što upišeš kurs, lekcije i materijali ostaju u tvom nalogu i poslije završetka.',
   },
   {
     question: 'Da li postoje fiksni rokovi i predavanja u realnom vremenu?',

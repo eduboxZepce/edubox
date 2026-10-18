@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import AuthCard from '@/components/AuthCard';
+import AuthCard, { AuthCardProgress } from '@/components/AuthCard';
 import { createClient } from '@/lib/supabase/client';
 
 export default function ResetPasswordPage() {
@@ -66,7 +66,7 @@ export default function ResetPasswordPage() {
     return (
       <AuthCard title="Link je istekao">
         <Alert severity="warning">
-          Link za postavljanje lozinke nije ispravan ili je istekao. Zatražite novi na stranici{' '}
+          Link za postavljanje lozinke nije ispravan ili je istekao. Zatraži novi na stranici{' '}
           <Link href="/forgot-password">Zaboravljena lozinka</Link>.
         </Alert>
       </AuthCard>
@@ -75,6 +75,7 @@ export default function ResetPasswordPage() {
 
   return (
     <AuthCard title="Nova lozinka">
+      <AuthCardProgress active={pending} />
       <form onSubmit={handleSubmit} noValidate>
         <Stack spacing={2}>
           {error ? <Alert severity="error">{error}</Alert> : null}
@@ -89,7 +90,7 @@ export default function ResetPasswordPage() {
             required
           />
           <TextField
-            label="Potvrdite novu lozinku"
+            label="Potvrdi novu lozinku"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -99,7 +100,13 @@ export default function ResetPasswordPage() {
             required
           />
 
-          <Button type="submit" variant="contained" size="large" disabled={pending}>
+          <Button
+            type="submit"
+            variant="contained"
+            size="large"
+            loading={pending}
+            loadingPosition="start"
+          >
             {pending ? 'Čuvanje…' : 'Sačuvaj lozinku'}
           </Button>
         </Stack>

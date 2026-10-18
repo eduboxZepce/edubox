@@ -39,7 +39,7 @@ export default function PaymentReference({
       // Clipboard access can be refused (permissions, insecure origin). The
       // number is on screen and selectable either way, so this is a nudge
       // rather than a failure.
-      toast.info('Kopiranje nije dozvoljeno — prepišite broj ručno.');
+      toast.info('Kopiranje nije dozvoljeno — prepiši broj ručno.');
     }
   }
 
@@ -72,7 +72,7 @@ export default function PaymentReference({
       <Stack spacing={1}>
         {value}
         <Typography variant="body2" color="text.secondary">
-          Navedite ovaj broj prilikom uplate. Po njemu prepoznajemo vašu uplatu i odobravamo pristup
+          Navedi ovaj broj prilikom uplate. Po njemu prepoznajemo tvoju uplatu i odobravamo pristup
           kursu.
         </Typography>
       </Stack>

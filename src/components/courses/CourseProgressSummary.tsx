@@ -38,7 +38,7 @@ export default function CourseProgressSummary({
       <Stack spacing={2}>
         <Stack spacing={0.5}>
           <Typography variant="body2" color="text.secondary">
-            Vaš napredak
+            Tvoj napredak
           </Typography>
           <Stack direction="row" spacing={1} sx={{ alignItems: 'baseline' }}>
             <Typography variant="h2" component="p">
@@ -77,8 +77,8 @@ export default function CourseProgressSummary({
               ) : undefined
             }
           >
-            Završili ste sve module.
-            {FEATURES.certificates ? ' Certifikat je izdat na vaše ime.' : null}
+            Svi moduli su završeni.
+            {FEATURES.certificates ? ' Certifikat je izdan na tvoje ime.' : null}
           </Alert>
         ) : null}
       </Stack>

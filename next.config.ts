@@ -1,6 +1,39 @@
 import type { NextConfig } from 'next';
 
 /**
+ * A Vercel build must never publish `localhost` as the site's address.
+ *
+ * `.env.example` ships `NEXT_PUBLIC_SITE_URL=http://localhost:3000` for local
+ * work, and copying it into Vercel is an easy mistake — production then served
+ * a canonical URL, sitemap, `robots.txt` line, share image and JSON-LD all on
+ * `http://localhost:3000`. Google cannot fetch any of that, so the search
+ * result had no site name, no favicon and no image; worse, auth redirects and
+ * the links in emails pointed at the reader's own machine.
+ *
+ * So on Vercel a localhost value is discarded (with a build-log warning), and
+ * `publicEnv.siteUrl` falls through to `SITE.url` on production and to the
+ * deployment's own URL on previews. `NEXT_PUBLIC_*` values are inlined after
+ * this file is loaded, so editing `process.env` here is early enough.
+ *
+ * The same block backfills `NEXT_PUBLIC_VERCEL_ENV` / `NEXT_PUBLIC_VERCEL_URL`
+ * from Vercel's unprefixed system variables, which always exist at build time,
+ * because the prefixed copies only appear when "Automatically expose System
+ * Environment Variables" is on — and the site URL and the preview `noindex`
+ * both depend on them.
+ */
+if (process.env.VERCEL_ENV) {
+  if (/^https?:\/\/(localhost|127\.0\.0\.1)(:|\/|$)/.test(process.env.NEXT_PUBLIC_SITE_URL ?? '')) {
+    console.warn(
+      `[next.config] Ignoring NEXT_PUBLIC_SITE_URL=${process.env.NEXT_PUBLIC_SITE_URL} on Vercel. ` +
+        'Remove it from the Vercel project settings, or set it to the real domain.',
+    );
+    delete process.env.NEXT_PUBLIC_SITE_URL;
+  }
+  process.env.NEXT_PUBLIC_VERCEL_ENV ??= process.env.VERCEL_ENV;
+  if (process.env.VERCEL_URL) process.env.NEXT_PUBLIC_VERCEL_URL ??= process.env.VERCEL_URL;
+}
+
+/**
  * The public bucket course thumbnails are served from, so `next/image` may
  * resize them and serve WebP. Only that bucket: allowing the whole Supabase host
  * would let anyone route arbitrary objects through the optimiser.

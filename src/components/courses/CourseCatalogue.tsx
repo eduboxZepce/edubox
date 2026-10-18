@@ -86,12 +86,12 @@ export default function CourseCatalogue() {
           list.hasActiveFilters ? (
             <EmptyState
               title="Nema rezultata"
-              description="Nijedan kurs ne odgovara zadatoj pretrazi. Pokušajte sa drugim pojmom ili kategorijom."
+              description="Nijedan kurs ne odgovara zadatoj pretrazi. Pokušaj s drugim pojmom ili kategorijom."
             />
           ) : (
             <EmptyState
               title="Još nema objavljenih kurseva"
-              description="Uskoro dodajemo sadržaj — svratite ponovo."
+              description="Uskoro dodajemo sadržaj — svrati ponovo."
             />
           )
         }

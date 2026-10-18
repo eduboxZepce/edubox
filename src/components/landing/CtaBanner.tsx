@@ -49,7 +49,7 @@ export default function CtaBanner() {
         <Stack spacing={3} sx={{ maxWidth: 720 }}>
           <Stack spacing={1.5}>
             <Typography variant="h3" sx={{ fontSize: { xs: 30, md: 44 }, fontWeight: 700 }}>
-              Prvi korak je račun. Ostalo ide tvojim tempom.
+              Prvi korak je nalog. Ostalo ide tvojim tempom.
             </Typography>
             <Typography variant="h6" component="p" sx={{ fontWeight: 400, opacity: 0.88 }}>
               Registracija traje minutu i ne obavezuje ni na šta — kurseve upisuješ kada odlučiš.

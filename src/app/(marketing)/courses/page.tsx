@@ -28,7 +28,7 @@ export const metadata = pageMetadata({
 export default function CourseCataloguePage() {
   return (
     <PageContainer>
-      <PageHeader title="Kursevi" description="Izaberite kurs i pošaljite zahtjev za pristup." />
+      <PageHeader title="Kursevi" description="Izaberi kurs i pošalji zahtjev za pristup." />
       <Suspense fallback={<CardGridSkeleton />}>
         <CourseCatalogue />
       </Suspense>

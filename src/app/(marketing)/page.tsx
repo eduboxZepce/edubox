@@ -27,6 +27,9 @@ const SITE_JSON_LD = {
   '@type': 'WebSite',
   '@id': absoluteUrl('/#website'),
   name: SITE.name,
+  // Google tries `name` first and falls back to these; without them it may
+  // settle on the bare domain ("edubox-zepce.ba") as the site name.
+  alternateName: [SITE.shortName, 'edubox-zepce.ba'],
   url: absoluteUrl('/'),
   inLanguage: 'bs',
   publisher: { '@id': absoluteUrl('/#organization') },

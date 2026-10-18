@@ -78,7 +78,7 @@ export default function CoursePurchasePanel({
       const { data } = await createPurchase.mutateAsync({ course_id: courseId });
       setJustRequested(true);
       setNewReference(data.readable_id);
-      toast.success('Zahtjev je poslat. Obavijestit ćemo vas kada bude odobren.');
+      toast.success('Zahtjev je poslan. Obavijestit ćemo te kada bude odobren.');
     } catch (error) {
       toast.error(errorMessage(error));
     }
@@ -101,7 +101,7 @@ export default function CoursePurchasePanel({
         {!FEATURES.purchases ? null : state === 'requested' ? (
           <Stack spacing={2}>
             <Alert severity="info" icon={<HourglassEmptyIcon fontSize="inherit" />}>
-              Vaš zahtjev čeka odobrenje. Čim uplata bude potvrđena, kurs će vam biti dostupan.
+              Tvoj zahtjev čeka odobrenje. Čim uplata bude potvrđena, kurs će ti biti dostupan.
             </Alert>
 
             {(newReference ?? pendingPurchase?.readable_id) ? (
@@ -125,7 +125,7 @@ export default function CoursePurchasePanel({
           <Stack spacing={1.5}>
             {state === 'denied' ? (
               <Alert severity="warning">
-                Prethodni zahtjev za ovaj kurs je odbijen. Možete poslati novi.
+                Prethodni zahtjev za ovaj kurs je odbijen. Možeš poslati novi.
               </Alert>
             ) : null}
 
@@ -142,7 +142,7 @@ export default function CoursePurchasePanel({
             <Typography variant="body2" color="text.secondary">
               {isAuthenticated
                 ? 'Pristup kursu odobrava administrator nakon potvrde uplate.'
-                : 'Za slanje zahtjeva potrebno je da budete prijavljeni.'}
+                : 'Za slanje zahtjeva potrebno je da se prijaviš.'}
             </Typography>
           </Stack>
         )}

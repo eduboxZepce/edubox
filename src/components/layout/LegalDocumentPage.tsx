@@ -55,7 +55,7 @@ export default async function LegalDocumentPage({
 
       {!document || document.content.trim() === '' ? (
         <Alert severity="info">
-          Ovaj dokument još nije objavljen. Ako vam je potreban prije objave, javite nam se putem
+          Ovaj dokument još nije objavljen. Ako ti je potreban prije objave, javi nam se putem
           kontakt stranice.
         </Alert>
       ) : (

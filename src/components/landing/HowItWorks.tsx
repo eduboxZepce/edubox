@@ -33,7 +33,7 @@ const STEPS = [
     number: '01',
     title: 'Registracija',
     description:
-      'Otvoriš račun u minuti i dobijaš pristup pregledu svih objavljenih kurseva, programa i uvodnih lekcija.',
+      'Otvoriš nalog u minuti i dobijaš pristup pregledu svih objavljenih kurseva, programa i uvodnih lekcija.',
   },
   {
     number: '02',

@@ -36,7 +36,7 @@ function CopyableRow({ label, value }: { label: string; value: string }) {
       await navigator.clipboard.writeText(value);
       toast.success(`${label} — kopirano.`);
     } catch {
-      toast.info('Kopiranje nije dozvoljeno — prepišite podatak ručno.');
+      toast.info('Kopiranje nije dozvoljeno — prepiši podatak ručno.');
     }
   }
 
@@ -89,8 +89,8 @@ export default function PaymentInstructions({
   if (settings.isError || !isPayable(settings.data)) {
     return (
       <Alert severity="info">
-        Podaci za uplatu još nisu postavljeni. Javite nam se putem zahtjeva za podršku i poslat ćemo
-        vam ih, a vaš poziv na broj je <strong>{reference}</strong>.
+        Podaci za uplatu još nisu postavljeni. Javi nam se putem zahtjeva za podršku i poslat ćemo
+        ti ih, a tvoj poziv na broj je <strong>{reference}</strong>.
       </Alert>
     );
   }
@@ -112,8 +112,8 @@ export default function PaymentInstructions({
   return (
     <Stack spacing={2}>
       <Typography variant="body2" color="text.secondary">
-        Uplatu izvršite na račun ispod. <strong>Obavezno navedite poziv na broj</strong> — po njemu
-        prepoznajemo vašu uplatu i odobravamo pristup kursu.
+        Uplatu izvrši na račun ispod. <strong>Obavezno navedi poziv na broj</strong> — po njemu
+        prepoznajemo tvoju uplatu i odobravamo pristup kursu.
       </Typography>
 
       <Box

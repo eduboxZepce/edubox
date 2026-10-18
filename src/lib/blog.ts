@@ -614,12 +614,12 @@ Iako postoje mnogi noviji alati za rad sa podacima, Excel ostaje jedan od najkor
 
 - **SUM** – sabiranje vrijednosti u opsegu ćelija
 - **AVERAGE** – izračunavanje prosjeka
-- **IF** – logička funkcija koja vraća rezultat na osnovu uslova
+- **IF** – logička funkcija koja vraća rezultat na osnovu uvjeta
 - **VLOOKUP / XLOOKUP** – pretraga podataka u drugoj tabeli ili koloni
 
 ## Formatiranje i organizacija podataka
 
-Pravilno formatiranje tabela – korištenje zaglavlja, filtera i uslovnog formatiranja – olakšava čitanje i analizu podataka, posebno kada se radi sa velikim količinama informacija.
+Pravilno formatiranje tabela – korištenje zaglavlja, filtera i uvjetnog formatiranja – olakšava čitanje i analizu podataka, posebno kada se radi sa velikim količinama informacija.
 
 ## Pivot tabele
 

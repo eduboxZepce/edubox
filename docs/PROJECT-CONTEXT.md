@@ -2270,6 +2270,30 @@ course-scoped page, add it there or it is URL-only.
   to use `DetailList`, which is how it surfaced. The same applies to any MUI component
   that clones an element prop — pass such props only from client code.
 
+### Legal texts, consent and form of address
+
+- **The public and auth pages address the reader as "ti"**, the legal texts included.
+  The marketing copy already did; the catalogue, course page, purchase panel and auth
+  pages said "vi", sometimes within one component. The signed-in app, notifications and
+  emails still say "vi" — that is a known split, not a decision about them.
+
+- **The first legal texts come from migration 0034, which only fills an empty document**
+  (`and content = ''`). After that the admin editor owns them, and a later push must never
+  replace an admin's edits. The dev database got the text written directly, because its
+  privacy policy already held a draft (and `supabase db push` could not reach the pooler).
+
+- **The legal texts describe the product as built** — bank transfer, admin approval,
+  sequential modules, the number-and-surname certificate check, Supabase/Vercel/Resend as
+  processors. Change the behaviour and the text has to change with it.
+
+- **Registration requires the consent box, and records it** as `terms_accepted_at` in
+  the sign-up metadata (`auth.users.raw_user_meta_data`), so no migration was needed. The
+  Google button on `/register` is disabled until the box is ticked; the one on `/login`
+  can still create an account without it.
+
+- **One public email address**, `SITE.contact.email` (info@edubox-zepce.ba). The separate
+  `supportEmail` is gone.
+
 ### Signing out lives in the user menu
 
 - It used to be both a button in the bar and an item in the menu, on the reasoning that
