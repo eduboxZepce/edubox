@@ -18,9 +18,17 @@ log the rule that page established, or the trap it hit.
 | `npm run db:seed`       | Re-seed. Destroys and recreates its own accounts + courses                              |
 | `npm run db:verify-rls` | **29 assertions** that teacher isolation still holds. Run after ANY policy change       |
 | `npm run db:types`      | Regenerate `src/types/database.types.ts` after a migration                              |
-| `npx supabase db push`  | Apply migrations to the remote project (needs `SUPABASE_DB_PASSWORD` from `.env.local`) |
+| `npm run db:push`       | Apply migrations to the remote project (reads `SUPABASE_DB_PASSWORD` from `.env.local`) |
+| `npm run supabase -- …` | Any other Supabase CLI command, run as **this** project's account                       |
 
 There is no local Supabase — everything runs against the linked remote project.
+
+**Go through the npm scripts, never bare `npx supabase`.** They load
+`SUPABASE_ACCESS_TOKEN` from `.env.local` (via `dotenv-cli`), which overrides whatever
+account `supabase login` last saved on the machine. Bare `npx supabase` uses that global
+login — on a machine that also works on other clients' projects it is someone else's
+account, which is how this repo ended up linked to a dead project. The pooler host is
+`aws-1-eu-west-1`, not `aws-0-…`.
 
 ---
 

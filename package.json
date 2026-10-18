@@ -1,6 +1,6 @@
 {
   "name": "kursevi-raz",
-  "version": "1.37.0",
+  "version": "1.37.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -12,7 +12,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "npm run typecheck && npm run lint && npm run format:check",
-    "db:types": "supabase gen types typescript --linked > src/types/database.types.ts",
+    "supabase": "dotenv -e .env.local -- supabase",
+    "db:push": "dotenv -e .env.local -- supabase db push",
+    "db:types": "dotenv -e .env.local -- supabase gen types typescript --linked > src/types/database.types.ts",
     "brand:assets": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/generate-brand-assets.mjs",
     "db:seed": "node scripts/seed.mjs",
     "db:verify-rls": "node scripts/verify-teacher-rls.mjs",
@@ -58,6 +60,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/swagger-ui-react": "^5.18.0",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.3.8",
     "eslint-config-prettier": "^10.1.8",
