@@ -69,7 +69,6 @@ const FEATURE_LABELS: Record<FeatureName, string> = {
   newsletter: 'Newsletter',
   teachers: 'Predavači',
   themeSwitch: 'Tamni način',
-  googleAuth: 'Prijava putem Google naloga',
 };
 
 /**

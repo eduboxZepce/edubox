@@ -165,8 +165,7 @@ export default function RegisterPage() {
         </Stack>
       </form>
 
-      {/* Renders nothing unless NEXT_PUBLIC_GOOGLE_AUTH_ENABLED is "true" and
-          NEXT_PUBLIC_GOOGLE_CLIENT_ID is set.
+      {/* Renders nothing if NEXT_PUBLIC_GOOGLE_CLIENT_ID is missing.
           Gated on the same checkbox: signing up through Google creates an
           account just the same, so it needs the same consent. */}
       <GoogleSignInButton text="signup_with" disabled={!consent} />

@@ -9,12 +9,11 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { createClient } from '@/lib/supabase/client';
-import { FEATURES } from '@/lib/features';
 import { landingPathForRole, useAuthStore, type AuthProfile } from '@/store/useAuthStore';
 
 const GSI_SRC = 'https://accounts.google.com/gsi/client';
 
-/** Inlined at build time; blank until the Client ID is entered in the env. */
+/** Inlined at build time. Required: Google Identity Services cannot start without it. */
 const CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 
 /** Google refuses to draw the button wider than this, and narrower looks broken. */
@@ -47,9 +46,9 @@ const UNAVAILABLE_MESSAGE = 'Prijava putem Google naloga trenutno nije dostupna.
  *
  * ## Configuration
  *
- * `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED` must be `"true"` **and**
- * `NEXT_PUBLIC_GOOGLE_CLIENT_ID` set, or this renders nothing. The Client ID
- * must be the one listed in Supabase → Authentication → Providers → Google, or
+ * Google sign-in is always on; there is no flag for it. The one input is
+ * `NEXT_PUBLIC_GOOGLE_CLIENT_ID` — without it Google's script has nothing to
+ * initialise, so this renders nothing rather than a dead button. It must be the one listed in Supabase → Authentication → Providers → Google, or
  * Supabase rejects the token's audience; the page's origin must be an
  * authorised JavaScript origin in Google Cloud, or the button never appears.
  */
@@ -81,7 +80,7 @@ export default function GoogleSignInButton({
   const [pending, setPending] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
-  const enabled = FEATURES.googleAuth && !!CLIENT_ID;
+  const enabled = !!CLIENT_ID;
 
   // An effect event, so the effect below does not re-initialise Google every
   // time the parent re-renders with a new `redirectTo` or router instance, yet

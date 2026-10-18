@@ -130,8 +130,7 @@ function LoginForm() {
         </Stack>
       </form>
 
-      {/* Renders nothing unless NEXT_PUBLIC_GOOGLE_AUTH_ENABLED is "true" and
-          NEXT_PUBLIC_GOOGLE_CLIENT_ID is set. */}
+      {/* Renders nothing if NEXT_PUBLIC_GOOGLE_CLIENT_ID is missing. */}
       <GoogleSignInButton text="signin_with" redirectTo={redirectTo ?? undefined} />
     </>
   );

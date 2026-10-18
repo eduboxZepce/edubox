@@ -1856,8 +1856,9 @@ course-scoped page, add it there or it is URL-only.
   sign-in fails. A fresh nonce per `initialize`; a cancelled-flag in the effect makes
   Strict Mode's double run initialise once.
 
-- **Two env vars, both public:** `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED` (`"true"` to show it)
-  and `NEXT_PUBLIC_GOOGLE_CLIENT_ID`. The button renders nothing unless both are set. The
+- **No flag — Google sign-in is always on.** `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED` existed
+  while the provider was unconfigured and was removed once it worked; the only env var is
+  `NEXT_PUBLIC_GOOGLE_CLIENT_ID` (public), and the button renders nothing without it. The
   client id must be the one in Supabase → Providers → Google (audience check), and each
   origin must be an authorised **JavaScript origin** in Google Cloud — so Vercel previews
   get no button.
@@ -2071,12 +2072,9 @@ course-scoped page, add it there or it is URL-only.
   that explicitly: if `/api/issues` ever starts 404ing with the flag off, a presentation
   aid has quietly become access control.
 
-- `googleAuth` is the one flag that is **off unless explicitly enabled**, because it has
-  always needed the provider configured in the Supabase dashboard — a visible button that
-  400s is worse than no button, and nobody can fix that from the app.
-
-- Twelve segments: catalog, purchases, quizzes, tasks, certificates, notifications,
-  support, blog, newsletter, teachers, themeSwitch, googleAuth. `isDisabledRoute()` is what
+- Eleven segments: catalog, purchases, quizzes, tasks, certificates, notifications,
+  support, blog, newsletter, teachers, themeSwitch. (A twelfth, `googleAuth`, was removed
+  once Google sign-in was live.) `isDisabledRoute()` is what
   the proxy asks: `FEATURE_ROUTES` holds prefixes, `FEATURE_ROUTE_PATTERNS` the quiz and
   task screens (they hang off a module URL no prefix can name).
 

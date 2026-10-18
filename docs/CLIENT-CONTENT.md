@@ -290,18 +290,18 @@ Full descriptions are in `.env.example`. Ask the client to **create or give acce
 the accounts**; the values are then copied out of those accounts. Not all of them are
 things the client types in.
 
-| Variable                                       | What to ask the client for                                                                                            | Environments    |
-| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------- |
-| `NEXT_PUBLIC_SUPABASE_URL`                     | Supabase project for production (account owned by the client, or access to it)                                        | All             |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY`                | from that Supabase project                                                                                            | All             |
-| `SUPABASE_SERVICE_ROLE_KEY`                    | from that Supabase project (secret)                                                                                   | All             |
-| `NEXT_PUBLIC_SITE_URL`                         | **The production domain**, e.g. `https://www.edubox-zepce.ba`, and DNS access for it                                  | Production only |
-| `RESEND_API_KEY`                               | Resend account (or approval to create one) + DNS access to verify the domain                                          | Production      |
-| `EMAIL_FROM`                                   | Sender name and address for system mail, e.g. `Edubox Žepče <obavijesti@edubox-zepce.ba>`                             | Production      |
-| `CONTACT_EMAIL_TO`                             | Inbox that should receive contact-form messages                                                                       | Production      |
-| `NEXT_PUBLIC_FEATURE_*` (11 flags)             | Decision: which features are live at launch and the order the rest are switched on (see the roadmap)                  | Production      |
-| `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED`              | Decision: offer Google sign-in? If yes: a Google Cloud project/OAuth consent screen under the client's Google account | Production      |
-| `SUPABASE_PROJECT_REF`, `SUPABASE_DB_PASSWORD` | Developer-only (migrations); from the same Supabase project                                                           | Local only      |
+| Variable                                       | What to ask the client for                                                                           | Environments    |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------- | --------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`                     | Supabase project for production (account owned by the client, or access to it)                       | All             |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY`                | from that Supabase project                                                                           | All             |
+| `SUPABASE_SERVICE_ROLE_KEY`                    | from that Supabase project (secret)                                                                  | All             |
+| `NEXT_PUBLIC_SITE_URL`                         | **The production domain**, e.g. `https://www.edubox-zepce.ba`, and DNS access for it                 | Production only |
+| `RESEND_API_KEY`                               | Resend account (or approval to create one) + DNS access to verify the domain                         | Production      |
+| `EMAIL_FROM`                                   | Sender name and address for system mail, e.g. `Edubox Žepče <obavijesti@edubox-zepce.ba>`            | Production      |
+| `CONTACT_EMAIL_TO`                             | Inbox that should receive contact-form messages                                                      | Production      |
+| `NEXT_PUBLIC_FEATURE_*` (11 flags)             | Decision: which features are live at launch and the order the rest are switched on (see the roadmap) | Production      |
+| `NEXT_PUBLIC_GOOGLE_CLIENT_ID`                 | Google Cloud OAuth client (Web) under the client's Google account, with its consent screen           | Production      |
+| `SUPABASE_PROJECT_REF`, `SUPABASE_DB_PASSWORD` | Developer-only (migrations); from the same Supabase project                                          | Local only      |
 
 Also needed, though not env vars:
 

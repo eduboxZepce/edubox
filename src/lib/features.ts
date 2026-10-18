@@ -113,14 +113,6 @@ export const FEATURES = {
    * regardless of a stored preference or the OS setting.
    */
   themeSwitch: enabled(process.env.NEXT_PUBLIC_FEATURE_THEME_SWITCH),
-
-  /**
-   * Google sign-in. Distinct from the others: this one has always needed the
-   * provider configured in the Supabase dashboard, so it is the one flag that
-   * is **off unless explicitly enabled** — showing a provider button that 400s
-   * is worse than not showing it, and nobody can fix that from the app.
-   */
-  googleAuth: process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED === 'true',
 } as const;
 
 export type FeatureName = keyof typeof FEATURES;
@@ -137,9 +129,8 @@ export function isEnabled(feature: FeatureName): boolean {
  * resolving, so a bookmark or a typed address during a demo does not walk into
  * a section that is supposed to be weeks away.
  *
- * `googleAuth` is absent on purpose — it owns no route, it is a button inside
- * pages that stay reachable. `catalog` is absent too, because it cannot be
- * expressed as a prefix; see `isDisabledRoute`.
+ * `catalog` is absent because it cannot be expressed as a prefix; see
+ * `isDisabledRoute`.
  */
 export const FEATURE_ROUTES: Partial<Record<FeatureName, readonly string[]>> = {
   purchases: ['/dashboard/purchases', '/admin/purchases', '/admin/settings/payment'],
