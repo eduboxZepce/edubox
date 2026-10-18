@@ -84,17 +84,15 @@ export type BlogPost = {
   image?: { src: string; alt: string };
 
   /**
- * Best-guess category per post - used for the filter pills on the blog
- * index. Not part of the original schema; assigned when the filter UI
- * was added. Review/adjust per post as needed.
- */
-category?: string;
+   * Best-guess category per post - used for the filter pills on the blog
+   * index. Not part of the original schema; assigned when the filter UI
+   * was added. Review/adjust per post as needed.
+   */
+  category?: string;
 
   /** The article body, in Markdown. See the fence trap above. */
   content: string;
 };
-
-
 
 /**
  * The posts, newest first.

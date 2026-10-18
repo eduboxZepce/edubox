@@ -129,12 +129,7 @@ export default function AppHeader({
       <Toolbar sx={{ gap: { xs: 1, md: 2 }, minHeight: { xs: 64, sm: 64 } }}>
         {links.length > 0 ? (
           <>
-            <Typography
-              variant="h5"
-              component="div"
-              color="text.primary"
-              sx={{ flexShrink: 0 }}
-            >
+            <Typography variant="h5" component="div" color="text.primary" sx={{ flexShrink: 0 }}>
               {/* Leads to the role's home rather than `/`: signed in, that is
                   where "home" is. */}
               <Logo href={links[0].href} />

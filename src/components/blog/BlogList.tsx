@@ -176,9 +176,16 @@ function FeaturedPost({ post }: { post: BlogPost }) {
       </Grid>
 
       <Grid size={{ xs: 12, md: 7 }}>
-        <Stack spacing={2} component="a" href={`/blog/${post.slug}`} sx={{ textDecoration: 'none', color: 'inherit' }}>
+        <Stack
+          spacing={2}
+          component="a"
+          href={`/blog/${post.slug}`}
+          sx={{ textDecoration: 'none', color: 'inherit' }}
+        >
           <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
-            {post.category && <Chip label={post.category} size="small" color="primary" variant="outlined" />}
+            {post.category && (
+              <Chip label={post.category} size="small" color="primary" variant="outlined" />
+            )}
             <Typography variant="caption" color="text.secondary">
               {formatDate(post.publishedAt)} · {estimateReadingMinutes(post.content)} MIN
             </Typography>
@@ -208,7 +215,14 @@ function PostCard({ post, priority }: { post: BlogPost; priority: boolean }) {
         href={`/blog/${post.slug}`}
         sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}
       >
-        <Box sx={{ position: 'relative', width: '100%', aspectRatio: '16 / 9', bgcolor: 'action.hover' }}>
+        <Box
+          sx={{
+            position: 'relative',
+            width: '100%',
+            aspectRatio: '16 / 9',
+            bgcolor: 'action.hover',
+          }}
+        >
           {post.image ? (
             <Image
               src={post.image.src}
@@ -229,7 +243,9 @@ function PostCard({ post, priority }: { post: BlogPost; priority: boolean }) {
 
         <Stack spacing={1} sx={{ p: 3, flex: 1 }}>
           <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
-            {post.category && <Chip label={post.category} size="small" color="primary" variant="outlined" />}
+            {post.category && (
+              <Chip label={post.category} size="small" color="primary" variant="outlined" />
+            )}
             <Typography variant="caption" color="text.secondary">
               {estimateReadingMinutes(post.content)} MIN
             </Typography>

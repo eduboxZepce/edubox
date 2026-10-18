@@ -16,10 +16,10 @@ import { absoluteUrl, organizationJsonLd, pageMetadata } from '@/lib/seo';
 
 /**
  * One blog post.
- * 
+ *
  * A server component reading from `src/lib/blog.ts`, so a post is static HTML
  * with no client JavaScript and no request to anything.
- * 
+ *
  * `generateStaticParams` pre-renders every post at build time. With the array
  * empty it yields nothing, which is correct - there is simply nothing to
  * pre-render yet, and the route still 404s properly for any slug.
@@ -84,16 +84,16 @@ export default async function BlogPostPage(props: PageProps<'/blog/[slug]'>) {
   //nothing.
   if (!post) notFound();
 
-  return(
+  return (
     <Container maxWidth="md" sx={{ py: { xs: 5, md: 7 } }}>
       <JsonLd data={blogPostingJsonLd(post)} />
       <Stack spacing={0.75} sx={{ mb: 1 }}>
         <Button
-        href="/blog"
-        size="small"
-        color="inherit"
-        startIcon={<ArrowBackIcon fontSize="small" />}
-        sx={{ alignSelf: 'flex-start', color: 'text.secondary' }}
+          href="/blog"
+          size="small"
+          color="inherit"
+          startIcon={<ArrowBackIcon fontSize="small" />}
+          sx={{ alignSelf: 'flex-start', color: 'text.secondary' }}
         >
           Svi tekstovi
         </Button>
@@ -111,7 +111,7 @@ export default async function BlogPostPage(props: PageProps<'/blog/[slug]'>) {
           </Typography>
         </Stack>
 
-        <Typography variant="h3" component="h1"  sx={{ fontSize: { xs: 30, md: 42 } }}>
+        <Typography variant="h3" component="h1" sx={{ fontSize: { xs: 30, md: 42 } }}>
           {post.title}
         </Typography>
 
@@ -122,23 +122,23 @@ export default async function BlogPostPage(props: PageProps<'/blog/[slug]'>) {
 
       {post.image ? (
         <Box
-        sx={{
-          position: 'relative',
-          width: '100%',
-          aspectRatio: '16 / 9',
-          borderRadius: 2,
-          overflow: 'hidden',
-          mb: 5,
-        }}
+          sx={{
+            position: 'relative',
+            width: '100%',
+            aspectRatio: '16 / 9',
+            borderRadius: 2,
+            overflow: 'hidden',
+            mb: 5,
+          }}
         >
-        <Image
-        src={post.image.src}
-        alt={post.image.alt}
-        fill
-        style={{ objectFit: 'cover' }}
-        sizes="(max-width: 900px) 100vw, 800px"
-        priority
-        />
+          <Image
+            src={post.image.src}
+            alt={post.image.alt}
+            fill
+            style={{ objectFit: 'cover' }}
+            sizes="(max-width: 900px) 100vw, 800px"
+            priority
+          />
         </Box>
       ) : null}
 
@@ -147,15 +147,15 @@ export default async function BlogPostPage(props: PageProps<'/blog/[slug]'>) {
         the initial HTML. That is the point of having a blog at all - a 
         crawler must not have to run JavaScript to read it.
         */}
-        <MarkdownContent content={post.content} />
+      <MarkdownContent content={post.content} />
 
-       <Divider sx={{ my: 5 }} />
+      <Divider sx={{ my: 5 }} />
 
-       <Stack direction="row">
+      <Stack direction="row">
         <Button href="/blog" color="inherit" startIcon={<ArrowBackIcon />}>
-        Svi tekstovi
+          Svi tekstovi
         </Button>
-       </Stack>
-     </Container>
+      </Stack>
+    </Container>
   );
 }
