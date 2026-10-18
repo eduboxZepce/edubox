@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-18T12:41:36.350Z",
+  "updatedAt": "2026-10-18T15:25:48.239Z",
   "sections": {
     "database": {
       "label": "Baza podataka",
@@ -146,8 +146,8 @@
       "label": "Javni sajt",
       "description": "Naslovna, blog, kontakt, SEO i javno zaglavlje",
       "frontend": {
-        "version": "1.23.3",
-        "updatedAt": "2026-10-18T12:41:36.350Z"
+        "version": "1.23.4",
+        "updatedAt": "2026-10-18T15:25:48.239Z"
       },
       "backend": {
         "version": "1.1.4",
@@ -174,12 +174,28 @@
         "updatedAt": "2026-10-18T12:41:36.350Z"
       },
       "backend": {
-        "version": "1.6.0",
-        "updatedAt": "2026-10-18T12:41:36.350Z"
+        "version": "1.7.0",
+        "updatedAt": "2026-10-18T15:25:48.239Z"
       }
     }
   },
   "history": [
+    {
+      "at": "2026-10-18T15:25:48.239Z",
+      "section": "public",
+      "layer": "frontend",
+      "from": "1.23.3",
+      "to": "1.23.4",
+      "files": 4
+    },
+    {
+      "at": "2026-10-18T15:25:48.239Z",
+      "section": "core",
+      "layer": "backend",
+      "from": "1.6.0",
+      "to": "1.7.0",
+      "files": 1
+    },
     {
       "at": "2026-10-18T12:41:36.350Z",
       "section": "core",
@@ -963,22 +979,6 @@
       "from": "1.15.0",
       "to": "1.16.0",
       "files": 11
-    },
-    {
-      "at": "2026-09-08T14:08:16+02:00",
-      "section": "courses",
-      "layer": "frontend",
-      "from": "1.6.0",
-      "to": "1.6.1",
-      "files": 1
-    },
-    {
-      "at": "2026-09-08T14:08:16+02:00",
-      "section": "core",
-      "layer": "frontend",
-      "from": "1.9.1",
-      "to": "1.10.0",
-      "files": 1
     }
   ]
 }

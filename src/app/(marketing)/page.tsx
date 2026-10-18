@@ -10,6 +10,12 @@ import { FEATURES } from '@/lib/features';
 import JsonLd from '@/components/seo/JsonLd';
 import { absoluteUrl, pageMetadata } from '@/lib/seo';
 
+/*
+ * `<StatsBar>` reads live counts from the database. Without this the page is
+ * prerendered once at build and the counts would freeze at deploy time.
+ */
+export const revalidate = 3600;
+
 export const metadata = pageMetadata({
   title: `${SITE.name} — ${SITE.tagline}`,
   absoluteTitle: true,

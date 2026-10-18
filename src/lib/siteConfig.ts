@@ -30,6 +30,22 @@
  *
  * Values marked `PLACEHOLDER` must be replaced before launch.
  */
+/** Figures `getLiveStats()` (`src/lib/server/landingStats.ts`) can read from the database. */
+export type LiveStatKey = 'publishedCourses' | 'students' | 'completionRate';
+
+type SiteStat = {
+  /** Shown as is, or as the floor when `live` is set. */
+  value: number;
+  suffix?: string;
+  label: string;
+  /**
+   * Read the real figure from the database and show it instead of `value`
+   * once it is higher. `value` stays the floor, so a new platform does not
+   * open with "0 students".
+   */
+  live?: LiveStatKey;
+};
+
 type SiteConfig = {
   url: string;
   name: string;
@@ -45,7 +61,7 @@ type SiteConfig = {
     replyTime: string;
     reviewHours: number;
   };
-  stats: { value: number; suffix?: string; label: string }[];
+  stats: SiteStat[];
   social: { label: string; href: string }[];
   company: { legalName: string; address: string; idNumber: string };
 };
@@ -120,14 +136,15 @@ export const SITE: SiteConfig = {
    * is the right state until real numbers exist: invented ones are worse than
    * none. `suffix` follows the number ("h", "%"); thousands are grouped
    * automatically.
-   * PLACEHOLDER — still not real figures, only scaled down (2026-10-18) so they
-   * read as plausible for a new local platform. Replace with real numbers.
+   * Entries with `live` are floors: the real count replaces them once it is
+   * higher. The review deadline has no `live` source — a bigger number there
+   * would be worse, not better.
    */
   stats: [
-    { value: 12, label: 'OBJAVLJENIH KURSEVA U ČETIRI OBLASTI' },
-    { value: 350, label: 'REGISTROVANIH STUDENATA' },
+    { value: 12, label: 'OBJAVLJENIH KURSEVA', live: 'publishedCourses' },
+    { value: 350, label: 'REGISTROVANIH STUDENATA', live: 'students' },
     { value: REVIEW_HOURS, suffix: 'h', label: 'ROK ZA PREGLED PREDANOG ZADATKA' },
-    { value: 78, suffix: '%', label: 'STUDENATA ZAVRŠI UPISANI KURS' },
+    { value: 78, suffix: '%', label: 'STUDENATA ZAVRŠI UPISANI KURS', live: 'completionRate' },
   ],
 
   /**

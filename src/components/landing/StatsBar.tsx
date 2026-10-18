@@ -4,13 +4,18 @@ import Typography from '@mui/material/Typography';
 import AnimatedNumber from '@/components/landing/AnimatedNumber';
 import Section from '@/components/landing/Section';
 import { SITE } from '@/lib/siteConfig';
+import { getLiveStats } from '@/lib/server/landingStats';
 
 /**
  * Row of headline stats, shown directly under the hero.
  *
  * The figures come from `SITE.stats` in `src/lib/siteConfig.ts`. An empty
- * list renders nothing, which is how to hide the band until there are real
- * numbers to show.
+ * list renders nothing, which is how to hide the band.
+ *
+ * A stat with `live` set is a floor: the real figure from `getLiveStats()`
+ * replaces it once it is higher, so the band never opens on "0 students" and
+ * still ends up telling the truth as the platform grows. The landing page
+ * revalidates hourly, so the number trails reality by up to an hour.
  *
  * ## It used to be invisible
  *
@@ -24,16 +29,22 @@ import { SITE } from '@/lib/siteConfig';
  *
  * Used once, directly after `<Hero />` in `(marketing)/page.tsx`.
  */
-export default function StatsBar() {
+export default async function StatsBar() {
   if (SITE.stats.length === 0) return null;
 
+  const live = await getLiveStats();
+  const stats = SITE.stats.map((stat) => {
+    const real = stat.live ? live[stat.live] : null;
+    return real !== null && real > stat.value ? { ...stat, value: real } : stat;
+  });
+
   // Four figures share a desktop row; fewer spread to fill it.
-  const mdSize = 12 / Math.min(SITE.stats.length, 4);
+  const mdSize = 12 / Math.min(stats.length, 4);
 
   return (
     <Section tone="tint" py={{ xs: 5, md: 6 }}>
       <Grid container spacing={{ xs: 4, sm: 3 }}>
-        {SITE.stats.map((stat, index) => (
+        {stats.map((stat, index) => (
           <Grid key={stat.label} size={{ xs: 6, md: mdSize }}>
             <Stack
               spacing={0.75}

@@ -19,7 +19,7 @@ import { useCategoryOptions } from '@/hooks/useCategories';
  * flag on a course, so this is simply whatever the API returns first.
  *
  * A Client Component: `useCourses` / `useCategoryOptions` are client hooks.
- * Unlike `<Hero>` and `<StatsBar>`, which are static and server-rendered.
+ * Unlike `<Hero>` and `<StatsBar>`, which are server-rendered.
  *
  * It sits on the `paper` band — white against the page's grey — because it is
  * the one section made of cards, and cards need a surface to sit on that is not
