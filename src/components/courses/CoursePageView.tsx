@@ -158,8 +158,8 @@ export default function CoursePageView({ slug }: { slug: string }) {
       <PageContainer>
         <ContentCard>
           <EmptyState
-            title="Kurs nije pronađen"
-            description="Kurs ne postoji ili trenutno nije objavljen."
+            title="Obuka nije pronađena"
+            description="Obuka ne postoji ili trenutno nije objavljena."
           />
         </ContentCard>
       </PageContainer>
@@ -168,7 +168,7 @@ export default function CoursePageView({ slug }: { slug: string }) {
 
   return (
     <PageContainer>
-      <QueryState query={course} errorTitle="Kurs nije moguće učitati">
+      <QueryState query={course} errorTitle="Obuku nije moguće učitati">
         {(courseData) => {
           const thumbnail = courseThumbnailUrl(courseData.thumbnail_path);
           const categoryName = courseData.category_id
@@ -202,8 +202,8 @@ export default function CoursePageView({ slug }: { slug: string }) {
                   }
                 >
                   {access.isAdmin
-                    ? 'Gledate javnu stranicu kursa kao administrator — svi moduli su vam otključani.'
-                    : 'Gledate javnu stranicu svog kursa — kao predavaču, svi moduli su vam otključani.'}
+                    ? 'Gledate javnu stranicu obuke kao administrator — svi moduli su vam otključani.'
+                    : 'Gledate javnu stranicu svoje obuke — kao predavaču, svi moduli su vam otključani.'}
                 </Alert>
               ) : null}
 
@@ -285,7 +285,7 @@ export default function CoursePageView({ slug }: { slug: string }) {
                     </Stack>
 
                     <ContentCard
-                      title="Sadržaj kursa"
+                      title="Sadržaj obuke"
                       description={
                         access.canOpenModules
                           ? 'Moduli se otključavaju redom, kako ih završavaš.'
@@ -300,7 +300,7 @@ export default function CoursePageView({ slug }: { slug: string }) {
                         isEmpty={(items) => items.length === 0}
                         empty={
                           <EmptyState
-                            title="Kurs još nema module"
+                            title="Obuka još nema module"
                             description="Sadržaj se uskoro dodaje."
                           />
                         }
@@ -314,7 +314,7 @@ export default function CoursePageView({ slug }: { slug: string }) {
                             lockedHint={
                               access.canOpenModules
                                 ? 'Završi prethodni modul da otključaš ovaj.'
-                                : 'Potreban je odobren pristup kursu.'
+                                : 'Potreban je odobren pristup obuci.'
                             }
                           />
                         )}

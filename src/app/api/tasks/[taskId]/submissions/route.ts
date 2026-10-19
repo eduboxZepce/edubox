@@ -118,21 +118,21 @@ export const POST = withRoute(async (req, ctx: Ctx) => {
   // cannot see who those people are, and should not be able to.
   const courseId = task.modules?.course_id;
   if (courseId) {
-    const courseName = task.modules?.courses?.name ?? 'kurs';
+    const courseName = task.modules?.courses?.name ?? 'obuka';
     const moduleTitle = task.modules?.title ?? 'modul';
     const href = `/admin/submissions/${submission.id}`;
 
     notifyAfterResponse({
       userIds: await courseReviewerIds(createServiceRoleClient(), courseId),
       type: 'submission_received',
-      title: 'Novo predato rješenje',
+      title: 'Novo predano rješenje',
       body: `${profile.full_name} je predao/la rješenje za „${moduleTitle}” (${courseName}).`,
       link: href,
       email: {
         subject: `Novo rješenje za pregled — ${courseName}`,
-        heading: 'Novo predato rješenje',
+        heading: 'Novo predano rješenje',
         lines: [
-          `${profile.full_name} je predao/la rješenje zadatka za modul „${moduleTitle}” na kursu „${courseName}”.`,
+          `${profile.full_name} je predao/la rješenje zadatka za modul „${moduleTitle}” na obuci „${courseName}”.`,
           'Otvorite predaju da pročitate rješenje i odgovorite.',
         ],
         action: { label: 'Otvori predaju', href },

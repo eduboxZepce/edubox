@@ -18,7 +18,7 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
     <PageContainer maxWidth="form">
       {/* No description listing the sections: which ones exist depends on the
           feature flags, and the tabs right below already name them. */}
-      <PageHeader title="Podešavanja" />
+      <PageHeader title="Postavke" />
 
       <Stack spacing={3}>
         <SettingsTabs />

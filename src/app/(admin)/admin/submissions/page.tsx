@@ -51,7 +51,7 @@ export default function AdminSubmissionsPage(props: PageProps<'/admin/submission
   return (
     <PageContainer>
       <PageHeader
-        title="Predati zadaci"
+        title="Predani zadaci"
         description="Pregled rješenja koja su studenti predali i prepiska o njima."
       />
 
@@ -77,7 +77,7 @@ export default function AdminSubmissionsPage(props: PageProps<'/admin/submission
               scope announces itself and offers the way out. */}
           {scopedCourseId ? (
             <Chip
-              label="Filtrirano po kursu"
+              label="Filtrirano po obuci"
               size="small"
               variant="outlined"
               onDelete={undefined}
@@ -101,7 +101,7 @@ export default function AdminSubmissionsPage(props: PageProps<'/admin/submission
         <QueryState
           skeleton="table"
           query={submissions}
-          errorTitle="Predate zadatke nije moguće učitati"
+          errorTitle="Predane zadatke nije moguće učitati"
           isEmpty={(page) => page.data.length === 0}
           empty={
             list.filters.status === 'pending' ? (
@@ -111,7 +111,7 @@ export default function AdminSubmissionsPage(props: PageProps<'/admin/submission
               />
             ) : (
               <EmptyState
-                title="Nema predatih zadataka"
+                title="Nema predanih zadataka"
                 description="Nijedna predaja ne odgovara izabranom filteru."
               />
             )
@@ -140,7 +140,7 @@ export default function AdminSubmissionsPage(props: PageProps<'/admin/submission
                   },
                   {
                     id: 'course',
-                    header: 'Kurs i modul',
+                    header: 'Obuka i modul',
                     cell: (row) => (
                       <Stack spacing={0.25}>
                         <Typography variant="body2">
@@ -170,7 +170,7 @@ export default function AdminSubmissionsPage(props: PageProps<'/admin/submission
                   },
                   {
                     id: 'created',
-                    header: 'Predato',
+                    header: 'Predano',
                     cell: (row) => (
                       <Typography variant="body2" color="text.secondary">
                         {formatDateTime(row.created_at)}

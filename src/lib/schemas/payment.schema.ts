@@ -37,7 +37,7 @@ export const updatePaymentSettingsSchema = paymentSettingsSchema
   .omit({ updated_at: true })
   .partial()
   .refine((value) => Object.keys(value).length > 0, {
-    error: 'Nema izmjena za spremanje.',
+    error: 'Nema izmjena za čuvanje.',
   })
   .openapi('UpdatePaymentSettingsRequest');
 
@@ -73,7 +73,7 @@ export function renderPaymentPurpose(
   template: string | null | undefined,
   values: { reference: string; course: string },
 ): string {
-  const fallback = `Uplata za kurs ${values.course} — ${values.reference}`;
+  const fallback = `Uplata za obuku ${values.course} — ${values.reference}`;
   if (!template?.trim()) return fallback;
 
   return template.replaceAll('{reference}', values.reference).replaceAll('{course}', values.course);

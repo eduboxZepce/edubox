@@ -7,7 +7,7 @@ import { SITE } from '@/lib/siteConfig';
  */
 export const metadata = pageMetadata({
   title: 'Registracija',
-  description: `Napravi besplatan nalog na platformi ${SITE.name} i pošalji zahtjev za upis na kurs. Uči svojim tempom i dobij certifikat po završetku.`,
+  description: `Napravi besplatan nalog na platformi ${SITE.name} i pošalji zahtjev za upis na obuku. Uči svojim tempom i dobij certifikat po završetku.`,
   path: '/register',
 });
 

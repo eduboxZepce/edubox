@@ -8,7 +8,7 @@ import Reveal from '@/components/landing/Reveal';
 import Section from '@/components/landing/Section';
 
 /**
- * "Kako funkcioniše" — the four steps from registration to certificate.
+ * "Kako funkcionira" — the four steps from registration to certificate.
  *
  * ## Why the steps stayed a list and did not become cards
  *
@@ -19,7 +19,7 @@ import Section from '@/components/landing/Section';
  * row. It is now a filled badge, which is also what makes the column scannable
  * without reading a word of it.
  *
- * The section id is the target of the header's "Kako funkcioniše" link, so it
+ * The section id is the target of the header's "Kako funkcionira" link, so it
  * must stay `kako-funkcionise`.
  *
  * Dividers are inserted manually (`index > 0 && <Divider />`) rather than with
@@ -33,13 +33,13 @@ const STEPS = [
     number: '01',
     title: 'Registracija',
     description:
-      'Otvoriš nalog u minuti i dobijaš pristup pregledu svih objavljenih kurseva, programa i uvodnih lekcija.',
+      'Ponudu obuka možeš pregledati i bez naloga. Nalog otvaraš u minuti, a potreban ti je tek kada želiš zatražiti pristup.',
   },
   {
     number: '02',
-    title: 'Odabir kursa',
+    title: 'Odabir obuke',
     description:
-      'Upisuješ pojedinačne kurseve, bez obaveze i bez roka. Materijali ostaju dostupni i nakon što završiš.',
+      'Na stranici obuke pošalješ zahtjev i dobiješ podatke za uplatu. Čim uplata stigne, administrator ti otvara pristup. Materijali ostaju dostupni i nakon što završiš.',
   },
   {
     number: '03',
@@ -51,7 +51,7 @@ const STEPS = [
     number: '04',
     title: 'Certifikat',
     description:
-      'Kada su svi zadaci ocijenjeni i završni ispit položen, certifikat je odmah dostupan za preuzimanje i dijeljenje.',
+      'Kada završiš sve module, certifikat je odmah dostupan za preuzimanje — s brojem koji poslodavac može provjeriti uz tvoje prezime.',
   },
 ];
 
@@ -61,7 +61,7 @@ export default function HowItWorks() {
       <Reveal>
         <Stack spacing={1} sx={{ mb: 4 }}>
           <Typography variant="overline" color="primary" sx={{ letterSpacing: 1.2 }}>
-            Kako funkcioniše
+            Kako funkcionira
           </Typography>
           <Typography variant="h3" sx={{ fontSize: { xs: 28, md: 38 } }}>
             Četiri koraka od registracije do certifikata

@@ -65,6 +65,9 @@ export default function CoursePurchasePanel({
   // Treat a fresh request as pending immediately; the refetched list will agree
   // a moment later, and this avoids the button flicking back to "request".
   const state: PurchaseState = justRequested ? 'requested' : purchaseState;
+  // Free courses still go through an admin's approval, but there is nothing to
+  // pay — so no payment wording and no account details.
+  const isFree = price === 0;
 
   async function handleRequest() {
     // Send them to login with a way back — losing the page they were reading is
@@ -89,7 +92,7 @@ export default function CoursePurchasePanel({
       <Stack spacing={2.5}>
         <Stack spacing={0.5}>
           <Typography variant="body2" color="text.secondary">
-            Cijena kursa
+            Cijena obuke
           </Typography>
           <Typography variant="h2" component="p">
             {formatPrice(price)}
@@ -101,10 +104,13 @@ export default function CoursePurchasePanel({
         {!FEATURES.purchases ? null : state === 'requested' ? (
           <Stack spacing={2}>
             <Alert severity="info" icon={<HourglassEmptyIcon fontSize="inherit" />}>
-              Tvoj zahtjev čeka odobrenje. Čim uplata bude potvrđena, kurs će ti biti dostupan.
+              {isFree
+                ? 'Tvoj zahtjev čeka odobrenje administratora. Obuka je besplatna, pa uplata nije potrebna.'
+                : 'Tvoj zahtjev čeka odobrenje. Čim uplata bude potvrđena, obuka će ti biti dostupna.'}
             </Alert>
 
-            {(newReference ?? pendingPurchase?.readable_id) ? (
+            {/* A free course has nothing to pay, so no reference and no account details. */}
+            {!isFree && (newReference ?? pendingPurchase?.readable_id) ? (
               <>
                 <PaymentReference readableId={(newReference ?? pendingPurchase?.readable_id)!} />
                 {/*
@@ -125,7 +131,7 @@ export default function CoursePurchasePanel({
           <Stack spacing={1.5}>
             {state === 'denied' ? (
               <Alert severity="warning">
-                Prethodni zahtjev za ovaj kurs je odbijen. Možeš poslati novi.
+                Prethodni zahtjev za ovu obuku je odbijen. Možeš poslati novi.
               </Alert>
             ) : null}
 
@@ -141,7 +147,9 @@ export default function CoursePurchasePanel({
 
             <Typography variant="body2" color="text.secondary">
               {isAuthenticated
-                ? 'Pristup kursu odobrava administrator nakon potvrde uplate.'
+                ? isFree
+                  ? 'Obuka je besplatna. Pristup odobrava administrator.'
+                  : 'Pristup obuci odobrava administrator nakon potvrde uplate.'
                 : 'Za slanje zahtjeva potrebno je da se prijaviš.'}
             </Typography>
           </Stack>

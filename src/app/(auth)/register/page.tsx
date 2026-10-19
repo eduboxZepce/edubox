@@ -135,15 +135,8 @@ export default function RegisterPage() {
             control={<Checkbox checked={consent} onChange={(e) => setConsent(e.target.checked)} />}
             label={
               <Typography variant="body2">
-                Prihvatam{' '}
-                <Link href="/uvjeti-koristenja" target="_blank" rel="noopener">
-                  uvjete korištenja
-                </Link>{' '}
-                i{' '}
-                <Link href="/politika-privatnosti" target="_blank" rel="noopener">
-                  politiku privatnosti
-                </Link>
-                .
+                Prihvatam <Link href="/uvjeti-koristenja">uvjete korištenja</Link> i{' '}
+                <Link href="/politika-privatnosti">politiku privatnosti</Link>.
               </Typography>
             }
           />

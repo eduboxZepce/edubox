@@ -68,7 +68,7 @@ export default function ModuleForm({
     <Form form={form} onSubmit={onSubmit} pendingLabel={pendingLabel}>
       <ContentCard
         title="Osnovni podaci"
-        description="Naslov i opis modula koje student vidi u listi kursa."
+        description="Naslov i opis modula koje student vidi u listi obuke."
       >
         <Stack spacing={2}>
           <FormTextField
@@ -80,7 +80,7 @@ export default function ModuleForm({
           <FormTextField
             name="description"
             label="Opis"
-            placeholder="Šta student uči u ovom modulu."
+            placeholder="Što student uči u ovom modulu."
             multiline
             rows={4}
           />
@@ -95,7 +95,7 @@ export default function ModuleForm({
               label="YouTube video"
               type="url"
               placeholder="https://www.youtube.com/watch?v=…"
-              helperText="Opciono. Link na YouTube video; ostavite prazno ako modul nema video."
+              helperText="Neobavezno. Link na YouTube video; ostavite prazno ako modul nema video."
             />
           </Grid>
           <Grid size={{ xs: 12, sm: 4 }}>

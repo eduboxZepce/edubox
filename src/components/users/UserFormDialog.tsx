@@ -94,7 +94,7 @@ export default function UserFormDialog({
               isSelf
                 ? undefined
                 : FEATURES.teachers
-                  ? 'Predavač može da uređuje samo kurseve koje sam kreira ili koje posjeduje.'
+                  ? 'Predavač može uređivati samo obuke koje sam kreira ili koje posjeduje.'
                   : undefined
             }
           />

@@ -35,7 +35,7 @@ export default function NotFound() {
               </Button>
               {FEATURES.catalog ? (
                 <Button href="/courses" color="inherit">
-                  Pogledaj kurseve
+                  Pogledaj obuke
                 </Button>
               ) : null}
             </Stack>

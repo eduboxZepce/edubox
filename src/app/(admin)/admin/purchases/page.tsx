@@ -53,7 +53,7 @@ export default function AdminPurchasesPage(props: PageProps<'/admin/purchases'>)
     <PageContainer>
       <PageHeader
         title="Zahtjevi za kupovinu"
-        description="Odobravanje pristupa kursevima. Odobrite tek nakon što je uplata potvrđena."
+        description="Odobravanje pristupa obukama. Odobrite tek nakon što je uplata potvrđena."
       />
 
       <ContentCard disablePadding>
@@ -86,7 +86,7 @@ export default function AdminPurchasesPage(props: PageProps<'/admin/purchases'>)
               scope announces itself and offers the way out. */}
           {scopedCourseId ? (
             <Chip
-              label="Filtrirano po kursu"
+              label="Filtrirano po obuci"
               size="small"
               variant="outlined"
               onDelete={undefined}
@@ -160,7 +160,7 @@ export default function AdminPurchasesPage(props: PageProps<'/admin/purchases'>)
                   },
                   {
                     id: 'course',
-                    header: 'Kurs',
+                    header: 'Obuka',
                     cell: (row) => (
                       <Typography variant="body2">{row.courses?.name ?? '—'}</Typography>
                     ),
@@ -180,7 +180,7 @@ export default function AdminPurchasesPage(props: PageProps<'/admin/purchases'>)
                   },
                   {
                     id: 'created',
-                    header: 'Poslat',
+                    header: 'Poslan',
                     cell: (row) => (
                       <Typography variant="body2" color="text.secondary">
                         {formatDateTime(row.created_at)}

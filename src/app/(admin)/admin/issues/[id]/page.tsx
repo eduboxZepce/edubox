@@ -65,7 +65,7 @@ export default function AdminIssueDetailPage(props: PageProps<'/admin/issues/[id
       });
       setBody('');
       toast.success(
-        result.issue_status === 'closed' ? 'Odgovoreno i zatvoreno.' : 'Odgovor je poslat.',
+        result.issue_status === 'closed' ? 'Odgovoreno i zatvoreno.' : 'Odgovor je poslan.',
       );
     } catch (error) {
       toast.error(errorMessage(error));
@@ -115,7 +115,7 @@ export default function AdminIssueDetailPage(props: PageProps<'/admin/issues/[id
                     ),
                   },
                   { label: 'Email', value: row.profiles?.email ?? '—' },
-                  { label: 'Poslato', value: formatDateTime(row.created_at) },
+                  { label: 'Poslano', value: formatDateTime(row.created_at) },
                   { label: 'Posljednja izmjena', value: formatDateTime(row.updated_at) },
                 ]}
               />

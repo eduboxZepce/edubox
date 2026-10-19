@@ -57,7 +57,7 @@ const LAYER_LABEL = { frontend: 'Frontend', backend: 'Backend' } as const;
  * keeping track of what is switched on, not for explaining the mechanism.
  */
 const FEATURE_LABELS: Record<FeatureName, string> = {
-  catalog: 'Katalog kurseva',
+  catalog: 'Katalog obuka',
   purchases: 'Kupovine i plaćanje',
   quizzes: 'Kvizovi',
   tasks: 'Zadaci i pregled',

@@ -12,7 +12,7 @@ import { pluralBs } from '@/lib/format';
 import { SITE } from '@/lib/siteConfig';
 
 /**
- * "Pitanja koja dobijamo najčešće" — the FAQ.
+ * "Pitanja koja dobivamo najčešće" — the FAQ.
  *
  * ## Every answer is open, deliberately
  *
@@ -36,25 +36,25 @@ const FAQS = [
   {
     question: 'Koliko traje pristup materijalima?',
     answer:
-      'Pristup je trajan. Nakon što upišeš kurs, lekcije i materijali ostaju u tvom nalogu i poslije završetka.',
+      'Pristup je trajan. Nakon što upišeš obuku, lekcije i materijali ostaju u tvom nalogu i poslije završetka.',
   },
   {
     question: 'Da li postoje fiksni rokovi i predavanja u realnom vremenu?',
-    answer: 'Ne. Kursevi su asinhroni — učiš kada možeš. Jedini rokovi su oni koje sam postaviš.',
+    answer: 'Ne. Obuke su asinhrone — učiš kada možeš. Jedini rokovi su oni koje sam postaviš.',
   },
   {
     question: 'Ko pregleda moje zadatke?',
-    answer: `Predavač kursa ili njegov asistent. Povratnu informaciju u pravilu dobijaš u roku od ${SITE.service.reviewHours} ${pluralBs(SITE.service.reviewHours, 'sat', 'sata', 'sati')} od predaje.`,
+    answer: `Predavač obuke. Povratnu informaciju u pravilu dobivaš u roku od ${SITE.service.reviewHours} ${pluralBs(SITE.service.reviewHours, 'sat', 'sata', 'sati')} od predaje.`,
   },
   {
-    question: 'Šta je potrebno da dobijem certifikat?',
+    question: 'Što je potrebno da dobijem certifikat?',
     answer:
-      'Pregledani i prihvaćeni svi praktični zadaci i položen završni ispit. Certifikat se generiše automatski.',
+      'Završiti sve module obuke — riješiti kvizove i dobiti prihvaćene zadatke. Certifikat se izdaje automatski, čim završiš posljednji modul.',
   },
   {
     question: 'Kako se plaća?',
     answer:
-      'Kartično plaćanje ili uplatnica, po kursu. Za firme i grupne upise izdajemo fakturu — placeholder, uvjeti se dopunjuju.',
+      'Uplatom na račun, posebno za svaku obuku. Nakon zahtjeva za pristup dobiješ poziv na broj i podatke za uplatu, a obuka se otključava kada uplata stigne i administrator je potvrdi.',
   },
 ];
 
@@ -71,7 +71,7 @@ export default function Faq() {
                     Česta pitanja
                   </Typography>
                   <Typography variant="h3" sx={{ fontSize: { xs: 28, md: 38 } }}>
-                    Pitanja koja dobijamo najčešće
+                    Pitanja koja dobivamo najčešće
                   </Typography>
                 </Stack>
 

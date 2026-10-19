@@ -44,7 +44,7 @@ export default function AdminCertificatesPage() {
     <PageContainer>
       <PageHeader
         title="Certifikati"
-        description="Certifikati izdati po završetku kursa i zahtjevi za štampanu verziju."
+        description="Certifikati izdani po završetku obuke i zahtjevi za štampanu verziju."
       />
 
       <ContentCard disablePadding>
@@ -81,7 +81,7 @@ export default function AdminCertificatesPage() {
             width={260}
             options={[
               { value: 'true:false', label: 'Čeka slanje' },
-              { value: 'true:true', label: 'Poslato' },
+              { value: 'true:true', label: 'Poslano' },
               { value: 'true:', label: 'Svi sa zahtjevom' },
               { value: 'false:', label: 'Bez zahtjeva' },
               { value: ':', label: 'Svi certifikati' },
@@ -111,12 +111,12 @@ export default function AdminCertificatesPage() {
             ) : list.hasActiveFilters ? (
               <EmptyState
                 title="Nema rezultata"
-                description="Nijedan certifikat ne odgovara zadatoj pretrazi i filteru."
+                description="Nijedan certifikat ne odgovara zadanoj pretrazi i filteru."
               />
             ) : (
               <EmptyState
-                title="Još nema izdatih certifikata"
-                description="Certifikat se izdaje automatski kada student završi sve module kursa."
+                title="Još nema izdanih certifikata"
+                description="Certifikat se izdaje automatski kada student završi sve module obuke."
               />
             )
           }
@@ -153,7 +153,7 @@ export default function AdminCertificatesPage() {
                   },
                   {
                     id: 'course',
-                    header: 'Kurs',
+                    header: 'Obuka',
                     cell: (row) => (
                       <Typography variant="body2">{row.courses?.name ?? '—'}</Typography>
                     ),
@@ -167,7 +167,7 @@ export default function AdminCertificatesPage() {
                   },
                   {
                     id: 'created',
-                    header: 'Izdat',
+                    header: 'Izdan',
                     cell: (row) => (
                       <Typography variant="body2" color="text.secondary">
                         {formatDateTime(row.created_at)}

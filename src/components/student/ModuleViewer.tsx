@@ -134,7 +134,7 @@ export default function ModuleViewer({
               <ContentCard>
                 <EmptyState
                   title="Modul nije pronađen"
-                  description="Modul ne postoji ili ne pripada ovom kursu."
+                  description="Modul ne postoji ili ne pripada ovoj obuci."
                 />
               </ContentCard>
             );
@@ -160,7 +160,7 @@ export default function ModuleViewer({
               breadcrumbs={[
                 // The catalogue crumb goes with the catalogue; the course is still a
                 // reachable page for anyone who can open this one.
-                ...(FEATURES.catalog ? [{ label: 'Kursevi', href: '/courses' }] : []),
+                ...(FEATURES.catalog ? [{ label: 'Obuke', href: '/courses' }] : []),
                 { label: courseName, href: `/courses/${courseSlug}` },
                 { label: currentModule.title },
               ]}
@@ -190,7 +190,7 @@ export default function ModuleViewer({
                     icon={<LockOutlinedIcon />}
                     action={
                       <Button href={`/courses/${courseSlug}`} variant="contained">
-                        Nazad na kurs
+                        Nazad na obuku
                       </Button>
                     }
                   />
@@ -356,11 +356,11 @@ export default function ModuleViewer({
                     <WorkspacePremiumOutlinedIcon color="success" sx={{ fontSize: 48 }} />
                     <Stack spacing={0.5}>
                       <Typography variant="h6" component="p">
-                        Čestitamo — završili ste kurs!
+                        Čestitamo — završili ste obuku!
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Prošli ste sve module kursa „{courseName}”.
-                        {FEATURES.certificates ? ' Certifikat je izdat na vaše ime.' : null}
+                        Prošli ste sve module obuke „{courseName}”.
+                        {FEATURES.certificates ? ' Certifikat je izdan na vaše ime.' : null}
                       </Typography>
                     </Stack>
 
@@ -421,7 +421,7 @@ export default function ModuleViewer({
                           onSuccess: (result) => {
                             toast.success(
                               result.data.certificate_issued && FEATURES.certificates
-                                ? 'Modul je završen. Završili ste kurs — certifikat je izdat.'
+                                ? 'Modul je završen. Završili ste obuku — certifikat je izdan.'
                                 : 'Modul je završen.',
                             );
                           },
@@ -445,7 +445,7 @@ export default function ModuleViewer({
                   startIcon={<ArrowBackIcon />}
                   color="inherit"
                 >
-                  {previous ? 'Prethodni modul' : 'Nazad na kurs'}
+                  {previous ? 'Prethodni modul' : 'Nazad na obuku'}
                 </Button>
 
                 {next ? (

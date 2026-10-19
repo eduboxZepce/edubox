@@ -280,7 +280,7 @@ export default function PdfViewer({ src, title }: { src: string; title?: string 
           size="small"
           onClick={() => setPage((p) => Math.max(1, p - 1))}
           disabled={page <= 1 || pageCount === 0}
-          aria-label="Prethodna strana"
+          aria-label="Prethodna stranica"
         >
           <ChevronLeftIcon />
         </IconButton>
@@ -293,7 +293,7 @@ export default function PdfViewer({ src, title }: { src: string; title?: string 
           size="small"
           onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
           disabled={page >= pageCount || pageCount === 0}
-          aria-label="Sljedeća strana"
+          aria-label="Sljedeća stranica"
         >
           <ChevronRightIcon />
         </IconButton>
@@ -319,7 +319,7 @@ export default function PdfViewer({ src, title }: { src: string; title?: string 
 
         <Box sx={{ width: 16 }} />
 
-        <Tooltip title={fitWidth ? 'Uklopi cijelu stranu' : 'Uklopi po širini'}>
+        <Tooltip title={fitWidth ? 'Prikaži cijelu stranicu' : 'Prilagodi širini'}>
           <IconButton
             size="small"
             onClick={() => {
@@ -328,7 +328,7 @@ export default function PdfViewer({ src, title }: { src: string; title?: string 
               // arbitrary; resetting makes the button mean what it says.
               setZoom(1);
             }}
-            aria-label={fitWidth ? 'Uklopi cijelu stranu' : 'Uklopi po širini'}
+            aria-label={fitWidth ? 'Prikaži cijelu stranicu' : 'Prilagodi širini'}
           >
             <FitScreenOutlinedIcon />
           </IconButton>

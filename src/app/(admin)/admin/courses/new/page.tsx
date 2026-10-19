@@ -61,12 +61,12 @@ export default function NewCoursePage() {
         await updateCourse.mutateAsync({ id: course.id, body: { thumbnail_path: path } });
       } catch {
         toast.warning(
-          'Kurs je kreiran, ali sliku nije bilo moguće otpremiti. Dodajte je kroz izmjenu kursa.',
+          'Obuka je kreirana, ali sliku nije bilo moguće učitati. Dodajte je kroz izmjenu obuke.',
         );
       }
     }
 
-    toast.success(`Kurs „${course.name}” je kreiran.`);
+    toast.success(`Obuka „${course.name}” je kreirana.`);
 
     // Back to the list, where the new course is already visible — the mutation
     // invalidated that cache. Once the module editor exists, sending the admin
@@ -77,16 +77,16 @@ export default function NewCoursePage() {
   return (
     <PageContainer maxWidth="form">
       <PageHeader
-        breadcrumbs={[{ label: 'Kursevi', href: '/admin/courses' }, { label: 'Novi kurs' }]}
-        title="Novi kurs"
-        description="Kurs se kreira kao nacrt dok ga ne objavite. Module dodajete nakon kreiranja."
+        breadcrumbs={[{ label: 'Obuke', href: '/admin/courses' }, { label: 'Nova obuka' }]}
+        title="Nova obuka"
+        description="Obuka se kreira kao nacrt dok je ne objavite. Module dodajete nakon kreiranja."
       />
 
       <CourseForm
         defaultValues={emptyCourseFormValues}
         onSubmit={handleSubmit}
-        submitLabel="Kreiraj kurs"
-        pendingLabel="Kreiranje kursa…"
+        submitLabel="Kreiraj obuku"
+        pendingLabel="Kreiranje obuke…"
         canPublish={isAdmin}
       />
     </PageContainer>

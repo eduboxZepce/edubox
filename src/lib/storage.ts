@@ -15,6 +15,7 @@ export const BUCKETS = {
   taskFiles: 'task-files',
   taskMessageAttachments: 'task-message-attachments',
   newsletterImages: 'newsletter-images',
+  blogImages: 'blog-images',
 } as const;
 
 export type BucketName = (typeof BUCKETS)[keyof typeof BUCKETS];
@@ -29,6 +30,9 @@ const PUBLIC_BUCKETS: readonly BucketName[] = [
    * disclosure is acceptable for this bucket and no other.
    */
   BUCKETS.newsletterImages,
+  // Blog covers and inline images — public content read by anonymous visitors
+  // and crawlers (migration 0035).
+  BUCKETS.blogImages,
 ];
 
 export const isPublicBucket = (bucket: BucketName) => PUBLIC_BUCKETS.includes(bucket);
@@ -41,6 +45,7 @@ export const isPublicBucket = (bucket: BucketName) => PUBLIC_BUCKETS.includes(bu
  *   module-files              {course_id}/{module_id}/
  *   task-files                {course_id}/{module_id}/
  *   task-message-attachments  {submission_id}/
+ *   blog-images               {post_id}/
  */
 export const BUCKET_PATH_SEGMENTS: Record<BucketName, number> = {
   [BUCKETS.courseThumbnails]: 1,
@@ -50,6 +55,9 @@ export const BUCKET_PATH_SEGMENTS: Record<BucketName, number> = {
   // `{yyyy-mm}/` — a newsletter image belongs to no row, so there is no id to
   // key on; the month keeps the bucket browsable by hand.
   [BUCKETS.newsletterImages]: 1,
+  // `{post_id}/` — cover and inline images share the post's folder, so
+  // deleting the post can clear it.
+  [BUCKETS.blogImages]: 1,
 };
 
 /**

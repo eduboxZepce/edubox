@@ -11,7 +11,7 @@ import { FEATURES } from '@/lib/features';
 
 export const metadata = pageMetadata({
   title: 'Kontakt',
-  description: `Pitanja o kursevima, upisu, plaćanju ili certifikatu? Piši timu platforme ${SITE.name} ili nazovi radnim danima — u pravilu odgovaramo ${SITE.service.replyTime}.`,
+  description: `Pitanja o obukama, upisu, plaćanju ili certifikatu? Piši timu platforme ${SITE.name} ili nazovi radnim danima — u pravilu odgovaramo ${SITE.service.replyTime}.`,
   path: '/kontakt',
 });
 
@@ -36,8 +36,8 @@ export default function ContactPage() {
           Pitaj nas prije nego se upišeš
         </Typography>
         <Typography variant="body1" color="text.secondary">
-          Odgovaramo radnim danima, u pravilu {SITE.service.replyTime}. Za pitanja o pojedinom kursu
-          navedi njegov naziv da odgovor stigne od predavača.
+          Odgovaramo radnim danima, u pravilu {SITE.service.replyTime}. Za pitanja o pojedinoj obuci
+          navedi njen naziv, kako bismo ti brže odgovorili.
         </Typography>
       </Stack>
 
@@ -86,11 +86,11 @@ export default function ContactPage() {
 
               <Stack spacing={0.75}>
                 <Link href="/#kako-funkcionise" underline="hover" color="text.primary">
-                  Kako funkcioniše upis i učenje
+                  Kako funkcionira upis i učenje
                 </Link>
                 {FEATURES.catalog ? (
                   <Link href="/courses" underline="hover" color="text.primary">
-                    Pregled objavljenih kurseva
+                    Pregled objavljenih obuka
                   </Link>
                 ) : null}
                 <Link href="/#cesta-pitanja" underline="hover" color="text.primary">

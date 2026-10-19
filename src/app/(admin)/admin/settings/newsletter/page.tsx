@@ -106,13 +106,13 @@ export default function AdminNewsletterPage() {
       setConfirming(false);
 
       if (result.data.sent > 0) {
-        toast.success(`Poslato: ${result.data.sent}.`);
+        toast.success(`Poslano: ${result.data.sent}.`);
       } else if (result.data.skipped > 0) {
         toast.info(
-          `Slanje je preskočeno za ${result.data.skipped} primalaca — email nije konfigurisan.`,
+          `Slanje je preskočeno za ${result.data.skipped} primalaca — email nije konfiguriran.`,
         );
       } else {
-        toast.error('Nijedan email nije poslat.');
+        toast.error('Nijedan email nije poslan.');
       }
     } catch (error) {
       toast.error(errorMessage(error));
@@ -122,14 +122,14 @@ export default function AdminNewsletterPage() {
   return (
     <PageContainer>
       <PageHeader
-        breadcrumbs={[{ label: 'Kontrolna tabla', href: '/admin' }, { label: 'Newsletter' }]}
+        breadcrumbs={[{ label: 'Kontrolna ploča', href: '/admin' }, { label: 'Newsletter' }]}
         title="Newsletter"
         description="Korisnici koji su pristali na primanje novosti."
       />
 
       {!emailConfigured ? (
         <Alert severity="warning">
-          Slanje emaila trenutno nije konfigurisano (<code>EMAIL_FROM</code> nije postavljen), pa
+          Slanje emaila trenutno nije konfigurirano (<code>EMAIL_FROM</code> nije postavljen), pa
           slanje iz aplikacije neće ništa poslati. Do tada koristite izvoz adresa ispod.
         </Alert>
       ) : null}
@@ -166,7 +166,7 @@ export default function AdminNewsletterPage() {
           empty={
             <EmptyState
               title="Još niko nije pristao"
-              description="Korisnici se prijavljuju sami, u svojim podešavanjima."
+              description="Korisnici se prijavljuju sami, u svojim postavkama."
             />
           }
         >
@@ -206,7 +206,7 @@ export default function AdminNewsletterPage() {
             onChange={setBody}
             disabled={send.isPending}
             allowImages
-            helperText="Sliku možete prevući ili nalijepiti (Ctrl+V) direktno u tekst — automatski se otprema i ubacuje."
+            helperText="Sliku možete prevući ili nalijepiti (Ctrl+V) direktno u tekst — automatski se učitava i ubacuje."
           />
 
           <Stack direction="row" sx={{ justifyContent: 'flex-end' }}>
@@ -225,7 +225,7 @@ export default function AdminNewsletterPage() {
       <ConfirmDialog
         open={confirming}
         title="Poslati newsletter?"
-        description={`Poruka će biti poslata na ${emails.length} ${pluralBs(emails.length, 'adresu', 'adrese', 'adresa')}. Email se ne može povući nakon slanja.`}
+        description={`Poruka će biti poslana na ${emails.length} ${pluralBs(emails.length, 'adresu', 'adrese', 'adresa')}. Email se ne može povući nakon slanja.`}
         confirmLabel="Pošalji"
         severity="primary"
         pending={send.isPending}

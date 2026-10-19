@@ -40,7 +40,7 @@ export default function DraftPage({
 
       <Alert severity="info">
         Sadržaj ove stranice još nije napisan. Stranica postoji i dostupna je, ali tekst tek treba
-        da bude dodat.
+        dodati.
       </Alert>
 
       {children}

@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
-import { BLOG_POSTS } from '@/lib/blog';
 import { FEATURES } from '@/lib/features';
 import { absoluteUrl } from '@/lib/seo';
+import { listBlogSlugs } from '@/lib/server/blog';
 import { listPublishedCourses } from '@/lib/server/courses';
 
 /**
@@ -11,7 +11,7 @@ import { listPublishedCourses } from '@/lib/server/courses';
  * sitemap listing 404s teaches a crawler to distrust the rest of it.
  *
  * Revalidated hourly, so a newly published course appears without a deploy.
- * Blog posts change only with a deploy, which rebuilds this anyway.
+ * Blog writes revalidate it immediately (`revalidateBlog`).
  *
  * `priority` and `changeFrequency` are left out on purpose: Google has said it
  * ignores both. `lastModified` is the field it does use, so it is given only
@@ -43,9 +43,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (FEATURES.blog) {
     pages.push(
       { url: absoluteUrl('/blog') },
-      ...BLOG_POSTS.map((post) => ({
+      ...(await listBlogSlugs()).map((post) => ({
         url: absoluteUrl(`/blog/${post.slug}`),
-        lastModified: post.publishedAt,
+        lastModified: post.updated_at,
       })),
     );
   }

@@ -14,7 +14,7 @@ import Stack from '@mui/material/Stack';
  * prop, so the submit button can never be left enabled during a save by
  * someone forgetting to pass it down.
  *
- *   <FormActions submitLabel="Kreiraj kurs" cancelHref="/admin/courses" />
+ *   <FormActions submitLabel="Kreiraj obuku" cancelHref="/admin/courses" />
  *
  * The submit button stays enabled while the form is invalid on purpose:
  * disabling it hides *why* nothing happens, whereas clicking runs validation

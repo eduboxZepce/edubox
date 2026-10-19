@@ -99,7 +99,7 @@ export default function QuizTaker({
         breadcrumbs={[
           // The catalogue crumb goes with the catalogue; the course is still a
           // reachable page for anyone who can open this one.
-          ...(FEATURES.catalog ? [{ label: 'Kursevi', href: '/courses' }] : []),
+          ...(FEATURES.catalog ? [{ label: 'Obuke', href: '/courses' }] : []),
           { label: courseName, href: `/courses/${courseSlug}` },
           { label: moduleTitle, href: moduleHref },
           { label: 'Kviz' },
@@ -157,8 +157,8 @@ export default function QuizTaker({
 
                 {result.certificate_issued && FEATURES.certificates ? (
                   <Alert severity="success" icon={<WorkspacePremiumOutlinedIcon />}>
-                    <AlertTitle>Čestitamo — kurs je završen</AlertTitle>
-                    Certifikat je izdat i čeka vas na kontrolnoj tabli.
+                    <AlertTitle>Čestitamo — obuka je završena</AlertTitle>
+                    Certifikat je izdan i čeka vas na kontrolnoj ploči.
                   </Alert>
                 ) : null}
 

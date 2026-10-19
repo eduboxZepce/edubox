@@ -58,38 +58,38 @@ export const PATCH = withRoute(async (req, ctx: Ctx) => {
       .single(),
   );
 
-  const courseName = updated.courses?.name ?? 'kurs';
+  const courseName = updated.courses?.name ?? 'obuka';
   const approved = body.status === 'approved';
   const courseHref = updated.courses?.slug ? `/courses/${updated.courses.slug}` : '/courses';
 
   notifyAfterResponse({
     userIds: [updated.student_id],
     type: approved ? 'purchase_approved' : 'purchase_denied',
-    title: approved ? 'Pristup kursu je odobren' : 'Zahtjev za pristup je odbijen',
+    title: approved ? 'Pristup obuci je odobren' : 'Zahtjev za pristup je odbijen',
     body: approved
-      ? `Sada možete da pratite kurs „${courseName}”.`
-      : `Vaš zahtjev za pristup kursu „${courseName}” je odbijen.`,
+      ? `Sada možete pratiti obuku „${courseName}”.`
+      : `Vaš zahtjev za pristup obuci „${courseName}” je odbijen.`,
     link: approved ? courseHref : '/courses',
     email: approved
       ? {
           subject: `Pristup odobren — ${courseName}`,
-          heading: 'Pristup kursu je odobren',
+          heading: 'Pristup obuci je odobren',
           lines: [
-            `Odobren vam je pristup kursu „${courseName}”.`,
+            `Odobren vam je pristup obuci „${courseName}”.`,
             'Moduli se otključavaju redom — završite jedan da biste otvorili sljedeći.',
           ],
-          action: { label: 'Otvori kurs', href: courseHref },
+          action: { label: 'Otvori obuku', href: courseHref },
         }
       : {
           subject: `Zahtjev odbijen — ${courseName}`,
           heading: 'Zahtjev za pristup je odbijen',
           lines: [
-            `Vaš zahtjev za pristup kursu „${courseName}” je odbijen.`,
+            `Vaš zahtjev za pristup obuci „${courseName}” je odbijen.`,
             // True, and worth saying: the unique index excludes `denied`, so a
             // denial is not a permanent block.
-            'Možete poslati novi zahtjev za isti kurs.',
+            'Možete poslati novi zahtjev za istu obuku.',
           ],
-          action: { label: 'Pogledaj kurs', href: courseHref },
+          action: { label: 'Pogledaj obuku', href: courseHref },
         },
   });
 

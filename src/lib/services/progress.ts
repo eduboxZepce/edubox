@@ -130,7 +130,7 @@ export async function maybeIssueCertificate(
   const course = unwrapMaybe(
     await svc.from('courses').select('name, slug').eq('id', courseId).maybeSingle(),
   );
-  const courseName = course?.name ?? 'kurs';
+  const courseName = course?.name ?? 'obuka';
 
   // Points at the certificate itself rather than the dashboard. The page is
   // public and addressed by `readable_id`, so this is the same URL the student
@@ -140,14 +140,14 @@ export async function maybeIssueCertificate(
   notifyAfterResponse({
     userIds: [studentId],
     type: 'certificate_issued',
-    title: 'Čestitamo — završili ste kurs!',
-    body: `Certifikat za kurs „${courseName}” je izdat na vaše ime. Broj: ${inserted.readable_id}.`,
+    title: 'Čestitamo — završili ste obuku!',
+    body: `Certifikat za obuku „${courseName}” je izdan na vaše ime. Broj: ${inserted.readable_id}.`,
     link: certificateHref,
     email: {
-      subject: `Certifikat za kurs ${courseName}`,
-      heading: 'Završili ste kurs',
+      subject: `Certifikat za obuku ${courseName}`,
+      heading: 'Završili ste obuku',
       lines: [
-        `Završili ste sve module kursa „${courseName}”. Čestitamo!`,
+        `Završili ste sve module obuke „${courseName}”. Čestitamo!`,
         `Broj vašeg certifikata je ${inserted.readable_id}.`,
         'Na stranici certifikata možete zatražiti i štampani primjerak koji vam šaljemo poštom.',
       ],

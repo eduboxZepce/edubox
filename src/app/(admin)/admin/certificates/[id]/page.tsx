@@ -64,15 +64,15 @@ export default function AdminCertificateDetailPage(props: PageProps<'/admin/cert
             {row.requested_delivery ? (
               row.delivered_at ? (
                 <Alert severity="success" icon={<LocalShippingOutlinedIcon fontSize="inherit" />}>
-                  <AlertTitle>Štampani certifikat je poslat</AlertTitle>
-                  Poslato {formatDateTime(row.delivered_at)}
+                  <AlertTitle>Štampani certifikat je poslan</AlertTitle>
+                  Poslano {formatDateTime(row.delivered_at)}
                   {row.deliverer ? ` — označio/la ${row.deliverer.full_name}` : ''}. Student je
                   obaviješten.
                 </Alert>
               ) : (
                 <ContentCard
                   title="Zahtjev za štampani certifikat"
-                  description="Student je zatražio da mu se certifikat pošalje poštom. Označite kada je pošiljka predata."
+                  description="Student je zatražio da mu se certifikat pošalje poštom. Označite kada je pošiljka predana."
                 >
                   <CertificateDeliveryActions certificate={row} size="medium" />
                 </ContentCard>
@@ -101,7 +101,7 @@ export default function AdminCertificateDetailPage(props: PageProps<'/admin/cert
               </Grid>
 
               <Grid size={{ xs: 12, md: 6 }}>
-                <ContentCard title="Kurs">
+                <ContentCard title="Obuka">
                   <DetailList
                     items={[
                       {
@@ -131,7 +131,7 @@ export default function AdminCertificateDetailPage(props: PageProps<'/admin/cert
                     ),
                   },
                   {
-                    label: 'Poslato',
+                    label: 'Poslano',
                     value: formatDateTime(row.delivered_at),
                     hidden: !row.delivered_at,
                   },
@@ -140,7 +140,7 @@ export default function AdminCertificateDetailPage(props: PageProps<'/admin/cert
                     value: row.deliverer?.full_name ?? '—',
                     hidden: !row.delivered_at,
                   },
-                  { label: 'Izdat', value: formatDateTime(row.created_at) },
+                  { label: 'Izdan', value: formatDateTime(row.created_at) },
                   { label: 'Posljednja izmjena', value: formatDateTime(row.updated_at) },
                   {
                     label: 'ID',

@@ -21,7 +21,7 @@ export const metadata = pageMetadata({
   absoluteTitle: true,
   // Opens with the brand: for a search on the name, Google skips a description
   // that does not contain it and quotes the footer instead.
-  description: `${SITE.name} — online kursevi s video lekcijama, materijalima i zadacima koje pregleda predavač. Uči svojim tempom i dobij certifikat.`,
+  description: `${SITE.name} — online obuke s video lekcijama, materijalima i zadacima koje pregleda predavač. Uči svojim tempom i dobij certifikat.`,
   path: '/',
 });
 

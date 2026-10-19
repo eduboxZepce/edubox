@@ -58,11 +58,11 @@ export default function PublicHeader() {
           </Link>
           {FEATURES.catalog ? (
             <Link href="/courses" variant="body2" underline="hover" color="text.secondary">
-              Kursevi
+              Obuke
             </Link>
           ) : null}
           <Link href="/#kako-funkcionise" variant="body2" underline="hover" color="text.secondary">
-            Kako funkcioniše
+            Kako funkcionira
           </Link>
           {FEATURES.blog ? (
             <Link href="/blog" variant="body2" underline="hover" color="text.secondary">
@@ -84,7 +84,7 @@ export default function PublicHeader() {
               Prijavi se
             </Button>
             <Button href="/register" variant="contained" size="small">
-              Registruj se
+              Registriraj se
             </Button>
           </Stack>
         )}

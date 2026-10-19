@@ -43,6 +43,9 @@ const ACCEPTED_TYPES: Record<BucketName, readonly string[]> = {
    * becoming a general-purpose file host on a URL anyone can read.
    */
   [BUCKETS.newsletterImages]: ACCEPTED_IMAGE_TYPES,
+
+  // Public too, for the same reason: images only.
+  [BUCKETS.blogImages]: ACCEPTED_IMAGE_TYPES,
 };
 
 /**

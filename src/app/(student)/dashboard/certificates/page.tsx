@@ -36,9 +36,9 @@ export default function StudentCertificatesPage() {
   return (
     <PageContainer>
       <PageHeader
-        breadcrumbs={[{ label: 'Kontrolna tabla', href: '/dashboard' }, { label: 'Certifikati' }]}
+        breadcrumbs={[{ label: 'Kontrolna ploča', href: '/dashboard' }, { label: 'Certifikati' }]}
         title="Certifikati"
-        description="Izdaju se automatski kada završite sve module kursa."
+        description="Izdaju se automatski kada završite sve module obuke."
       />
 
       <ContentCard disablePadding>
@@ -50,10 +50,10 @@ export default function StudentCertificatesPage() {
             <EmptyState
               icon={<WorkspacePremiumOutlinedIcon />}
               title="Još nemate certifikate"
-              description="Završite sve module jednog kursa i certifikat stiže sam."
+              description="Završite sve module jedne obuke i certifikat stiže sam."
               action={
                 <Button href="/dashboard/courses" variant="contained">
-                  Moji kursevi
+                  Moje obuke
                 </Button>
               }
             />
@@ -71,7 +71,7 @@ export default function StudentCertificatesPage() {
                   >
                     <Stack spacing={0.25} sx={{ flex: 1, minWidth: 0 }}>
                       <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                        {certificate.courses?.name ?? 'Kurs više ne postoji'}
+                        {certificate.courses?.name ?? 'Obuka više ne postoji'}
                       </Typography>
                       <Typography variant="caption" color="text.secondary">
                         Broj: {certificate.readable_id} · {formatDate(certificate.created_at)}

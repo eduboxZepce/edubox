@@ -13,7 +13,7 @@ import TextField from '@mui/material/TextField';
  * uses the value (see `useListParams`), so typing stays instant while the
  * request it drives does not fire on every keystroke.
  *
- *   <SearchField value={list.search} onChange={list.setSearch} placeholder="Pretraži kurseve…" />
+ *   <SearchField value={list.search} onChange={list.setSearch} placeholder="Pretraži obuke…" />
  */
 export default function SearchField({
   value,

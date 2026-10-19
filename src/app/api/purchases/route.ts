@@ -100,13 +100,13 @@ export const POST = withRoute(async (req) => {
     userIds: await adminIds(createServiceRoleClient()),
     type: 'purchase_requested',
     title: 'Novi zahtjev za kupovinu',
-    body: `${profile.full_name} je zatražio/la pristup kursu „${course.name}”. Poziv na broj: ${created.readable_id}.`,
+    body: `${profile.full_name} je zatražio/la pristup obuci „${course.name}”. Poziv na broj: ${created.readable_id}.`,
     link: `/admin/purchases/${created.id}`,
     email: {
       subject: `Novi zahtjev za pristup — ${course.name}`,
       heading: 'Novi zahtjev za kupovinu',
       lines: [
-        `${profile.full_name} (${profile.email}) je zatražio/la pristup kursu „${course.name}”.`,
+        `${profile.full_name} (${profile.email}) je zatražio/la pristup obuci „${course.name}”.`,
         // The reference is what makes this actionable: it is what the payment
         // will arrive under, so an admin can reconcile without opening the app.
         `Poziv na broj: ${created.readable_id}.`,

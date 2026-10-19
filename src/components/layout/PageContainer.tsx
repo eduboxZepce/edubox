@@ -8,7 +8,7 @@ import Stack from '@mui/material/Stack';
  * own margins and end up subtly misaligned with each other.
  *
  *   <PageContainer>
- *     <PageHeader title="Kursevi" />
+ *     <PageHeader title="Obuke" />
  *     <ContentCard>…</ContentCard>
  *   </PageContainer>
  *

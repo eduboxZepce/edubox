@@ -1,5 +1,6 @@
 import type { SvgIconComponent } from '@mui/icons-material';
 import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import GavelOutlinedIcon from '@mui/icons-material/GavelOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -59,20 +60,29 @@ export type AdminNavSection = {
  */
 export const ADMIN_NAV: AdminNavSection[] = [
   {
-    // "Kontrolna tabla", matching `<AppHeader>`. It read "Pregled" here and
-    // "Kontrolna tabla" in the top bar — one destination with two names, which
+    // "Kontrolna ploča", matching `<AppHeader>`. It read "Pregled" here and
+    // "Kontrolna ploča" in the top bar — one destination with two names, which
     // is exactly the ambiguity the course menu's "Pregled" was renamed for.
-    items: [{ label: 'Kontrolna tabla', href: '/admin', icon: DashboardOutlinedIcon, exact: true }],
+    items: [{ label: 'Kontrolna ploča', href: '/admin', icon: DashboardOutlinedIcon, exact: true }],
   },
   {
     title: 'Sadržaj',
     items: [
-      { label: 'Kursevi', href: '/admin/courses', icon: LibraryBooksOutlinedIcon },
+      { label: 'Obuke', href: '/admin/courses', icon: LibraryBooksOutlinedIcon },
       {
         label: 'Kategorije',
         href: '/admin/categories',
         icon: CategoryOutlinedIcon,
         roles: ['admin'],
+      },
+      {
+        // Admin only: the blog speaks for the platform, not for a course author
+        // (`blog_posts_admin_write`, migration 0035).
+        label: 'Blog',
+        href: '/admin/blog',
+        icon: ArticleOutlinedIcon,
+        roles: ['admin'],
+        feature: 'blog',
       },
     ],
   },
@@ -86,7 +96,7 @@ export const ADMIN_NAV: AdminNavSection[] = [
         feature: 'purchases',
       },
       {
-        label: 'Predati zadaci',
+        label: 'Predani zadaci',
         href: '/admin/submissions',
         icon: AssignmentTurnedInOutlinedIcon,
         feature: 'tasks',

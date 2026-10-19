@@ -75,16 +75,16 @@ export const PATCH = withRoute(async (req, ctx: Ctx) => {
     notifyAfterResponse({
       userIds: [updated.owner_id],
       type: 'course_published',
-      title: 'Vaš kurs je objavljen',
-      body: `Kurs „${updated.name}” je objavljen i vidljiv je u katalogu.`,
+      title: 'Vaša obuka je objavljena',
+      body: `Obuka „${updated.name}” je objavljena i vidljiva je u katalogu.`,
       link: `/courses/${updated.slug}`,
       email: {
-        subject: `Kurs je objavljen — ${updated.name}`,
-        heading: 'Vaš kurs je objavljen',
+        subject: `Obuka je objavljena — ${updated.name}`,
+        heading: 'Vaša obuka je objavljena',
         lines: [
-          `Administrator je objavio kurs „${updated.name}”. Sada je vidljiv u javnom katalogu i studenti mogu da traže pristup.`,
+          `Administrator je objavio obuku „${updated.name}”. Sada je vidljiva u javnom katalogu i studenti mogu tražiti pristup.`,
         ],
-        action: { label: 'Pogledaj kurs', href: `/courses/${updated.slug}` },
+        action: { label: 'Pogledaj obuku', href: `/courses/${updated.slug}` },
       },
     });
   }

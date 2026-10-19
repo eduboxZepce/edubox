@@ -30,8 +30,8 @@ export default function CertificateDelivery({ certificate }: { certificate: Cert
   if (certificate.delivered_at) {
     return (
       <Alert severity="success" icon={<LocalShippingOutlinedIcon fontSize="inherit" />}>
-        <AlertTitle>Štampani certifikat je poslat</AlertTitle>
-        Poslato {formatDate(certificate.delivered_at)}. Ako pošiljka ne stigne u razumnom roku,
+        <AlertTitle>Štampani certifikat je poslan</AlertTitle>
+        Poslano {formatDate(certificate.delivered_at)}. Ako pošiljka ne stigne u razumnom roku,
         javite nam se.
       </Alert>
     );
@@ -41,8 +41,8 @@ export default function CertificateDelivery({ certificate }: { certificate: Cert
     return (
       <Stack spacing={1.5}>
         <Alert severity="info" icon={<LocalShippingOutlinedIcon fontSize="inherit" />}>
-          <AlertTitle>Zahtjev je poslat</AlertTitle>
-          Tražili ste štampani primjerak. Javit ćemo vam kada bude poslat poštom.
+          <AlertTitle>Zahtjev je poslan</AlertTitle>
+          Tražili ste štampani primjerak. Javit ćemo vam kada bude poslan poštom.
         </Alert>
         {/* Withdrawing is allowed and notifies nobody — it just takes the row
             off the admin's queue. Same endpoint, `requested_delivery: false`. */}
@@ -82,7 +82,7 @@ export default function CertificateDelivery({ certificate }: { certificate: Cert
             request.mutate(
               { certificateId: certificate.id },
               {
-                onSuccess: () => toast.success('Zahtjev za štampani certifikat je poslat.'),
+                onSuccess: () => toast.success('Zahtjev za štampani certifikat je poslan.'),
                 onError: (error) => toast.error(errorMessage(error)),
               },
             );

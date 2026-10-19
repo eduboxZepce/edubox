@@ -61,11 +61,11 @@ export default function EditCoursePage(props: PageProps<'/admin/courses/[id]/edi
       <PageContainer>
         <ContentCard>
           <EmptyState
-            title="Kurs nije pronađen"
-            description="Ovaj kurs ne postoji ili nemate pristup njemu."
+            title="Obuka nije pronađena"
+            description="Ova obuka ne postoji ili nemate pristup njoj."
             action={
               <Button href="/admin/courses" variant="contained">
-                Nazad na kurseve
+                Nazad na obuke
               </Button>
             }
           />
@@ -76,7 +76,7 @@ export default function EditCoursePage(props: PageProps<'/admin/courses/[id]/edi
 
   return (
     <PageContainer maxWidth="form">
-      <QueryState query={course} errorTitle="Kurs nije moguće učitati">
+      <QueryState query={course} errorTitle="Obuku nije moguće učitati">
         {(data) => <EditCourseContent course={data} />}
       </QueryState>
     </PageContainer>
@@ -120,9 +120,9 @@ function EditCourseContent({ course }: { course: Course }) {
     // The slug may differ from what was submitted: sending '' asks the database
     // to regenerate it from the name, so report what was actually stored.
     if (saved.slug !== course.slug) {
-      toast.success(`Kurs je sačuvan. Nova adresa: /courses/${saved.slug}`);
+      toast.success(`Obuka je sačuvana. Nova adresa: /courses/${saved.slug}`);
     } else {
-      toast.success(`Kurs „${saved.name}” je sačuvan.`);
+      toast.success(`Obuka „${saved.name}” je sačuvana.`);
     }
 
     router.push('/admin/courses');
@@ -131,9 +131,9 @@ function EditCourseContent({ course }: { course: Course }) {
   return (
     <Stack spacing={3}>
       <PageHeader
-        breadcrumbs={[{ label: 'Kursevi', href: '/admin/courses' }, { label: course.name }]}
-        title="Izmjena kursa"
-        description="Promjene su odmah vidljive na javnoj stranici kursa."
+        breadcrumbs={[{ label: 'Obuke', href: '/admin/courses' }, { label: course.name }]}
+        title="Izmjena obuke"
+        description="Promjene su odmah vidljive na javnoj stranici obuke."
         actions={
           <Stack direction="row" spacing={1.5}>
             <Button href={`/admin/courses/${course.id}/modules`} variant="outlined">

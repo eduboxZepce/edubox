@@ -92,8 +92,8 @@ export default function CategoryActions({ category }: { category: CategoryWithCo
               Kategoriju <strong>{category.name}</strong> koristi{' '}
               <strong>{formatCourseCount(category.course_count)}</strong>.{' '}
               {category.course_count === 1
-                ? 'Taj kurs neće biti obrisan, ali će ostati bez kategorije.'
-                : 'Ti kursevi neće biti obrisani, ali će ostati bez kategorije.'}{' '}
+                ? 'Ta obuka neće biti obrisana, ali će ostati bez kategorije.'
+                : 'Te obuke neće biti obrisane, ali će ostati bez kategorije.'}{' '}
               Ova akcija se ne može poništiti.
             </>
           ) : (

@@ -64,7 +64,7 @@ export default function QuizForm({
     <Form form={form} onSubmit={onSubmit} pendingLabel={pendingLabel}>
       <ContentCard
         title="Prag prolaznosti"
-        description="Procenat tačnih odgovora potreban da student položi kviz."
+        description="Postotak tačnih odgovora potreban da student položi kviz."
       >
         <Grid container spacing={2}>
           <Grid size={{ xs: 12, sm: 5 }}>

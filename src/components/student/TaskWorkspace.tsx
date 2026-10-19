@@ -81,7 +81,7 @@ export default function TaskWorkspace({
         breadcrumbs={[
           // The catalogue crumb goes with the catalogue; the course is still a
           // reachable page for anyone who can open this one.
-          ...(FEATURES.catalog ? [{ label: 'Kursevi', href: '/courses' }] : []),
+          ...(FEATURES.catalog ? [{ label: 'Obuke', href: '/courses' }] : []),
           { label: courseName, href: `/courses/${courseSlug}` },
           { label: moduleTitle, href: moduleHref },
           { label: 'Zadatak' },
@@ -97,14 +97,14 @@ export default function TaskWorkspace({
       >
         {(data) => (
           <Stack spacing={3}>
-            <ContentCard title="Šta treba uraditi">
+            <ContentCard title="Što treba uraditi">
               <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>
                 {data.text}
               </Typography>
             </ContentCard>
 
             {data.task_files.length > 0 ? (
-              <ContentCard title="Prilozi" description="Fajlovi uz zadatak." disablePadding>
+              <ContentCard title="Prilozi" description="Datoteke uz zadatak." disablePadding>
                 <Stack divider={<Divider />}>
                   {data.task_files.map((file) => (
                     <Stack
@@ -189,18 +189,18 @@ function NewSubmission({ taskId }: { taskId: string }) {
           body: { attachment_path: path },
         });
       } catch (error) {
-        toast.warning(`Rješenje je predato, ali prilog nije dodat: ${errorMessage(error)}`);
+        toast.warning(`Rješenje je predano, ali prilog nije dodan: ${errorMessage(error)}`);
         return;
       }
     }
 
-    toast.success('Rješenje je predato. Predavač će ga pregledati.');
+    toast.success('Rješenje je predano. Predavač će ga pregledati.');
   }
 
   return (
     <ContentCard
       title="Predaj rješenje"
-      description="Opišite šta ste uradili i po potrebi priložite fajl. Predavač odgovara u istoj prepisci."
+      description="Opišite što ste uradili i po potrebi priložite datoteku. Predavač odgovara u istoj prepisci."
     >
       <MessageComposer
         label="Vaše rješenje"

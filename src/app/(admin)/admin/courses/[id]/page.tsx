@@ -91,8 +91,8 @@ export default function AdminCourseOverviewPage(props: PageProps<'/admin/courses
       <PageContainer>
         <ContentCard>
           <EmptyState
-            title="Kurs nije pronađen"
-            description="Ovaj kurs ne postoji ili nemate pristup njemu."
+            title="Obuka nije pronađena"
+            description="Ova obuka ne postoji ili nemate pristup njoj."
           />
         </ContentCard>
       </PageContainer>
@@ -101,11 +101,11 @@ export default function AdminCourseOverviewPage(props: PageProps<'/admin/courses
 
   return (
     <PageContainer>
-      <QueryState query={course} errorTitle="Kurs nije moguće učitati">
+      <QueryState query={course} errorTitle="Obuku nije moguće učitati">
         {(row) => (
           <>
             <PageHeader
-              breadcrumbs={[{ label: 'Kursevi', href: '/admin/courses' }, { label: row.name }]}
+              breadcrumbs={[{ label: 'Obuke', href: '/admin/courses' }, { label: row.name }]}
               title={row.name}
               description={row.description ?? undefined}
               actions={
@@ -141,7 +141,7 @@ export default function AdminCourseOverviewPage(props: PageProps<'/admin/courses
                     </Grid>
                     <Grid size={{ xs: 6, md: statSpan }}>
                       <StatCard
-                        label="Završilo kurs"
+                        label="Završilo obuku"
                         value={data.completed_count}
                         icon={WorkspacePremiumOutlinedIcon}
                       />
@@ -177,8 +177,8 @@ export default function AdminCourseOverviewPage(props: PageProps<'/admin/courses
                       >
                         <AssignmentTurnedInOutlinedIcon color="action" />
                         <Typography variant="body2" sx={{ flex: 1 }}>
-                          {data.pending_submissions} predatih rješenja čeka vaš pregled na ovom
-                          kursu.
+                          {data.pending_submissions} predanih rješenja čeka vaš pregled na ovoj
+                          obuci.
                         </Typography>
                         <Button
                           href={`/admin/submissions?courseId=${id}`}
@@ -192,7 +192,7 @@ export default function AdminCourseOverviewPage(props: PageProps<'/admin/courses
                   ) : null}
 
                   <ContentCard
-                    title="Studenti na kursu"
+                    title="Studenti na obuci"
                     description={`${data.module_count} ${data.module_count === 1 ? 'modul' : 'modula'} · napredak po studentu`}
                     disablePadding
                   >

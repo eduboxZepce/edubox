@@ -62,8 +62,8 @@ export default function CourseOwnerSection({ course }: { course: Course }) {
       });
       toast.success(
         ownerId === ''
-          ? 'Kurs više nema predavača.'
-          : `Kurs je dodijeljen: ${selected?.full_name}.`,
+          ? 'Obuka više nema predavača.'
+          : `Obuka je dodijeljena: ${selected?.full_name}.`,
       );
       setConfirming(false);
     } catch (error) {
@@ -74,19 +74,19 @@ export default function CourseOwnerSection({ course }: { course: Course }) {
   return (
     <ContentCard
       title="Predavač"
-      description="Predavač može da uređuje ovaj kurs i da pregleda predata rješenja na njemu."
+      description="Predavač može uređivati ovu obuku i pregledati predana rješenja na njoj."
     >
       <Stack spacing={2}>
         {!course.owner_id ? (
           <Alert severity="warning">
-            Ovaj kurs trenutno nema predavača — nijedan predavač ne može da ga uređuje. Dodijelite
-            ga nekome ili ga uređujte kao administrator.
+            Ova obuka trenutno nema predavača — nijedan predavač je ne može uređivati. Dodijelite je
+            nekome ili je uređujte kao administrator.
           </Alert>
         ) : null}
 
         {selected?.deactivated_at ? (
           <Alert severity="warning">
-            Trenutni predavač je deaktiviran i ne može da pristupi kursu. Dodijelite kurs drugom
+            Trenutni predavač je deaktiviran i ne može pristupiti obuci. Dodijelite obuku drugom
             predavaču.
           </Alert>
         ) : null}
@@ -128,18 +128,18 @@ export default function CourseOwnerSection({ course }: { course: Course }) {
             disabled={!changed || update.isPending}
             onClick={() => setConfirming(true)}
           >
-            {update.isPending ? 'Čuvanje…' : 'Dodijeli kurs'}
+            {update.isPending ? 'Čuvanje…' : 'Dodijeli obuku'}
           </Button>
         </Stack>
       </Stack>
 
       <ConfirmDialog
         open={confirming}
-        title="Promijeniti predavača kursa?"
+        title="Promijeniti predavača obuke?"
         description={
           ownerId === ''
-            ? 'Kurs će ostati bez predavača. Nijedan predavač neće moći da ga uređuje niti da pregleda predata rješenja na njemu, dok mu ne dodijelite novog.'
-            : `Kurs se dodjeljuje predavaču ${selected?.full_name ?? ''}. Dobija pravo da uređuje sve module, kvizove i zadatke na njemu i da pregleda predata rješenja. Prethodni predavač gubi taj pristup.`
+            ? 'Obuka će ostati bez predavača. Nijedan predavač je neće moći uređivati niti pregledati predana rješenja na njoj, dok joj ne dodijelite novog.'
+            : `Obuka se dodjeljuje predavaču ${selected?.full_name ?? ''}. Dobiva pravo uređivati sve module, kvizove i zadatke na njoj i pregledati predana rješenja. Prethodni predavač gubi taj pristup.`
         }
         confirmLabel="Dodijeli"
         severity="primary"

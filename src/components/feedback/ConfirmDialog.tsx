@@ -19,7 +19,7 @@ import DialogTitle from '@mui/material/DialogTitle';
  *
  *   <ConfirmDialog
  *     open={confirming}
- *     title="Obrisati kurs?"
+ *     title="Obrisati obuku?"
  *     description="Svi moduli, kvizovi i zadaci bit će trajno obrisani."
  *     confirmLabel="Obriši"
  *     pending={remove.isPending}

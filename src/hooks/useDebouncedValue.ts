@@ -8,7 +8,7 @@ import * as React from 'react';
  * The point is to keep an input responsive while the thing it drives is not.
  * A search box updates its own state on every keystroke — that has to be
  * instant — but the query key should only change once the user pauses, or
- * "kursevi" fires seven requests.
+ * "obuke" fires five requests.
  *
  *   const [search, setSearch] = React.useState('');
  *   const debouncedSearch = useDebouncedValue(search, 300);

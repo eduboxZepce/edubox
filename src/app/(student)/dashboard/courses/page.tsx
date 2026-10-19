@@ -40,28 +40,28 @@ export default function StudentCoursesPage() {
   return (
     <PageContainer>
       <PageHeader
-        breadcrumbs={[{ label: 'Kontrolna tabla', href: '/dashboard' }, { label: 'Moji kursevi' }]}
-        title="Moji kursevi"
+        breadcrumbs={[{ label: 'Kontrolna ploča', href: '/dashboard' }, { label: 'Moje obuke' }]}
+        title="Moje obuke"
         description="Nastavite tamo gdje ste stali."
       />
 
       <QueryState
         query={purchases}
-        errorTitle="Kurseve nije moguće učitati"
+        errorTitle="Obuke nije moguće učitati"
         isEmpty={(page) => page.data.length === 0}
         empty={
           <ContentCard>
             <EmptyState
-              title="Još niste upisani ni na jedan kurs"
+              title="Još niste upisani ni na jednu obuku"
               description={
                 FEATURES.catalog
-                  ? 'Pronađite kurs u katalogu i pošaljite zahtjev za pristup.'
-                  : 'Kursevi kojima imate pristup pojavit će se ovdje.'
+                  ? 'Pronađite obuku u katalogu i pošaljite zahtjev za pristup.'
+                  : 'Obuke kojima imate pristup pojavit će se ovdje.'
               }
               action={
                 FEATURES.catalog ? (
                   <Button href="/courses" variant="contained" startIcon={<ExploreOutlinedIcon />}>
-                    Pregledaj kurseve
+                    Pregledaj obuke
                   </Button>
                 ) : undefined
               }

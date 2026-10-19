@@ -45,7 +45,7 @@ const supabase = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE
  * the ones it made and nothing a human wrote while testing.
  */
 const ISSUE_SUBJECTS = [
-  'Ne mogu da otvorim drugi modul',
+  'Ne mogu otvoriti drugi modul',
   'Pogrešno ime na certifikatu',
   'Da li postoji popust za studente?',
 ];
@@ -66,11 +66,11 @@ function unwrap(result, label) {
 /* -------------------------------------------------------------------------- */
 
 const ACCOUNTS = [
-  { key: 'admin', email: 'admin@kursevi.test', name: 'Milica Petrović', role: 'admin' },
+  { key: 'admin', email: 'admin@kursevi.test', name: 'Amra Kovačević', role: 'admin' },
   { key: 'ana', email: 'ana@kursevi.test', name: 'Ana Anić', role: 'teacher' },
   { key: 'marko', email: 'marko@kursevi.test', name: 'Marko Marković', role: 'teacher' },
-  { key: 'jovana', email: 'jovana@kursevi.test', name: 'Jovana Jovanović', role: 'student' },
-  { key: 'nikola', email: 'nikola@kursevi.test', name: 'Nikola Nikolić', role: 'student' },
+  { key: 'lejla', email: 'lejla@kursevi.test', name: 'Lejla Begović', role: 'student' },
+  { key: 'emir', email: 'emir@kursevi.test', name: 'Emir Hadžić', role: 'student' },
 ];
 
 async function resetAccounts() {
@@ -78,7 +78,14 @@ async function resetAccounts() {
   const { data, error } = await supabase.auth.admin.listUsers({ page: 1, perPage: 1000 });
   if (error) throw new Error(`listUsers: ${error.message}`);
 
-  const seedEmails = new Set(ACCOUNTS.map((a) => a.email));
+  // The two students were renamed (jovana → lejla, nikola → emir) when the
+  // copy moved to Bosnian; their old addresses are still removed so a re-seed
+  // does not leave orphaned accounts behind.
+  const seedEmails = new Set([
+    ...ACCOUNTS.map((a) => a.email),
+    'jovana@kursevi.test',
+    'nikola@kursevi.test',
+  ]);
   for (const user of data.users) {
     if (seedEmails.has(user.email)) {
       const { error: deleteError } = await supabase.auth.admin.deleteUser(user.id);
@@ -126,7 +133,7 @@ const COURSE_NAMES = [
   'Uvod u web programiranje',
   'Napredni JavaScript',
   'Osnove grafičkog dizajna',
-  'Brzi kurs: Git za početnike',
+  'Brza obuka: Git za početnike',
 ];
 
 async function resetContent() {
@@ -159,7 +166,7 @@ async function seedContent(users) {
         {
           name: COURSE_NAMES[0],
           description:
-            'Od nule do prve stranice na internetu. Kroz kurs gradimo HTML, CSS i osnovni JavaScript, korak po korak, bez pretpostavke o prethodnom znanju.',
+            'Od nule do prve stranice na internetu. Kroz obuku gradimo HTML, CSS i osnovni JavaScript, korak po korak, bez pretpostavke o prethodnom znanju.',
           price: 100,
           published: true,
           category_id: categoryId['Programiranje'],
@@ -185,7 +192,7 @@ async function seedContent(users) {
         },
         {
           name: COURSE_NAMES[3],
-          description: 'Kratak kurs sa jednim modulom — dovoljno da naučite osnovne komande.',
+          description: 'Kratka obuka s jednim modulom — dovoljno da naučite osnovne komande.',
           price: 0,
           published: true,
           category_id: categoryId['Programiranje'],
@@ -247,7 +254,7 @@ async function seedQuiz({ moduleByTitle }) {
 
   const questions = [
     {
-      text: 'Šta znači skraćenica HTTP?',
+      text: 'Što znači skraćenica HTTP?',
       answers: [
         { text: 'HyperText Transfer Protocol', correct: true },
         { text: 'HighTicket Transfer Process', correct: false },
@@ -414,7 +421,7 @@ async function seedFiles({ courseId, moduleByTitle }, task) {
     bucket: 'task-files',
     folders: [courseId[COURSE_NAMES[0]], htmlModule.id],
     fileName: 'zadatak-primjer.txt',
-    body: 'Primjer strukture koju treba da napravite:\nindex.html\nstyle.css\n',
+    body: 'Primjer strukture koju trebate napraviti:\nindex.html\nstyle.css\n',
     // Task files are not restricted to PDF — only module materials are, because
     // only those are rendered in-page for students.
     contentType: 'text/plain',
@@ -432,30 +439,30 @@ async function seedActivity(users, { courseId, moduleByTitle }) {
     await supabase
       .from('purchases')
       .insert([
-        // Approved: Jovana can actually open Ana's course.
+        // Approved: Lejla can actually open Ana's course.
         {
-          student_id: users.jovana,
+          student_id: users.lejla,
           course_id: courseId[COURSE_NAMES[0]],
           price: 100,
           status: 'approved',
         },
         // Pending: gives the admin purchases queue a row needing a decision.
         {
-          student_id: users.nikola,
+          student_id: users.emir,
           course_id: courseId[COURSE_NAMES[0]],
           price: 100,
           status: 'requested',
         },
         // Pending on Marko's course, so each teacher has something of their own.
         {
-          student_id: users.jovana,
+          student_id: users.lejla,
           course_id: courseId[COURSE_NAMES[2]],
           price: 75,
           status: 'requested',
         },
         // Approved on the one-module course, so a certificate can be earned.
         {
-          student_id: users.jovana,
+          student_id: users.lejla,
           course_id: courseId[COURSE_NAMES[3]],
           price: 0,
           status: 'approved',
@@ -471,7 +478,7 @@ async function seedActivity(users, { courseId, moduleByTitle }) {
       .from('tasks')
       .insert({
         module_id: moduleByTitle['HTML i CSS osnove'].id,
-        text: 'Napravite jednostavnu HTML stranicu sa naslovom, pasusom i slikom, i stilizujte je pomoću CSS-a. Pošaljite kod kao prilog.',
+        text: 'Napravite jednostavnu HTML stranicu sa naslovom, pasusom i slikom, i stilizirajte je pomoću CSS-a. Pošaljite kod kao prilog.',
       })
       .select()
       .single(),
@@ -481,7 +488,7 @@ async function seedActivity(users, { courseId, moduleByTitle }) {
   const submission = unwrap(
     await supabase
       .from('task_submissions')
-      .insert({ task_id: task.id, student_id: users.jovana, status: 'pending' })
+      .insert({ task_id: task.id, student_id: users.lejla, status: 'pending' })
       .select()
       .single(),
     'insert submission',
@@ -491,7 +498,7 @@ async function seedActivity(users, { courseId, moduleByTitle }) {
     await supabase.from('task_messages').insert([
       {
         submission_id: submission.id,
-        sender_id: users.jovana,
+        sender_id: users.lejla,
         body: 'Poslala sam prvu verziju zadatka. Nisam sigurna da li sam dobro postavila slike.',
       },
     ]),
@@ -503,7 +510,7 @@ async function seedActivity(users, { courseId, moduleByTitle }) {
   const revisionSubmission = unwrap(
     await supabase
       .from('task_submissions')
-      .insert({ task_id: task.id, student_id: users.nikola, status: 'needs_revision' })
+      .insert({ task_id: task.id, student_id: users.emir, status: 'needs_revision' })
       .select()
       .single(),
     'insert second submission',
@@ -513,13 +520,13 @@ async function seedActivity(users, { courseId, moduleByTitle }) {
     await supabase.from('task_messages').insert([
       {
         submission_id: revisionSubmission.id,
-        sender_id: users.nikola,
+        sender_id: users.emir,
         body: 'Evo mog resenja zadatka.',
       },
       {
         submission_id: revisionSubmission.id,
         sender_id: users.ana,
-        body: 'Dobar pocetak, ali nedostaje CSS fajl. Dopunite i posaljite ponovo.',
+        body: 'Dobar pocetak, ali nedostaje CSS datoteka. Dopunite i posaljite ponovo.',
       },
     ]),
     'insert revision messages',
@@ -535,7 +542,7 @@ async function seedActivity(users, { courseId, moduleByTitle }) {
       // would insert as incomplete and the student's unlock would not advance.
       {
         module_id: moduleByTitle['Kako radi internet'].id,
-        student_id: users.jovana,
+        student_id: users.lejla,
         quiz_done: true,
       },
       // Same keys as the row above, deliberately. In a multi-row insert
@@ -548,7 +555,7 @@ async function seedActivity(users, { courseId, moduleByTitle }) {
       // it done regardless, which is what makes the certificate below real.
       {
         module_id: moduleByTitle['Osnovne Git komande'].id,
-        student_id: users.jovana,
+        student_id: users.lejla,
         quiz_done: false,
       },
     ]),
@@ -562,7 +569,7 @@ async function seedActivity(users, { courseId, moduleByTitle }) {
       .from('certificates')
       .insert({
         course_id: courseId[COURSE_NAMES[3]],
-        student_id: users.jovana,
+        student_id: users.lejla,
         requested_delivery: true,
       })
       .select()
@@ -591,12 +598,12 @@ async function seedIssues(users) {
       .from('issues')
       .insert([
         // Waiting on an admin — this is what the queue opens on.
-        { reporter_id: users.jovana, subject: ISSUE_SUBJECTS[0], status: 'open' },
+        { reporter_id: users.lejla, subject: ISSUE_SUBJECTS[0], status: 'open' },
         // Answered but not closed: the middle state, easy to forget exists.
-        { reporter_id: users.nikola, subject: ISSUE_SUBJECTS[1], status: 'answered' },
+        { reporter_id: users.emir, subject: ISSUE_SUBJECTS[1], status: 'answered' },
         // Closed, so the "reply re-opens it" behaviour has something to act on.
         {
-          reporter_id: users.jovana,
+          reporter_id: users.lejla,
           subject: ISSUE_SUBJECTS[2],
           status: 'closed',
           closed_at: new Date().toISOString(),
@@ -613,12 +620,12 @@ async function seedIssues(users) {
     await supabase.from('issue_messages').insert([
       {
         issue_id: bySubject[ISSUE_SUBJECTS[0]].id,
-        sender_id: users.jovana,
+        sender_id: users.lejla,
         body: 'Zavrsio sam prvi modul ali drugi je i dalje zakljucan. Da li nesto propustam?',
       },
       {
         issue_id: bySubject[ISSUE_SUBJECTS[1]].id,
-        sender_id: users.nikola,
+        sender_id: users.emir,
         body: 'Na certifikatu mi pise pogresno prezime. Moze li da se ispravi?',
       },
       {
@@ -628,7 +635,7 @@ async function seedIssues(users) {
       },
       {
         issue_id: bySubject[ISSUE_SUBJECTS[2]].id,
-        sender_id: users.jovana,
+        sender_id: users.lejla,
         body: 'Da li imate popust za studente?',
       },
       {
@@ -655,17 +662,17 @@ async function seedNotifications(users, { certificate, courseId }) {
   unwrap(
     await supabase.from('notifications').insert([
       {
-        user_id: users.jovana,
+        user_id: users.lejla,
         type: 'certificate_issued',
-        title: 'Čestitamo — završili ste kurs!',
-        body: `Certifikat za kurs „${COURSE_NAMES[3]}” je izdat na vaše ime. Broj: ${certificate.readable_id}.`,
+        title: 'Čestitamo — završili ste obuku!',
+        body: `Certifikat za obuku „${COURSE_NAMES[3]}” je izdan na vaše ime. Broj: ${certificate.readable_id}.`,
         link: `/certificates/${certificate.readable_id}`,
       },
       {
-        user_id: users.jovana,
+        user_id: users.lejla,
         type: 'purchase_approved',
-        title: 'Pristup kursu je odobren',
-        body: `Sada možete da pratite kurs „${COURSE_NAMES[0]}”.`,
+        title: 'Pristup obuci je odobren',
+        body: `Sada možete pratiti obuku „${COURSE_NAMES[0]}”.`,
         link: '/dashboard',
         // Read, so the list shows both states.
         read_at: new Date().toISOString(),
@@ -674,21 +681,21 @@ async function seedNotifications(users, { certificate, courseId }) {
         user_id: users.admin,
         type: 'purchase_requested',
         title: 'Novi zahtjev za kupovinu',
-        body: `Nikola Nikolić je zatražio/la pristup kursu „${COURSE_NAMES[0]}”.`,
+        body: `Emir Hadžić je zatražio/la pristup obuci „${COURSE_NAMES[0]}”.`,
         link: '/admin/purchases',
       },
       {
         user_id: users.ana,
         type: 'submission_received',
-        title: 'Novo predato rješenje',
-        body: `Jovana Jovanović je predala rješenje za „HTML i CSS osnove” (${COURSE_NAMES[0]}).`,
+        title: 'Novo predano rješenje',
+        body: `Lejla Begović je predala rješenje za „HTML i CSS osnove” (${COURSE_NAMES[0]}).`,
         link: '/admin/submissions',
       },
       {
         user_id: users.marko,
         type: 'course_published',
-        title: 'Vaš kurs je objavljen',
-        body: `Kurs „${COURSE_NAMES[2]}” je objavljen i vidljiv je u katalogu.`,
+        title: 'Vaša obuka je objavljena',
+        body: `Obuka „${COURSE_NAMES[2]}” je objavljena i vidljiva je u katalogu.`,
         link: `/admin/courses/${courseId[COURSE_NAMES[2]]}`,
         read_at: new Date().toISOString(),
       },
@@ -734,7 +741,7 @@ async function main() {
   log(`  Marko owns: ${COURSE_NAMES[2]}, ${COURSE_NAMES[3]}`);
   log(`  Certificate: ${activity.certificate.readable_id} (delivery requested)`);
   log('  Podrška:    3 zahtjeva (otvoren / odgovoren / zatvoren)');
-  log('  Bell:       3 unread notifications across admin, Ana and Jovana');
+  log('  Bell:       3 unread notifications across admin, Ana and Lejla');
   log('');
 }
 

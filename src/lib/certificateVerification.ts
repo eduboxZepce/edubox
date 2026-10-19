@@ -24,8 +24,8 @@ export function normalizeCertificateNumber(input: string): string {
 /**
  * Lower-case, diacritics folded, punctuation and hyphens turned into spaces.
  *
- * Folding matters: a verifier on an English keyboard types "Jovanovic" for
- * "Jovanović". `đ` does not decompose under NFD, so it is spelled out first —
+ * Folding matters: a verifier on an English keyboard types "Begovic" for
+ * "Begović". `đ` does not decompose under NFD, so it is spelled out first —
  * as `dj`, the usual way it is typed without the letter (and `dj` typed by the
  * visitor folds to the same thing).
  */
@@ -43,8 +43,8 @@ export function normalizeName(input: string): string {
  * Whether `surname` names the holder of `fullName`.
  *
  * Accepted: the whole name, or any run of words after the first one — so
- * "Jovanović", "Petrović" and "Jovanović Petrović" all match "Ana
- * Jovanović-Petrović". The first word alone (a given name) never does: it is
+ * "Begović", "Hadžić" and "Begović Hadžić" all match "Lejla
+ * Begović-Hadžić". The first word alone (a given name) never does: it is
  * far easier to guess, and nobody verifying a CV would type only that.
  */
 export function surnameMatches(fullName: string, surname: string): boolean {

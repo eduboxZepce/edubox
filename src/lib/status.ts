@@ -55,7 +55,7 @@ export const USER_ROLE: Record<UserRole, StatusDisplay> = {
  */
 
 export const publishStatus = (published: boolean): StatusDisplay =>
-  published ? { label: 'Objavljen', color: 'success' } : { label: 'Nacrt', color: 'default' };
+  published ? { label: 'Objavljena', color: 'success' } : { label: 'Nacrt', color: 'default' };
 
 /**
  * Whether an account can still sign in.
@@ -79,12 +79,12 @@ export const accountStatus = (deactivatedAt: string | null): StatusDisplay =>
  * `certificate.delivered_at` straight in and cannot disagree about what counts
  * as sent — the same shape as `accountStatus`.
  *
- * Note "Poslato" wins over "Zatražena dostava": `requested_delivery` stays true
+ * Note "Poslano" wins over "Zatražena dostava": `requested_delivery` stays true
  * after fulfilment (it is the student's record of having asked), so checking it
  * first would leave every posted certificate reading as still pending.
  */
 export const deliveryStatus = (requested: boolean, deliveredAt: string | null): StatusDisplay => {
-  if (deliveredAt) return { label: 'Poslato', color: 'success' };
+  if (deliveredAt) return { label: 'Poslano', color: 'success' };
   return requested
     ? { label: 'Zatražena dostava', color: 'warning' }
     : { label: 'Bez zahtjeva', color: 'default' };

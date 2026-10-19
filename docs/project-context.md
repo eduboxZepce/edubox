@@ -1352,33 +1352,33 @@ purchase` shape `assertCourseAccess` exists to prevent — so a teacher clicking
   route to the catalogue that had been public all along. It is now a real landing page:
   placeholder copy, but a finished structure.
 
+- **Marketing copy may only promise what the product does.** A review found the landing
+  page promising card payment and invoices, a final exam, an assistant who reviews tasks,
+  free intro lessons, accreditations and partners, and a shareable certificate — none of
+  which exist. The true version, which new copy must not contradict: payment is a bank
+  transfer with a reference, approved by an admin; a free course is approved too, with no
+  payment wording; a certificate is issued when the last module is done (quiz passed,
+  task accepted, or a content-only module marked done); the owning teacher reviews tasks;
+  a stranger can only verify a certificate with its number **and** the holder's surname.
+  Footer social links stay empty until real profile URLs exist.
+
 - **`<DraftPage>` is not `<PlaceholderPage>`.** The admin one listed _engineering_ work
   still to do. These pages are not waiting on code — route, chrome and footer link are
   finished — they are waiting on **copy**, which is someone else's job, so the notice says
   that. It matters most for the legal pages: terms with invented boilerplate would be worse
   than terms that admit they are unwritten. `sections` sketches the intended outline.
 
-- **The blog is a typed array in `src/lib/blog.ts`, not a table.** The point is indexable
-  public content, not a publishing workflow; an array beats a table plus an editor plus
-  policies, and makes publishing a code review. Empty on purpose rather than seeded with
-  lorem ipsum, which would be indexed before anyone remembered to delete it. If it outgrows
-  a couple of dozen posts the next step is MDX on disk, **not** a database — both keep
-  "publishing is a deploy".
+- ~~**The blog is a typed array in `src/lib/blog.ts`, not a table.**~~ **Reversed** — see
+  "The blog lives in the database" below. The premise was that publishing should be a code
+  review; in practice the people writing posts are not the people with commit access.
 
-- **`BlogPost` is deliberately six fields**: `slug`, `title`, `excerpt`, `publishedAt`,
-  `image?` (`{ src, alt }`) and `content`. An earlier draft also carried author, tags,
-  updatedAt, category, readingMinutes, draft and an seo override block; the project owner
-  cut them, and the reasoning is worth keeping — **those are workflow features, and there
-  is no workflow.** The posts are written once, for SEO, and pasted in. A draft flag with
-  no drafts and a byline with one author are structure that has to be maintained and never
-  earns anything.
-
-  There is deliberately no numeric `id` either — a second identifier would need keeping in
-  sync and nothing would read it; the URL is what links, analytics and search results are
-  keyed by. As with `courses.slug`, **a published slug must never change.**
-
-  `excerpt` is the one field to resist trimming: it is the meta description as well as the
-  card summary, and it is the most SEO-relevant text after the title and the body.
+- **`BlogPost` is deliberately minimal**: `slug`, `title`, `excerpt`, `publishedAt`,
+  `image?` (`{ src, alt }`), `category?` and `content` — the same fields survived the move
+  into `blog_posts`. Author, tags, draft flag and an seo override block were cut by the
+  project owner — **those are workflow features, and there is no workflow.** A post is live
+  the moment it is saved. `excerpt` is the one field to resist trimming: it is the meta
+  description as well as the card summary. As with `courses.slug`, **a published slug must
+  never change.**
 
 - **`<MarkdownContent>` renders it, as a Server Component.** The blog exists to be
   crawled, so the article is parsed on the server and is in the initial HTML rather than
@@ -1386,21 +1386,46 @@ purchase` shape `assertCourseAccess` exists to prevent — so a teacher clicking
   to tell that apart from a client render. The same component renders the legal pages and
   the admin editor's preview.
 
-- **A ``` fence inside `content` would terminate the TypeScript template literal.**
-  Markdown accepts `~~~` as an equivalent fence — use that. Inline code needs an escaped
-  backtick. If posts ever get code-heavy enough that this stops being tolerable, that is
-  the trigger for the move to `.md` files on disk (which would also need
-  `outputFileTracingIncludes`, the same trap the certificate fonts hit).
-
-- **Array order is display order.** There is no sort and no draft flag — newest goes at the
-  top of `BLOG_POSTS` by hand. `publishedAt` is kept for the article metadata and the date
-  shown on a post, not for ordering; whether to _display_ it is a separate call, since a
-  visible old date can make a post read as abandoned.
-
 - **`image` is an object, not a URL string, because `alt` is not optional** — it is both
-  the accessible name and how the image itself gets indexed. It carries no `width`/`height`:
-  those existed to prevent layout shift, and the page fixes the aspect ratio in CSS
-  instead.
+  the accessible name and how the image itself gets indexed. The table enforces it
+  (`blog_posts_image_alt_check`).
+
+### The blog lives in the database (migration 0035)
+
+- `blog_posts`, managed at `/admin/blog` (list → `/new` / `/{id}`), **admin only** — the
+  blog speaks for the platform, not for a course author. Public SELECT, admin-only writes.
+  The 15 posts from the old array were copied in by the migration.
+
+- **The public pages stay static (ISR).** They read through `createPublicClient()` in
+  `src/lib/server/blog.ts`, so no cookies and no dynamic rendering. Every admin write calls
+  `revalidateBlog(...slugs)`; `revalidate = 3600` is only the fallback for edits made
+  straight in the database. **The literal `/blog/{slug}` paths must be revalidated** —
+  `revalidatePath('/blog/[slug]', 'page')` alone was measured to leave an edited post
+  serving its old HTML. PATCH reads the old slug first, so a slug change clears both URLs.
+
+- **Order is `published_at desc`.** Array order used to be display order, and the array was
+  oldest-first, so the featured post on `/blog` changed from the oldest to the newest when
+  this shipped. A future date sorts a post to the top; it does **not** schedule it.
+
+- **The slug works like a course slug** — `blog_posts_set_slug` derives it from the title
+  on insert, never on rename, and `''` regenerates it. Not accepted on create; editable on
+  the edit page with the same warning.
+
+- **Images: `blog-images/{post_id}/…`, a public bucket.** Cover and pasted inline images
+  share the folder, so DELETE empties it (best effort, after the row is gone). The create
+  page generates the post id with `crypto.randomUUID()` and sends it in the POST, so images
+  pasted into an unsaved post already have their folder, and the cover can be uploaded
+  _before_ the insert — the edit-page order, where a failed upload saves nothing. Cost:
+  an abandoned draft leaves images under an id no row has.
+
+- **`image_path` holds two kinds of value.** Migrated posts point at `public/images/blog/…`
+  (root-relative); uploads are bucket paths. `blogImageUrl()` tells them apart by the
+  leading slash. Don't delete `public/images/blog/` while rows reference it.
+
+- **Unknown and deleted slugs are a soft 404** (200 + `noindex`), like `/courses/[slug]`.
+  `dynamicParams = false` was what made them real 404s, and it cannot survive posts being
+  dynamic. Removing `[slug]/loading.tsx` does not help — `/blog/loading.tsx` also wraps the
+  segment. A real status would need a database read in `proxy.ts` on every blog request.
 
 ### Deliberately not built
 
@@ -1591,6 +1616,52 @@ purchase` shape `assertCourseAccess` exists to prevent — so a teacher clicking
   Denormalised `notifications` rows are deliberately never rewritten (they record what
   someone was told at the time), so old notifications keep their ekavian wording forever.
   That is correct, and it is why a stray `zahtev` in an old notification body is not a bug.
+
+### Second pass: Bosnian vocabulary, not just the jat reflex
+
+- The ijekavian sweep fixed the vowel but left Serbian _words_. A second pass replaced
+  them; these are the rules a new string must follow:
+
+  | Serbian (gone)                                 | Bosnian (use)                                   |
+  | ---------------------------------------------- | ----------------------------------------------- |
+  | kurs, kursevi                                  | **obuka**, obuke (feminine — see below)         |
+  | šta                                            | **što**                                         |
+  | -isati / -ovati loanwords: generiše, registruj | **-irati**: generira, registriraj, konfiguriran |
+  | poslat, izdat, dodat, predat, zadat            | **poslan, izdan, dodan, predan, zadan**         |
+  | može da otvori, treba da uradi                 | **infinitive**: može otvoriti, treba uraditi    |
+  | dobija, dobijaš                                | **dobiva, dobivaš**                             |
+  | fajl                                           | **datoteka** (feminine)                         |
+  | karakter (znak), poklapati se                  | **znak**, **podudarati se**                     |
+  | Kontrolna tabla, Podešavanja                   | **Kontrolna ploča**, **Postavke**               |
+  | otpremiti (upload)                             | **učitati**                                     |
+  | strana (PDF page), procenat, cio broj          | **stranica**, **postotak**, **cijeli broj**     |
+
+- **`kurs` → `obuka` changes gender, so it is never a find-and-replace.** Every adjective,
+  participle and pronoun that agrees with it moves too: _Kurs nije pronađen_ → _Obuka nije
+  pronađena_, _ovaj kurs … njemu_ → _ova obuka … njoj_, _Novi kurs_ → _Nova obuka_. The
+  plural genitive is _obuka_, so `pluralBs(n, 'obuka', 'obuke', 'obuka')`. `publishStatus`
+  says _Objavljena_ for the same reason. Code identifiers (`course`, `/courses`) stay
+  English, per §7.
+
+- **`poslat ćemo` is not a participle.** The analytic future (_poslat ćemo ti email_) is
+  correct Bosnian and must survive any `poslat` → `poslan` sweep; only the standalone
+  participle changes.
+
+- **Kept on purpose:** `ko`/`niko` (standard Bosnian; `tko` would be Croatian), `tačan`,
+  `historija`, `sedmica`, `Sačuvaj`, `nalog` (not `račun`, which also means _invoice_ on
+  the payment screens), and the role label `Student`.
+
+- **Seed people have Bosnian names.** The students are now `lejla@` (Lejla Begović) and
+  `emir@` (Emir Hadžić), the admin is Amra Kovačević. The seed still deletes the old
+  `jovana@`/`nikola@` accounts so a re-seed leaves nothing orphaned.
+
+- **The blog posts and legal texts were converted in both places.** The migration files
+  (0034, 0035) now hold the Bosnian text, so a fresh database gets it. The linked database
+  had already run both, so its rows were rewritten once by a one-off script, which only
+  overwrote rows that were unchanged since they were seeded. 0034 and 0035 therefore no
+  longer match byte-for-byte what originally ran; that is the only divergence.
+
+- **Not converted, deliberately:** notification rows already sent (see above).
 
 ### "Prijava" was the wrong word for a support request
 
@@ -1812,11 +1883,10 @@ course-scoped page, add it there or it is URL-only.
 
 ### Legal documents live in the database, unlike the blog
 
-- `legal_documents` holds `terms` and `privacy`, edited at `/admin/settings/legal`. This is
-  deliberately **not** the blog's treatment: the blog is a typed array in the repo because
-  publishing there should be a code review, but a privacy policy changes in response to a
-  lawyer or a regulator, sometimes urgently, and needing a deploy to correct one is the
-  wrong trade.
+- `legal_documents` holds `terms` and `privacy`, edited at `/admin/settings/legal`. A
+  privacy policy changes in response to a lawyer or a regulator, sometimes urgently, and
+  needing a deploy to correct one is the wrong trade. (The blog has since followed —
+  migration 0035.)
 
 - Keyed by a text slug with a check constraint, so a third document is a one-line migration
   — the right amount of friction for a legal text. Empty `content` is a real state and
@@ -1934,8 +2004,7 @@ course-scoped page, add it there or it is URL-only.
   rather than maintaining a separate document model, so the stored value is exactly what
   renders. That is why it is a Markdown editor and not a WYSIWYG one: TipTap and friends are
   HTML-native, so storing Markdown would mean converting both ways and losing fidelity on
-  every round trip — and the blog is already earmarked to move to `.md` files on disk if it
-  grows, which only works while the stored form is portable.
+  every round trip — and portable Markdown keeps every storage option open.
 
 - **`ssr: false` on the dynamic import is required, not an optimisation.** The library
   touches `window` at module scope; without it the page 500s on the server.
@@ -2248,12 +2317,10 @@ course-scoped page, add it there or it is URL-only.
   indexing back on. Signed-in groups, module/quiz/task pages and the password flow are
   `noindex` everywhere.
 
-- **`/blog/[slug]` has `dynamicParams = false`.** With a `loading.tsx` the response is
-  committed as 200 before `notFound()` runs, so Next falls back to injecting `noindex` —
-  a "soft 404". The blog is a fixed array, so unknown slugs are now a real 404 status.
-  `/courses/[slug]` cannot do the same (drafts must stay previewable) and keeps the
-  `noindex` fallback. Note `dynamicParams` is only honoured by a production build;
-  `next dev` still answers 200.
+- ~~**`/blog/[slug]` has `dynamicParams = false`.**~~ **Gone** with the move to the
+  database: both `/blog/[slug]` and `/courses/[slug]` now answer an unknown slug with the
+  `noindex` soft 404, because `notFound()` runs after a `loading.tsx` has committed the
+  response as 200.
 
 - **The sitemap follows the feature flags** and revalidates hourly, so a newly published
   course appears without a deploy. `priority`/`changefreq` are omitted (Google ignores
@@ -2353,13 +2420,13 @@ course-scoped page, add it there or it is URL-only.
   (pending and needs_revision), progress and a certificate. Password for all
   accounts: `Test1234!`. Treat all of it as disposable.
 
-  | Email                 | Role    |                                                                                                                  |
-  | --------------------- | ------- | ---------------------------------------------------------------------------------------------------------------- |
-  | `admin@kursevi.test`  | admin   | Milica Petrović                                                                                                  |
-  | `ana@kursevi.test`    | teacher | owns _Uvod u web programiranje_ (published, 3 modules, quiz + task) and _Napredni JavaScript_ (draft, 0 modules) |
-  | `marko@kursevi.test`  | teacher | owns _Osnove grafičkog dizajna_ (2 modules) and _Brzi kurs: Git_ (1 module)                                      |
-  | `jovana@kursevi.test` | student | approved purchase, 1 module done, open submission, a certificate                                                 |
-  | `nikola@kursevi.test` | student | pending request + a `needs_revision` submission                                                                  |
+  | Email                | Role    |                                                                                                                  |
+  | -------------------- | ------- | ---------------------------------------------------------------------------------------------------------------- |
+  | `admin@kursevi.test` | admin   | Amra Kovačević                                                                                                   |
+  | `ana@kursevi.test`   | teacher | owns _Uvod u web programiranje_ (published, 3 modules, quiz + task) and _Napredni JavaScript_ (draft, 0 modules) |
+  | `marko@kursevi.test` | teacher | owns _Osnove grafičkog dizajna_ (2 modules) and _Brza obuka: Git_ (1 module)                                     |
+  | `lejla@kursevi.test` | student | approved purchase, 1 module done, open submission, a certificate                                                 |
+  | `emir@kursevi.test`  | student | pending request + a `needs_revision` submission                                                                  |
 
 - ~~No UI for assigning a course to a teacher.~~ **Closed** — `<CourseOwnerSection>` on
   the course edit page, admin only. (Original note:)

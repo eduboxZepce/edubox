@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
  *   <FormSwitch
  *     name="published"
  *     label="Objavljen"
- *     description="Objavljeni kursevi su vidljivi svim posjetiocima."
+ *     description="Objavljene obuke su vidljive svim posjetiocima."
  *   />
  */
 export default function FormSwitch<TFieldValues extends FieldValues = FieldValues>({

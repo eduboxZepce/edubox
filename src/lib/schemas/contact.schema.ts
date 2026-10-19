@@ -8,7 +8,7 @@ import { z } from 'zod';
  */
 export const contactRequestSchema = z.object({
   name: z.string().trim().min(1, 'Ime je obavezno').max(200),
-  email: z.string().trim().email('Email adresa nije validna').max(320),
+  email: z.string().trim().email('Email adresa nije ispravna').max(320),
   subject: z.string().trim().min(1, 'Tema je obavezna').max(200),
   message: z.string().trim().min(1, 'Poruka je obavezna').max(5000),
 });

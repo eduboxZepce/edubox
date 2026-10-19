@@ -13,7 +13,7 @@ import { useCourses } from '@/hooks/useCourses';
 import { useCategoryOptions } from '@/hooks/useCategories';
 
 /**
- * "Šta trenutno možeš upisati" — the featured-courses grid on the landing page.
+ * "Što trenutno možeš upisati" — the featured-courses grid on the landing page.
  *
  * Pulls the first 6 courses from `GET /api/courses`. There is no "featured"
  * flag on a course, so this is simply whatever the API returns first.
@@ -35,7 +35,7 @@ export default function FeaturedCourses() {
   return (
     <QueryState
       query={courses}
-      errorTitle="Kurseve nije moguće učitati"
+      errorTitle="Obuke nije moguće učitati"
       isEmpty={(page) => page.data.length === 0}
       empty={null}
     >
@@ -49,10 +49,10 @@ export default function FeaturedCourses() {
             >
               <Stack spacing={1}>
                 <Typography variant="overline" color="primary" sx={{ letterSpacing: 1.2 }}>
-                  Istaknuti kursevi
+                  Istaknute obuke
                 </Typography>
                 <Typography variant="h3" sx={{ fontSize: { xs: 28, md: 38 } }}>
-                  Šta trenutno možeš upisati
+                  Što trenutno možeš upisati
                 </Typography>
               </Stack>
 
@@ -62,7 +62,7 @@ export default function FeaturedCourses() {
                 endIcon={<ArrowForwardRoundedIcon />}
                 sx={{ alignSelf: { xs: 'flex-start', sm: 'auto' }, flexShrink: 0 }}
               >
-                Svi kursevi
+                Sve obuke
               </Button>
             </Stack>
           </Reveal>

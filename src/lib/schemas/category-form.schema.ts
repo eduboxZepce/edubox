@@ -25,7 +25,7 @@ export const categoryFormSchema = z.object({
     .string({ error: 'Naziv je obavezan.' })
     .trim()
     .min(1, 'Naziv je obavezan.')
-    .max(120, 'Naziv može imati najviše 120 karaktera.'),
+    .max(120, 'Naziv može imati najviše 120 znakova.'),
 });
 
 export type CategoryFormValues = z.output<typeof categoryFormSchema>;

@@ -35,12 +35,12 @@ export const courseFormSchema = z.object({
     .string({ error: 'Naziv je obavezan.' })
     .trim()
     .min(1, 'Naziv je obavezan.')
-    .max(200, 'Naziv može imati najviše 200 karaktera.'),
+    .max(200, 'Naziv može imati najviše 200 znakova.'),
 
   description: z
     .string()
     .trim()
-    .max(5000, 'Opis može imati najviše 5000 karaktera.')
+    .max(5000, 'Opis može imati najviše 5000 znakova.')
     // The textarea always yields a string, so the field is required at form
     // level and merely empty — `toCreateCoursePayload` turns '' into undefined.
     .default(''),
@@ -48,7 +48,7 @@ export const courseFormSchema = z.object({
   category_id: z.uuid('Izaberite ispravnu kategoriju.').nullable().default(null),
 
   price: z
-    .number({ error: 'Unesite cijenu. Za besplatan kurs unesite 0.' })
+    .number({ error: 'Unesite cijenu. Za besplatnu obuku unesite 0.' })
     .nonnegative('Cijena ne može biti negativna.')
     .max(10_000_000, 'Cijena je nerealno visoka.'),
 
@@ -66,7 +66,7 @@ export const courseFormSchema = z.object({
   slug: z
     .string()
     .trim()
-    .max(SLUG_MAX_LENGTH, `Adresa može imati najviše ${SLUG_MAX_LENGTH} karaktera.`)
+    .max(SLUG_MAX_LENGTH, `Adresa može imati najviše ${SLUG_MAX_LENGTH} znakova.`)
     .refine((value) => value === '' || SLUG_PATTERN.test(value), SLUG_MESSAGE)
     .default(''),
 

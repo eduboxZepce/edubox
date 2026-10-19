@@ -110,7 +110,7 @@ export default function StudentCourseCard({
         )}
 
         <Button href={`/courses/${course.slug}`} variant="contained" fullWidth>
-          {data?.course_completed ? 'Pregledaj kurs' : started ? 'Nastavi' : 'Započni'}
+          {data?.course_completed ? 'Pregledaj obuku' : started ? 'Nastavi' : 'Započni'}
         </Button>
       </Stack>
     </Card>

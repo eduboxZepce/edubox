@@ -224,7 +224,7 @@ async function notifyThread(input: {
   );
 
   const moduleTitle = task?.modules?.title ?? 'modul';
-  const courseName = task?.modules?.courses?.name ?? 'kurs';
+  const courseName = task?.modules?.courses?.name ?? 'obuka';
   const courseId = task?.modules?.course_id ?? null;
   const courseSlug = task?.modules?.courses?.slug ?? null;
 
@@ -282,7 +282,7 @@ async function notifyThread(input: {
         subject: `Potrebna izmjena — ${moduleTitle}`,
         heading: 'Potrebna je izmjena rješenja',
         lines: [
-          `Predavač je pregledao vaše rješenje zadatka za modul „${moduleTitle}” na kursu „${courseName}” i traži izmjenu.`,
+          `Predavač je pregledao vaše rješenje zadatka za modul „${moduleTitle}” na obuci „${courseName}” i traži izmjenu.`,
           excerpt,
           'Ispravite rješenje i odgovorite u istoj prepisci.',
         ],
@@ -302,7 +302,7 @@ async function notifyThread(input: {
         subject: `Rješenje prihvaćeno — ${moduleTitle}`,
         heading: 'Rješenje je prihvaćeno',
         lines: [
-          `Vaše rješenje zadatka za modul „${moduleTitle}” na kursu „${courseName}” je prihvaćeno.`,
+          `Vaše rješenje zadatka za modul „${moduleTitle}” na obuci „${courseName}” je prihvaćeno.`,
           'Zadatak je time završen, a prepiska je zatvorena.',
         ],
         action: { label: 'Otvori zadatak', href: studentHref },

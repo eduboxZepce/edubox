@@ -9,7 +9,7 @@ import { FEATURES } from '@/lib/features';
  * the array.
  *
  * Every section belongs to a flag, so this can be empty. When it is, the
- * account menu drops "Podešavanja" and `/settings` 404s, rather than opening a
+ * account menu drops "Postavke" and `/settings` 404s, rather than opening a
  * screen with no tabs on it.
  */
 export const SETTINGS_SECTIONS = [

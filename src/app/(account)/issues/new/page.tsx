@@ -36,7 +36,7 @@ export default function NewIssuePage() {
   async function submit() {
     try {
       const { data } = await create.mutateAsync({ subject: subject.trim(), body: body.trim() });
-      toast.success('Zahtjev je poslat. Odgovorit ćemo vam u ovoj prepisci.');
+      toast.success('Zahtjev je poslan. Odgovorit ćemo vam u ovoj prepisci.');
       router.push(`/issues/${data.id}`);
     } catch (error) {
       toast.error(errorMessage(error));
@@ -48,7 +48,7 @@ export default function NewIssuePage() {
       <PageHeader
         breadcrumbs={[{ label: 'Podrška', href: '/issues' }, { label: 'Novi zahtjev' }]}
         title="Novi zahtjev"
-        description="Opišite problem ili pitanje. Administrator odgovara u istoj prepisci, a vi dobijate obavještenje."
+        description="Opišite problem ili pitanje. Administrator odgovara u istoj prepisci, a vi dobivate obavještenje."
       />
 
       <ContentCard>
@@ -64,7 +64,7 @@ export default function NewIssuePage() {
 
           <TextField
             label="Opis"
-            placeholder="Šta se dogodilo, na kojoj stranici, šta ste očekivali…"
+            placeholder="Što se dogodilo, na kojoj stranici, što ste očekivali…"
             value={body}
             onChange={(event) => setBody(event.target.value)}
             multiline

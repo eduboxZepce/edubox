@@ -28,7 +28,7 @@ import type { AdminCertificate } from '@/lib/schemas/certificates.schema';
  *
  * ## `compact` for the list, the full button for the detail page
  *
- * "Označi kao poslato" plus an icon is a wide control, and in a table cell it
+ * "Označi kao poslano" plus an icon is a wide control, and in a table cell it
  * dominated the row and pushed the useful columns together. In `compact` mode
  * it collapses to an icon button with the same label as its tooltip, so the
  * table keeps its shape while the action stays one click away. The detail page,
@@ -52,7 +52,7 @@ export default function CertificateDeliveryActions({
   async function setDelivered(next: boolean) {
     try {
       await mark.mutateAsync({ id: certificate.id, delivered: next });
-      toast.success(next ? 'Označeno kao poslato.' : 'Oznaka slanja je uklonjena.');
+      toast.success(next ? 'Označeno kao poslano.' : 'Oznaka slanja je uklonjena.');
       setConfirming(false);
     } catch (error) {
       toast.error(errorMessage(error));
@@ -95,14 +95,14 @@ export default function CertificateDeliveryActions({
   return (
     <>
       {compact ? (
-        <Tooltip title="Označi kao poslato">
+        <Tooltip title="Označi kao poslano">
           <span>
             <IconButton
               size={size}
               color="primary"
               onClick={() => setConfirming(true)}
               disabled={mark.isPending}
-              aria-label="Označi kao poslato"
+              aria-label="Označi kao poslano"
             >
               <LocalShippingOutlinedIcon fontSize="small" />
             </IconButton>
@@ -116,15 +116,15 @@ export default function CertificateDeliveryActions({
           onClick={() => setConfirming(true)}
           disabled={mark.isPending}
         >
-          Označi kao poslato
+          Označi kao poslano
         </Button>
       )}
 
       <ConfirmDialog
         open={confirming}
-        title="Označiti certifikat kao poslat?"
-        description="Zabilježit ćemo datum slanja i vas kao osobu koja je poslala. Student dobija obavještenje da je certifikat na putu, pa ovo uradite tek kada je pošiljka stvarno predata."
-        confirmLabel="Označi kao poslato"
+        title="Označiti certifikat kao poslan?"
+        description="Zabilježit ćemo datum slanja i vas kao osobu koja je poslala. Student dobiva obavještenje da je certifikat na putu, pa ovo uradite tek kada je pošiljka stvarno predana."
+        confirmLabel="Označi kao poslano"
         severity="primary"
         pending={mark.isPending}
         onCancel={() => setConfirming(false)}

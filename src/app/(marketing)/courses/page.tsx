@@ -11,8 +11,8 @@ import { SITE } from '@/lib/siteConfig';
  * so `?categoryId=…&page=3` is never indexed as a page of its own.
  */
 export const metadata = pageMetadata({
-  title: 'Online kursevi',
-  description: `Pregled svih kurseva na platformi ${SITE.name}: video lekcije, materijali, zadaci s povratnom informacijom predavača i certifikat po završetku.`,
+  title: 'Online obuke',
+  description: `Pregled svih obuka na platformi ${SITE.name}: video lekcije, materijali, zadaci s povratnom informacijom predavača i certifikat po završetku.`,
   path: '/courses',
 });
 
@@ -28,7 +28,7 @@ export const metadata = pageMetadata({
 export default function CourseCataloguePage() {
   return (
     <PageContainer>
-      <PageHeader title="Kursevi" description="Izaberi kurs i pošalji zahtjev za pristup." />
+      <PageHeader title="Obuke" description="Izaberi obuku i pošalji zahtjev za pristup." />
       <Suspense fallback={<CardGridSkeleton />}>
         <CourseCatalogue />
       </Suspense>

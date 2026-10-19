@@ -102,7 +102,7 @@ export default function AdminDashboardPage() {
         }
         actions={
           <Button href="/admin/courses/new" variant="contained" startIcon={<AddIcon />}>
-            Novi kurs
+            Nova obuka
           </Button>
         }
       />
@@ -115,7 +115,7 @@ export default function AdminDashboardPage() {
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, sm: 6, lg: statSpan }}>
           <StatCard
-            label={isAdmin ? 'Ukupno kurseva' : 'Moji kursevi'}
+            label={isAdmin ? 'Ukupno obuka' : 'Moje obuke'}
             value={courses.data?.meta.total}
             icon={LibraryBooksOutlinedIcon}
             href="/admin/courses"
@@ -155,7 +155,7 @@ export default function AdminDashboardPage() {
         {isAdmin ? (
           <Grid size={{ xs: 12, sm: 6, lg: statSpan }}>
             <StatCard
-              label="Registrovani korisnici"
+              label="Registrirani korisnici"
               value={users.data?.meta.total}
               icon={PeopleOutlinedIcon}
               href="/admin/users"
@@ -181,15 +181,15 @@ export default function AdminDashboardPage() {
       </Grid>
 
       <ContentCard
-        title="Nedavno dodati kursevi"
+        title="Nedavno dodane obuke"
         description={
           publishedCourses.data && courses.data
-            ? `${publishedCourses.data.meta.total} od ${courses.data.meta.total} kurseva je objavljeno.`
+            ? `${publishedCourses.data.meta.total} od ${courses.data.meta.total} obuka je objavljeno.`
             : undefined
         }
         actions={
           <Button href="/admin/courses" size="small">
-            Svi kursevi
+            Sve obuke
           </Button>
         }
         disablePadding
@@ -200,11 +200,11 @@ export default function AdminDashboardPage() {
           isEmpty={(page) => page.data.length === 0}
           empty={
             <EmptyState
-              title="Još nema kurseva"
-              description="Kreirajte prvi kurs da biste počeli."
+              title="Još nema obuka"
+              description="Kreirajte prvu obuku da biste počeli."
               action={
                 <Button href="/admin/courses/new" variant="contained" startIcon={<AddIcon />}>
-                  Novi kurs
+                  Nova obuka
                 </Button>
               }
             />

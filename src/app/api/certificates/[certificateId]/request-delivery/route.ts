@@ -48,22 +48,22 @@ export const PATCH = withRoute(async (req, ctx: Ctx) => {
   // Only when asking, not when withdrawing: a cancelled request is one fewer
   // thing on the admin's list, which nobody needs an email about.
   if (body.requested_delivery) {
-    const courseName = updated.courses?.name ?? 'kurs';
+    const courseName = updated.courses?.name ?? 'obuka';
     const href = `/admin/certificates/${certificateId}`;
 
     notifyAfterResponse({
       userIds: await adminIds(svc),
       type: 'certificate_delivery_requested',
       title: 'Zahtjev za slanje certifikata',
-      body: `${profile.full_name} traži štampani certifikat za kurs „${courseName}”.`,
+      body: `${profile.full_name} traži štampani certifikat za obuku „${courseName}”.`,
       link: href,
       email: {
         subject: `Zahtjev za slanje certifikata — ${updated.readable_id}`,
         heading: 'Zahtjev za štampani certifikat',
         lines: [
-          `${profile.full_name} (${profile.email}) traži da mu/joj se pošalje štampani certifikat za kurs „${courseName}”.`,
+          `${profile.full_name} (${profile.email}) traži da mu/joj se pošalje štampani certifikat za obuku „${courseName}”.`,
           `Broj certifikata: ${updated.readable_id}.`,
-          'Nakon slanja označite certifikat kao poslat da zahtjev nestane sa liste.',
+          'Nakon slanja označite certifikat kao poslan da zahtjev nestane sa liste.',
         ],
         action: { label: 'Otvori certifikat', href },
       },

@@ -74,7 +74,7 @@ export default function IssueDetailPage(props: PageProps<'/issues/[id]'>) {
             <PageHeader
               breadcrumbs={[{ label: 'Podrška', href: '/issues' }, { label: row.subject }]}
               title={row.subject}
-              description={`Poslato ${formatDateTime(row.created_at)}`}
+              description={`Poslano ${formatDateTime(row.created_at)}`}
               actions={<StatusChip {...ISSUE_STATUS[row.status]} size="medium" />}
             />
 

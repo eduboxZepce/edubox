@@ -1,6 +1,6 @@
 import type { SvgIconComponent } from '@mui/icons-material';
+import AllInclusiveOutlinedIcon from '@mui/icons-material/AllInclusiveOutlined';
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
-import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
 import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
 import WorkspacePremiumOutlinedIcon from '@mui/icons-material/WorkspacePremiumOutlined';
 import Box from '@mui/material/Box';
@@ -36,24 +36,25 @@ const FEATURES: { title: string; description: string; icon: SvgIconComponent }[]
     icon: WorkspacePremiumOutlinedIcon,
     title: 'Certifikat po završetku',
     description:
-      'Svaki certifikat nosi jedinstveni broj i stranicu za provjeru, tako da ga poslodavac može potvrditi.',
+      'Svaki certifikat nosi jedinstveni broj, a poslodavac ga može provjeriti na našoj stranici uz prezime vlasnika.',
   },
   {
     icon: RateReviewOutlinedIcon,
     title: 'Povratna informacija predavača',
     description:
-      'Zadatke pregleda čovjek iz struke i piše šta je dobro, šta nije i šta konkretno uraditi drugačije.',
+      'Zadatke pregleda predavač i piše što je dobro, što nije i što konkretno uraditi drugačije.',
   },
   {
-    icon: HandshakeOutlinedIcon,
-    title: 'Akreditacije i partneri',
-    description: 'Programi su rađeni s partnerskim firmama i institucijama iz svake oblasti.',
+    icon: AllInclusiveOutlinedIcon,
+    title: 'Trajan pristup',
+    description:
+      'Bez pretplate i bez rokova: materijali odobrene obuke ostaju ti dostupni i nakon što je završiš.',
   },
   {
     icon: FactCheckOutlinedIcon,
     title: 'Kako se provjerava znanje',
     description:
-      'Kratki kvizovi nakon lekcija, praktični zadaci po modulima i završni ispit koji se ocjenjuje ručno.',
+      'Moduli mogu imati kviz, koji se ocjenjuje automatski, i praktični zadatak, koji pregleda predavač.',
   },
 ];
 
@@ -89,7 +90,7 @@ export default function WhyUs() {
                 </Stack>
 
                 <Typography variant="body1" sx={{ opacity: 0.9 }}>
-                  Snimljene lekcije su početak. Ono što odvaja završen kurs od odgledanog kursa je
+                  Snimljene lekcije su početak. Ono što odvaja završenu obuku od odgledane je
                   zadatak koji je neko pročitao i ocijenio.
                 </Typography>
               </Stack>

@@ -31,7 +31,7 @@ export default function AdminUsersPage() {
 
   return (
     <PageContainer>
-      <PageHeader title="Korisnici" description="Svi registrovani korisnici platforme." />
+      <PageHeader title="Korisnici" description="Svi registrirani korisnici platforme." />
 
       <ContentCard disablePadding>
         <Stack
@@ -82,11 +82,11 @@ export default function AdminUsersPage() {
             list.hasActiveFilters ? (
               <EmptyState
                 title="Nema rezultata"
-                description="Nijedan korisnik ne odgovara zadatoj pretrazi."
+                description="Nijedan korisnik ne odgovara zadanoj pretrazi."
               />
             ) : (
               <EmptyState
-                title="Još nema registrovanih korisnika"
+                title="Još nema registriranih korisnika"
                 description="Korisnici se pojavljuju ovdje nakon registracije."
               />
             )
@@ -129,7 +129,7 @@ export default function AdminUsersPage() {
                   },
                   {
                     id: 'created',
-                    header: 'Registrovan',
+                    header: 'Registriran',
                     cell: (user) => (
                       <Typography variant="body2" color="text.secondary">
                         {formatDate(user.created_at)}

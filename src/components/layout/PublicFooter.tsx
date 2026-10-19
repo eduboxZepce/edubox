@@ -45,13 +45,13 @@ export default async function PublicFooter() {
     ...(FEATURES.catalog
       ? [
           {
-            title: 'Kursevi',
+            title: 'Obuke',
             links: [
               ...categories.map((category) => ({
                 label: category.name,
                 href: `/courses?categoryId=${category.id}`,
               })),
-              { label: 'Svi kursevi', href: '/courses' },
+              { label: 'Sve obuke', href: '/courses' },
             ],
           },
         ]

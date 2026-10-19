@@ -45,11 +45,11 @@ export default function AdminCoursesPage() {
   return (
     <PageContainer>
       <PageHeader
-        title="Kursevi"
-        description="Svi kursevi, uključujući i one koji još nisu objavljeni."
+        title="Obuke"
+        description="Sve obuke, uključujući i one koje još nisu objavljene."
         actions={
           <Button href="/admin/courses/new" variant="contained" startIcon={<AddIcon />}>
-            Novi kurs
+            Nova obuka
           </Button>
         }
       />
@@ -84,7 +84,7 @@ export default function AdminCoursesPage() {
             allLabel="Svi statusi"
             width={180}
             options={[
-              { value: 'true', label: 'Objavljeni' },
+              { value: 'true', label: 'Objavljene' },
               { value: 'false', label: 'Nacrti' },
             ]}
           />
@@ -97,13 +97,13 @@ export default function AdminCoursesPage() {
         <QueryState
           skeleton="table"
           query={courses}
-          errorTitle="Kurseve nije moguće učitati"
+          errorTitle="Obuke nije moguće učitati"
           isEmpty={(page) => page.data.length === 0}
           empty={
             list.hasActiveFilters ? (
               <EmptyState
                 title="Nema rezultata"
-                description="Nijedan kurs ne odgovara zadatoj pretrazi i filterima."
+                description="Nijedna obuka ne odgovara zadanoj pretrazi i filterima."
                 action={
                   <Button variant="outlined" onClick={list.reset}>
                     Poništi filtere
@@ -112,11 +112,11 @@ export default function AdminCoursesPage() {
               />
             ) : (
               <EmptyState
-                title="Još nema kurseva"
-                description="Kreirajte prvi kurs — kasnije mu dodajete module, kvizove i zadatke."
+                title="Još nema obuka"
+                description="Kreirajte prvu obuku — kasnije joj dodajete module, kvizove i zadatke."
                 action={
                   <Button href="/admin/courses/new" variant="contained" startIcon={<AddIcon />}>
-                    Novi kurs
+                    Nova obuka
                   </Button>
                 }
               />

@@ -25,7 +25,7 @@ import {
  *     query={coursesQuery}
  *     skeleton="table"
  *     isEmpty={(page) => page.data.length === 0}
- *     empty={<EmptyState title="Nema kurseva" />}
+ *     empty={<EmptyState title="Nema obuka" />}
  *   >
  *     {(page) => <CourseGrid courses={page.data} />}
  *   </QueryState>

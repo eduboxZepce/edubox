@@ -74,13 +74,13 @@ export default function NewModulePage(props: PageProps<'/admin/courses/[id]/modu
     <PageContainer maxWidth="form">
       <PageHeader
         breadcrumbs={[
-          { label: 'Kursevi', href: '/admin/courses' },
-          { label: course.data?.name ?? 'Kurs', href: `/admin/courses/${courseId}/edit` },
+          { label: 'Obuke', href: '/admin/courses' },
+          { label: course.data?.name ?? 'Obuka', href: `/admin/courses/${courseId}/edit` },
           { label: 'Moduli', href: `/admin/courses/${courseId}/modules` },
           { label: 'Novi modul' },
         ]}
         title="Novi modul"
-        description="Modul se dodaje na kraj kursa. Materijale i redoslijed podešavate nakon kreiranja."
+        description="Modul se dodaje na kraj obuke. Materijale i redoslijed uređujete nakon kreiranja."
       />
 
       {/*

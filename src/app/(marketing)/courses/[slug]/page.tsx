@@ -36,11 +36,11 @@ export async function generateMetadata(props: PageProps<'/courses/[slug]'>) {
   // Unknown or unpublished. The body still renders (staff may be previewing a
   // draft, and it shows its own "not found" otherwise), but nothing here may be
   // indexed.
-  if (!course) return { title: 'Kurs', robots: NO_INDEX };
+  if (!course) return { title: 'Obuka', robots: NO_INDEX };
 
   const thumbnail = courseThumbnailUrl(course.thumbnail_path);
   // The author's own description when it is long enough to be a search snippet;
-  // a one-liner ("Kurs o Gitu.") wastes the space, so it gets the template.
+  // a one-liner ("Obuka o Gitu.") wastes the space, so it gets the template.
   const authored = metaDescription(course.description);
 
   return pageMetadata({
@@ -49,7 +49,7 @@ export async function generateMetadata(props: PageProps<'/courses/[slug]'>) {
       authored && authored.length >= MIN_AUTHORED_DESCRIPTION
         ? authored
         : metaDescription(
-            `Online kurs „${course.name}“ na platformi ${SITE.name}: video lekcije, materijali, zadaci i certifikat po završetku.`,
+            `Online obuka „${course.name}“ na platformi ${SITE.name}: video lekcije, materijali, zadaci i certifikat po završetku.`,
           )!,
     path: `/courses/${course.slug}`,
     image: thumbnail ? { url: thumbnail, alt: course.name } : null,

@@ -81,7 +81,7 @@ export default function EditModulePage(
               <ContentCard>
                 <EmptyState
                   title="Modul nije pronađen"
-                  description="Modul ne postoji ili ne pripada ovom kursu."
+                  description="Modul ne postoji ili ne pripada ovoj obuci."
                 />
               </ContentCard>
             );
@@ -91,9 +91,9 @@ export default function EditModulePage(
             <>
               <PageHeader
                 breadcrumbs={[
-                  { label: 'Kursevi', href: '/admin/courses' },
+                  { label: 'Obuke', href: '/admin/courses' },
                   {
-                    label: course.data?.name ?? 'Kurs',
+                    label: course.data?.name ?? 'Obuka',
                     href: `/admin/courses/${courseId}/edit`,
                   },
                   { label: 'Moduli', href: `/admin/courses/${courseId}/modules` },

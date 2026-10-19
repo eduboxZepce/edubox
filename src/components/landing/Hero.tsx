@@ -106,7 +106,7 @@ export default function Hero() {
           >
             <Stack spacing={3}>
               <Typography variant="overline" color="primary" sx={{ letterSpacing: 1.2 }}>
-                Online kursevi · Certifikat · Povratna informacija predavača
+                Online obuke · Certifikat · Povratna informacija predavača
               </Typography>
 
               <Typography
@@ -126,8 +126,8 @@ export default function Hero() {
                 color="text.secondary"
                 sx={{ fontWeight: 400, maxWidth: 520 }}
               >
-                Registruj se, odaberi kurs iz naše ponude i prolazi materijale kada tebi odgovara.
-                Zadatke pregleda predavač, a po završetku dobijaš certifikat.
+                Registriraj se, odaberi obuku iz naše ponude i prolazi materijale kada tebi
+                odgovara. Zadatke pregleda predavač, a po završetku dobivaš certifikat.
               </Typography>
 
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} sx={{ pt: 1 }}>
@@ -137,7 +137,7 @@ export default function Hero() {
                   size="large"
                   endIcon={<ArrowForwardRoundedIcon />}
                 >
-                  Registruj se
+                  Registriraj se
                 </Button>
                 {FEATURES.catalog ? (
                   <Button
@@ -146,7 +146,7 @@ export default function Hero() {
                     size="large"
                     sx={{ borderColor: 'divider', color: 'text.primary' }}
                   >
-                    Pregledaj kurseve
+                    Pregledaj obuke
                   </Button>
                 ) : null}
               </Stack>

@@ -52,7 +52,8 @@ export default function CtaBanner() {
               Prvi korak je nalog. Ostalo ide tvojim tempom.
             </Typography>
             <Typography variant="h6" component="p" sx={{ fontWeight: 400, opacity: 0.88 }}>
-              Registracija traje minutu i ne obavezuje ni na šta — kurseve upisuješ kada odlučiš.
+              Registracija traje minutu i ne obavezuje ni na što — pristup obuci tražiš tek kada
+              odlučiš.
             </Typography>
           </Stack>
 
@@ -68,7 +69,7 @@ export default function CtaBanner() {
                 '&:hover': { bgcolor: 'common.white', filter: 'brightness(0.94)' },
               }}
             >
-              Registruj se
+              Registriraj se
             </Button>
             <Button
               href="/kontakt"

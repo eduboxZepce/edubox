@@ -59,7 +59,7 @@ export default function MessageComposer({
 
     const parsed = messageAttachmentSchema.safeParse(chosen);
     if (!parsed.success) {
-      toast.error(parsed.error.issues[0]?.message ?? 'Fajl nije prihvaćen.');
+      toast.error(parsed.error.issues[0]?.message ?? 'Datoteka nije prihvaćena.');
     } else {
       setFile(chosen);
     }

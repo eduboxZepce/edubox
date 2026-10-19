@@ -55,7 +55,7 @@ export default function CourseProgressSummary({
           value={percent}
           // Announced by screen readers as a labelled progress bar rather than
           // an anonymous one.
-          aria-label="Napredak kroz kurs"
+          aria-label="Napredak kroz obuku"
           sx={{ height: 8, borderRadius: 4 }}
         />
 

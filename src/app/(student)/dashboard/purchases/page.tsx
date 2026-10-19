@@ -47,9 +47,9 @@ export default function StudentPurchasesPage() {
   return (
     <PageContainer>
       <PageHeader
-        breadcrumbs={[{ label: 'Kontrolna tabla', href: '/dashboard' }, { label: 'Kupovine' }]}
+        breadcrumbs={[{ label: 'Kontrolna ploča', href: '/dashboard' }, { label: 'Kupovine' }]}
         title="Kupovine"
-        description="Zahtjevi za pristup kursevima i status svakog od njih."
+        description="Zahtjevi za pristup obukama i status svakog od njih."
       />
 
       <ContentCard disablePadding>
@@ -77,16 +77,16 @@ export default function StudentPurchasesPage() {
           isEmpty={(page) => page.data.length === 0}
           empty={
             <EmptyState
-              title="Još niste zatražili nijedan kurs"
+              title="Još niste zatražili nijednu obuku"
               description={
                 FEATURES.catalog
-                  ? 'Pronađite kurs u katalogu i pošaljite zahtjev za pristup.'
+                  ? 'Pronađite obuku u katalogu i pošaljite zahtjev za pristup.'
                   : undefined
               }
               action={
                 FEATURES.catalog ? (
                   <Button href="/courses" variant="contained" startIcon={<ExploreOutlinedIcon />}>
-                    Pregledaj kurseve
+                    Pregledaj obuke
                   </Button>
                 ) : undefined
               }
@@ -110,7 +110,7 @@ export default function StudentPurchasesPage() {
                               {purchase.courses.name}
                             </Link>
                           ) : (
-                            'Kurs više ne postoji'
+                            'Obuka više ne postoji'
                           )}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
@@ -131,7 +131,7 @@ export default function StudentPurchasesPage() {
 
                     {purchase.status === 'denied' ? (
                       <Alert severity="warning">
-                        Ovaj zahtjev je odbijen. Možete poslati novi sa stranice kursa.
+                        Ovaj zahtjev je odbijen. Možete poslati novi sa stranice obuke.
                       </Alert>
                     ) : null}
                   </Stack>

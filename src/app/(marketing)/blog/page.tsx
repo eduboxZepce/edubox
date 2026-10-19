@@ -4,31 +4,40 @@ import PageHeader from '@/components/layout/PageHeader';
 import ContentCard from '@/components/layout/ContentCard';
 import EmptyState from '@/components/feedback/EmptyState';
 import BlogList from '@/components/blog/BlogList';
-import { BLOG_POSTS, BLOG_CATEGORIES } from '@/lib/blog';
+import { blogCategories } from '@/lib/blog';
+import { listBlogPosts } from '@/lib/server/blog';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
   title: 'Blog — savjeti za učenje i teme iz struke',
   description:
-    'Kratki tekstovi o tome kako učiti, šta se traži na tržištu rada i kako izgleda posao u IT-u, menadžmentu, marketingu i drugim oblastima.',
+    'Kratki tekstovi o tome kako učiti, što se traži na tržištu rada i kako izgleda posao u IT-u, programiranju, poslovanju i ličnom razvoju.',
   path: '/blog',
 });
 
 /**
+ * Static, refreshed on demand: every admin write calls `revalidateBlog()`, and
+ * the hourly fallback catches an edit made straight in the database.
+ */
+export const revalidate = 3600;
+
+/**
  * The blog index - filter pills + search, a featured post, then a
  * paginated grid of the rest. See BlogList for the interactive part;
- * this stays a Server Component so the page metadata/shell need no
- * client JS of their own.
+ * this stays a Server Component so the posts are read on the server and
+ * the page metadata/shell need no client JS of their own.
  */
-export default function BlogIndexPage() {
+export default async function BlogIndexPage() {
+  const posts = await listBlogPosts();
+
   return (
     <PageContainer>
       <PageHeader
         title="Savjeti za učenje i teme iz struke"
-        description="Kratki tekstovi o tome kako učiti, šta se traži na tržištu i kako izgleda rad u pojedinim oblastima."
+        description="Kratki tekstovi o tome kako učiti, što se traži na tržištu i kako izgleda rad u pojedinim oblastima."
       />
 
-      {BLOG_POSTS.length === 0 ? (
+      {posts.length === 0 ? (
         <ContentCard>
           <EmptyState
             icon={<ArticleOutlinedIcon />}
@@ -37,7 +46,7 @@ export default function BlogIndexPage() {
           />
         </ContentCard>
       ) : (
-        <BlogList posts={BLOG_POSTS} categories={BLOG_CATEGORIES} />
+        <BlogList posts={posts} categories={blogCategories(posts)} />
       )}
     </PageContainer>
   );

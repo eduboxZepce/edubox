@@ -38,7 +38,7 @@ export default function PurchaseActions({
   // Only a request that's still open can be decided.
   if (purchase.status !== 'requested') return null;
 
-  const courseName = purchase.courses?.name ?? 'ovaj kurs';
+  const courseName = purchase.courses?.name ?? 'ovu obuku';
   const studentName = purchase.profiles?.full_name ?? 'Student';
 
   async function handleConfirm() {
@@ -48,7 +48,7 @@ export default function PurchaseActions({
       await updatePurchase.mutateAsync({ id: purchase.id, body: { status: pendingAction } });
       toast.success(
         pendingAction === 'approved'
-          ? `Pristup je odobren — ${studentName} sada može da otvori kurs.`
+          ? `Pristup je odobren — ${studentName} sada može otvoriti obuku.`
           : 'Zahtjev je odbijen.',
       );
       setPendingAction(null);
@@ -87,13 +87,14 @@ export default function PurchaseActions({
         description={
           pendingAction === 'denied' ? (
             <Typography variant="body2" component="span">
-              Zahtjev korisnika <strong>{studentName}</strong> za kurs <strong>{courseName}</strong>{' '}
-              bit će odbijen. Korisnik može kasnije poslati novi zahtjev.
+              Zahtjev korisnika <strong>{studentName}</strong> za obuku{' '}
+              <strong>{courseName}</strong> bit će odbijen. Korisnik može kasnije poslati novi
+              zahtjev.
             </Typography>
           ) : (
             <Typography variant="body2" component="span">
-              <strong>{studentName}</strong> će dobiti pun pristup kursu{' '}
-              <strong>{courseName}</strong> po ceni {formatPrice(purchase.price)}. Odobrite tek
+              <strong>{studentName}</strong> će dobiti pun pristup obuci{' '}
+              <strong>{courseName}</strong> po cijeni {formatPrice(purchase.price)}. Odobrite tek
               nakon što je uplata potvrđena.
             </Typography>
           )

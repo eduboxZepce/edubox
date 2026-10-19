@@ -36,7 +36,7 @@ export default function NewsletterSettingsPage() {
   }
 
   return (
-    <ContentCard title="Newsletter" description="Povremene novosti o kursevima i sadržaju.">
+    <ContentCard title="Newsletter" description="Povremene novosti o obukama i sadržaju.">
       <Stack spacing={1}>
         <FormControlLabel
           control={
@@ -51,8 +51,8 @@ export default function NewsletterSettingsPage() {
           label="Želim primati newsletter"
         />
         <Typography variant="body2" color="text.secondary">
-          Možete se odjaviti u bilo kojem trenutku. Ovo nije vezano za obavještenja o vašim
-          kursevima, zadacima i certifikatima — njih podešavate u kartici Obavještenja.
+          Možete se odjaviti u bilo kojem trenutku. Ovo nije vezano za obavještenja o vašim obukama,
+          zadacima i certifikatima — njih postavljate u kartici Obavještenja.
         </Typography>
       </Stack>
     </ContentCard>

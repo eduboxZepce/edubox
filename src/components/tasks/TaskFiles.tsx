@@ -77,7 +77,9 @@ export default function TaskFiles({
     for (const file of Array.from(picked)) {
       const parsed = taskFileSchema.safeParse(file);
       if (!parsed.success) {
-        toast.error(`${file.name}: ${parsed.error.issues[0]?.message ?? 'Fajl nije prihvaćen.'}`);
+        toast.error(
+          `${file.name}: ${parsed.error.issues[0]?.message ?? 'Datoteka nije prihvaćena.'}`,
+        );
         continue;
       }
 
@@ -94,7 +96,7 @@ export default function TaskFiles({
           body: { file_path: path, file_name: file.name },
         });
 
-        toast.success(`Prilog "${file.name}" je dodat.`);
+        toast.success(`Prilog "${file.name}" je dodan.`);
       } catch (error) {
         toast.error(`${file.name}: ${errorMessage(error)}`);
       }
@@ -119,7 +121,7 @@ export default function TaskFiles({
   return (
     <ContentCard
       title="Prilozi uz zadatak"
-      description="Šabloni i fajlovi koje student preuzima da bi uradio zadatak."
+      description="Predlošci i datoteke koje student preuzima da bi uradio zadatak."
       disablePadding
     >
       {isUploading ? <LinearProgress /> : null}
@@ -173,11 +175,11 @@ export default function TaskFiles({
           disabled={isUploading}
           sx={{ flexShrink: 0 }}
         >
-          {isUploading ? 'Otpremanje…' : 'Dodaj prilog'}
+          {isUploading ? 'Učitavanje…' : 'Dodaj prilog'}
         </Button>
 
         <Typography variant="caption" color="text.secondary">
-          PDF, ZIP, TXT, CSV ili slika. Najviše {formatBytes(MAX_UPLOAD_BYTES)} po fajlu.
+          PDF, ZIP, TXT, CSV ili slika. Najviše {formatBytes(MAX_UPLOAD_BYTES)} po datoteci.
         </Typography>
 
         <input
@@ -194,8 +196,8 @@ export default function TaskFiles({
         title="Obrisati prilog?"
         description={
           <>
-            Fajl <strong>{deleting?.file_name ?? ''}</strong> bit će trajno obrisan i studenti više
-            neće moći da ga preuzmu.
+            Datoteka <strong>{deleting?.file_name ?? ''}</strong> bit će trajno obrisana i studenti
+            je više neće moći preuzeti.
           </>
         }
         confirmLabel="Obriši"

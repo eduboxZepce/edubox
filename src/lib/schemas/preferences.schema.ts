@@ -30,7 +30,7 @@ export const updateUserPreferencesSchema = z
     newsletter_opt_in: z.boolean().optional(),
   })
   .refine((value) => Object.keys(value).length > 0, {
-    error: 'Nema izmjena za spremanje.',
+    error: 'Nema izmjena za čuvanje.',
   })
   .openapi('UpdateUserPreferencesRequest');
 

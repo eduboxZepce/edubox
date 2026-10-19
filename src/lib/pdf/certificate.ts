@@ -15,13 +15,13 @@ import { SITE } from '@/lib/siteConfig';
  *
  * pdf-lib's built-in fonts are WinAnsi-encoded, which does **not** contain
  * `č ć ž š đ`. Every Serbian name hits that — the seeded data alone has
- * Jovanović, Petrović, Nikolić — so a standard font either throws or drops the
+ * Hodžić, Begović, Đulić — so a standard font either throws or drops the
  * character. EB Garamond is embedded here instead (SIL OFL, vendored under
  * `fonts/` with its licence).
  *
  * A related trap, found the hard way: Google Fonts' `latin-ext` subset files
  * contain *only* the extended characters and no ASCII at all. Embedding one
- * renders "Jovanović" as blank boxes with a stray `ć`. The vendored files are
+ * renders "Begović" as blank boxes with a stray `ć`. The vendored files are
  * the **full** faces, not subsets. `subset: true` below is the other direction
  * — pdf-lib subsets on the way *out*, so each generated file carries only the
  * glyphs it uses and comes to a few kilobytes rather than a megabyte.
@@ -194,7 +194,7 @@ export async function renderCertificatePdf(input: CertificateDocument): Promise<
 
   doc.setTitle(`Certifikat ${input.readableId} — ${input.courseName}`);
   doc.setAuthor(SITE.name);
-  doc.setSubject(`Certifikat o završenom kursu za ${input.studentName}`);
+  doc.setSubject(`Certifikat o završenoj obuci za ${input.studentName}`);
   doc.setCreator(SITE.name);
   doc.setProducer(SITE.name);
 
@@ -254,7 +254,7 @@ export async function renderCertificatePdf(input: CertificateDocument): Promise<
   });
 
   drawCentred(page, 'CERTIFIKAT', { y: PAGE_HEIGHT - 150, size: 40, font: display, color: INK });
-  drawCentred(page, 'o završenom kursu', {
+  drawCentred(page, 'o završenoj obuci', {
     y: PAGE_HEIGHT - 173,
     size: 14,
     font: body,
@@ -295,7 +295,7 @@ export async function renderCertificatePdf(input: CertificateDocument): Promise<
     color: rgb(0.8, 0.78, 0.74),
   });
 
-  drawCentred(page, 'uspješno završio/la sve module kursa', {
+  drawCentred(page, 'uspješno završio/la sve module obuke', {
     y: PAGE_HEIGHT - 318,
     size: 12,
     font: body,

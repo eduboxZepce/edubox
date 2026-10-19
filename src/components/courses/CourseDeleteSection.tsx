@@ -33,7 +33,7 @@ export default function CourseDeleteSection({ course }: { course: Course }) {
   async function handleDelete() {
     try {
       await deleteCourse.mutateAsync(course.id);
-      toast.success(`Kurs „${course.name}” je obrisan.`);
+      toast.success(`Obuka „${course.name}” je obrisana.`);
       // Not `router.back()` — the previous entry may be this same page.
       router.push('/admin/courses');
     } catch (error) {
@@ -43,15 +43,15 @@ export default function CourseDeleteSection({ course }: { course: Course }) {
   }
 
   return (
-    <ContentCard title="Brisanje kursa">
+    <ContentCard title="Brisanje obuke">
       <Stack
         direction={{ xs: 'column', sm: 'row' }}
         spacing={2}
         sx={{ alignItems: { sm: 'center' }, justifyContent: 'space-between' }}
       >
         <Typography variant="body2" color="text.secondary">
-          Briše kurs i sav njegov sadržaj — module, kvizove, zadatke i otpremljene fajlove. Radije
-          sačuvajte kurs kao nacrt ako želite samo da ga sklonite iz kataloga.
+          Briše obuku i sav njen sadržaj — module, kvizove, zadatke i učitane datoteke. Radije
+          sačuvajte obuku kao nacrt ako je želite samo skloniti iz kataloga.
         </Typography>
 
         <Button
@@ -61,20 +61,20 @@ export default function CourseDeleteSection({ course }: { course: Course }) {
           onClick={() => setConfirming(true)}
           sx={{ flexShrink: 0 }}
         >
-          Obriši kurs
+          Obriši obuku
         </Button>
       </Stack>
 
       <ConfirmDialog
         open={confirming}
-        title="Obrisati kurs?"
+        title="Obrisati obuku?"
         description={
           <>
-            Kurs <strong>{course.name}</strong> i sav njegov sadržaj — moduli, kvizovi, zadaci i
-            fajlovi — bit će trajno obrisani. Ova akcija se ne može poništiti.
+            Obuka <strong>{course.name}</strong> i sav njen sadržaj — moduli, kvizovi, zadaci i
+            datoteke — bit će trajno obrisani. Ova akcija se ne može poništiti.
           </>
         }
-        confirmLabel="Obriši kurs"
+        confirmLabel="Obriši obuku"
         pending={deleteCourse.isPending}
         onCancel={() => setConfirming(false)}
         onConfirm={() => void handleDelete()}

@@ -94,19 +94,19 @@ export const PATCH = withRoute(async (req, ctx: Ctx) => {
   // own records, and telling a student "actually, ignore that" would be worse
   // than saying nothing.
   if (body.delivered && !existing.delivered_at) {
-    const courseName = existing.courses?.name ?? 'kurs';
+    const courseName = existing.courses?.name ?? 'obuka';
 
     notifyAfterResponse({
       userIds: [existing.student_id],
       type: 'certificate_delivered',
-      title: 'Certifikat je poslat poštom',
-      body: `Štampani certifikat za kurs „${courseName}” je poslat na vašu adresu.`,
+      title: 'Certifikat je poslan poštom',
+      body: `Štampani certifikat za obuku „${courseName}” je poslan na vašu adresu.`,
       link: `/certificates/${existing.readable_id}`,
       email: {
-        subject: `Vaš certifikat je poslat — ${courseName}`,
+        subject: `Vaš certifikat je poslan — ${courseName}`,
         heading: 'Certifikat je na putu',
         lines: [
-          `Štampani primjerak vašeg certifikata za kurs „${courseName}” je poslat poštom.`,
+          `Štampani primjerak vašeg certifikata za obuku „${courseName}” je poslan poštom.`,
           `Broj certifikata: ${existing.readable_id}.`,
           // Not "reply to this email": the sender address is send-only.
           `Ako ne stigne u razumnom roku, javite nam se na ${SITE.contact.email}.`,

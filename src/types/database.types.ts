@@ -118,6 +118,54 @@ export type Database = {
           },
         ]
       }
+      blog_posts: {
+        Row: {
+          category: string | null
+          content: string
+          created_at: string
+          created_by: string | null
+          excerpt: string
+          id: string
+          image_alt: string | null
+          image_path: string | null
+          published_at: string
+          slug: string
+          title: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          category?: string | null
+          content?: string
+          created_at?: string
+          created_by?: string | null
+          excerpt: string
+          id?: string
+          image_alt?: string | null
+          image_path?: string | null
+          published_at?: string
+          slug?: string
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          category?: string | null
+          content?: string
+          created_at?: string
+          created_by?: string | null
+          excerpt?: string
+          id?: string
+          image_alt?: string | null
+          image_path?: string | null
+          published_at?: string
+          slug?: string
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string

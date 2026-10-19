@@ -4,7 +4,7 @@ import { pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
   title: 'Uvjeti korištenja',
-  description: `Uvjeti korištenja platforme ${SITE.name}: upis na kurs, plaćanje, pristup materijalima, certifikati i prava i obaveze korisnika.`,
+  description: `Uvjeti korištenja platforme ${SITE.name}: upis na obuku, plaćanje, pristup materijalima, certifikati i prava i obaveze korisnika.`,
   path: '/uvjeti-koristenja',
 });
 

@@ -47,7 +47,7 @@ import type { UserRole } from '@/lib/auth/routes';
  * **The bar always shows the role's top-level destinations, unless a sidebar on
  * the same screen already lists them.** That is the whole rule, and it is what
  * the earlier version lacked: links appeared on public pages only, so a student
- * saw "Kontrolna tabla · Moji kursevi" on the catalogue, nothing at all on the
+ * saw "Kontrolna ploča · Moje obuke" on the catalogue, nothing at all on the
  * dashboard, and nothing again on notifications — the same person, three bars.
  *
  * The one exception is the admin shell (`variant="shell"`), whose sidebar is
@@ -108,15 +108,15 @@ function navForRole(role: UserRole): NavLink[] {
     // Purchases, certificates and issues are reached from the hub, each with
     // its own page — listing them here too would be the same destinations twice.
     return [
-      { label: 'Kontrolna tabla', href: '/dashboard', icon: DashboardOutlinedIcon, exact: true },
-      { label: 'Moji kursevi', href: '/dashboard/courses', icon: LibraryBooksOutlinedIcon },
+      { label: 'Kontrolna ploča', href: '/dashboard', icon: DashboardOutlinedIcon, exact: true },
+      { label: 'Moje obuke', href: '/dashboard/courses', icon: LibraryBooksOutlinedIcon },
       ...catalog,
     ];
   }
 
   return [
-    { label: 'Kontrolna tabla', href: '/admin', icon: DashboardOutlinedIcon, exact: true },
-    { label: 'Kursevi', href: '/admin/courses', icon: LibraryBooksOutlinedIcon },
+    { label: 'Kontrolna ploča', href: '/admin', icon: DashboardOutlinedIcon, exact: true },
+    { label: 'Obuke', href: '/admin/courses', icon: LibraryBooksOutlinedIcon },
     ...catalog,
   ];
 }
@@ -373,7 +373,7 @@ export default function AppHeader({
               <ListItemIcon>
                 <SettingsOutlinedIcon fontSize="small" />
               </ListItemIcon>
-              <Typography variant="body2">Podešavanja</Typography>
+              <Typography variant="body2">Postavke</Typography>
             </MenuItem>
           ) : null}
 

@@ -107,14 +107,14 @@ export default function SubmissionReview({
     });
 
     if (result.submission_status !== 'approved') {
-      toast.success(decision === 'needs_revision' ? 'Zatražena je izmjena.' : 'Poruka je poslata.');
+      toast.success(decision === 'needs_revision' ? 'Zatražena je izmjena.' : 'Poruka je poslana.');
       return;
     }
 
     // The response says what the approval set off, so the reviewer learns it
     // here instead of having to go and check the student's progress.
     if (result.certificate_issued && FEATURES.certificates) {
-      toast.success('Rješenje je prihvaćeno. Student je završio kurs i dobio certifikat.');
+      toast.success('Rješenje je prihvaćeno. Student je završio obuku i dobio certifikat.');
     } else if (result.module_completed) {
       toast.success('Rješenje je prihvaćeno. Modul je završen.');
     } else {
@@ -166,7 +166,7 @@ export default function SubmissionReview({
         label={decision === 'approved' ? 'Komentar uz prihvatanje' : 'Poruka studentu'}
         placeholder={
           decision === 'needs_revision'
-            ? 'Objasnite šta treba ispraviti…'
+            ? 'Objasnite što treba ispraviti…'
             : 'Napišite poruku studentu…'
         }
         submitLabel={SUBMIT_LABEL[decision]}

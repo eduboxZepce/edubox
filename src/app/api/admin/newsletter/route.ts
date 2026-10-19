@@ -102,7 +102,7 @@ export const POST = withRoute(async (req) => {
     footer: {
       lines: ['Ovaj email ste dobili jer ste se prijavili na newsletter.'],
       link: {
-        label: 'Odjavite se u podešavanjima',
+        label: 'Odjavite se u postavkama',
         href: `${publicEnv.siteUrl.replace(/\/$/, '')}/settings/newsletter`,
       },
     },

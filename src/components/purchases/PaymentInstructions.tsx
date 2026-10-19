@@ -113,7 +113,7 @@ export default function PaymentInstructions({
     <Stack spacing={2}>
       <Typography variant="body2" color="text.secondary">
         Uplatu izvrši na račun ispod. <strong>Obavezno navedi poziv na broj</strong> — po njemu
-        prepoznajemo tvoju uplatu i odobravamo pristup kursu.
+        prepoznajemo tvoju uplatu i odobravamo pristup obuci.
       </Typography>
 
       <Box

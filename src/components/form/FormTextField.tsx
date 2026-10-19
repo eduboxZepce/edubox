@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField';
  * needs is the field's `name` — no `value`, no `onChange`, no error wiring.
  * Validation messages come from the zod schema automatically.
  *
- *   <FormTextField name="name" label="Naziv kursa" required />
+ *   <FormTextField name="name" label="Naziv obuke" required />
  *   <FormTextField name="description" label="Opis" multiline rows={5} />
  *
  * `required` here is purely visual (it renders the asterisk); whether a field is
@@ -34,7 +34,8 @@ export default function FormTextField<TFieldValues extends FieldValues = FieldVa
   /** Shown below the field until a validation error replaces it. */
   helperText?: string;
   placeholder?: string;
-  type?: 'text' | 'email' | 'password' | 'url';
+  /** `date` yields an ISO `yyyy-mm-dd` string, which is what a `date` column takes. */
+  type?: 'text' | 'email' | 'password' | 'url' | 'date';
   multiline?: boolean;
   rows?: number;
   required?: boolean;
@@ -61,7 +62,12 @@ export default function FormTextField<TFieldValues extends FieldValues = FieldVa
       helperText={fieldState.error?.message ?? helperText}
       // Reserve the helper-text line so the layout doesn't jump when an error
       // appears under a field.
-      slotProps={{ formHelperText: { sx: { minHeight: 20, mx: 0 } } }}
+      slotProps={{
+        formHelperText: { sx: { minHeight: 20, mx: 0 } },
+        // A date input always shows its own dd.mm.yyyy mask, so an unshrunk
+        // label would sit on top of it.
+        ...(type === 'date' ? { inputLabel: { shrink: true } } : null),
+      }}
     />
   );
 }

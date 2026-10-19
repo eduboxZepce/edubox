@@ -2,7 +2,13 @@
 
 import * as React from 'react';
 import { useUploadFile } from '@/hooks/useUploads';
-import { ACCEPTED_IMAGE_TYPES, BUCKETS, MAX_UPLOAD_BYTES, publicUrl } from '@/lib/storage';
+import {
+  ACCEPTED_IMAGE_TYPES,
+  BUCKETS,
+  MAX_UPLOAD_BYTES,
+  publicUrl,
+  type BucketName,
+} from '@/lib/storage';
 import { errorMessage } from '@/lib/api/errorMessage';
 import { toast } from '@/store/useToastStore';
 
@@ -27,9 +33,21 @@ import { toast } from '@/store/useToastStore';
  * `newsletter-images/{yyyy-mm}/…`. The bucket's policy takes one folder
  * segment, and a newsletter image belongs to no row, so there is no id to key
  * on — the month just keeps the bucket browsable instead of one flat directory.
+ *
+ * ## Other targets
+ *
+ * A caller whose images do belong to a row passes `target` instead — the blog
+ * editor sends `blog-images/{post_id}/`, so deleting the post can clear them.
+ * The bucket must be public: the returned URL is written into the Markdown.
  */
-export function useImagePaste() {
+export type ImageUploadTarget = { bucket: BucketName; folders: string[] };
+
+export function useImagePaste(target?: ImageUploadTarget) {
   const upload = useUploadFile();
+  const targetBucket = target?.bucket;
+  // Joined so the callback below depends on the folder's value, not on the
+  // identity of an array literal the caller recreates every render.
+  const targetFolders = target?.folders.join('/');
 
   const uploadImage = React.useCallback(
     async (file: File): Promise<string | null> => {
@@ -49,21 +67,19 @@ export function useImagePaste() {
       }
 
       const now = new Date();
-      const folder = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+      const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+      const bucket = targetBucket ?? BUCKETS.newsletterImages;
+      const folders = targetFolders ? targetFolders.split('/') : [month];
 
       try {
-        const { path } = await upload.mutateAsync({
-          bucket: BUCKETS.newsletterImages,
-          folders: [folder],
-          file,
-        });
-        return publicUrl(BUCKETS.newsletterImages, path);
+        const { path } = await upload.mutateAsync({ bucket, folders, file });
+        return publicUrl(bucket, path);
       } catch (error) {
         toast.error(errorMessage(error));
         return null;
       }
     },
-    [upload],
+    [upload, targetBucket, targetFolders],
   );
 
   return { uploadImage, uploading: upload.isPending };

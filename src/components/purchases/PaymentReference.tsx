@@ -73,7 +73,7 @@ export default function PaymentReference({
         {value}
         <Typography variant="body2" color="text.secondary">
           Navedi ovaj broj prilikom uplate. Po njemu prepoznajemo tvoju uplatu i odobravamo pristup
-          kursu.
+          obuci.
         </Typography>
       </Stack>
     </Alert>

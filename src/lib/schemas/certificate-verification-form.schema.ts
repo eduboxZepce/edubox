@@ -26,7 +26,7 @@ export const certificateVerificationFormSchema = z.object({
     .string({ error: 'Unesite prezime.' })
     .trim()
     .min(2, 'Unesite prezime vlasnika certifikata.')
-    .max(100, 'Prezime može imati najviše 100 karaktera.'),
+    .max(100, 'Prezime može imati najviše 100 znakova.'),
 });
 
 export type CertificateVerificationFormValues = z.output<typeof certificateVerificationFormSchema>;

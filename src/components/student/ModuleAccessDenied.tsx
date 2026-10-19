@@ -25,18 +25,18 @@ export default function ModuleAccessDenied({
       <ContentCard>
         {reason === 'course-not-found' ? (
           <EmptyState
-            title="Kurs nije pronađen"
-            description="Kurs ne postoji ili trenutno nije objavljen."
+            title="Obuka nije pronađena"
+            description="Obuka ne postoji ili trenutno nije objavljena."
             action={
               // Module pages are signed-in only, so with the catalogue off the
               // student's own list is the sensible way back.
               FEATURES.catalog ? (
                 <Button href="/courses" variant="contained">
-                  Svi kursevi
+                  Sve obuke
                 </Button>
               ) : (
                 <Button href="/dashboard/courses" variant="contained">
-                  Moji kursevi
+                  Moje obuke
                 </Button>
               )
             }
@@ -44,10 +44,10 @@ export default function ModuleAccessDenied({
         ) : (
           <EmptyState
             title="Nemate pristup ovom sadržaju"
-            description="Dostupan je tek nakon što administrator odobri vaš zahtjev za pristup kursu."
+            description="Dostupan je tek nakon što administrator odobri vaš zahtjev za pristup obuci."
             action={
               <Button href={`/courses/${slug}`} variant="contained">
-                Nazad na kurs
+                Nazad na obuku
               </Button>
             }
           />

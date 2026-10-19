@@ -19,7 +19,7 @@ export const taskFormSchema = z.object({
     .string({ error: 'Tekst zadatka je obavezan.' })
     .trim()
     .min(1, 'Tekst zadatka je obavezan.')
-    .max(10000, 'Tekst može imati najviše 10000 karaktera.'),
+    .max(10000, 'Tekst može imati najviše 10000 znakova.'),
 });
 
 export type TaskFormValues = z.output<typeof taskFormSchema>;

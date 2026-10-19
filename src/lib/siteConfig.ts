@@ -94,10 +94,10 @@ export const SITE: SiteConfig = {
   shortName: 'Edubox',
 
   /** Second half of the home page title: "Edubox Žepče — {tagline}". */
-  tagline: 'online kursevi sa certifikatom',
+  tagline: 'online obuke sa certifikatom',
 
   /** One sentence: the footer blurb and the default meta description. */
-  description: 'Platforma za online kurseve s pregledom zadataka i certifikatom po završetku.',
+  description: 'Platforma za online obuke s pregledom zadataka i certifikatom po završetku.',
 
   contact: {
     /**
@@ -141,21 +141,22 @@ export const SITE: SiteConfig = {
    * would be worse, not better.
    */
   stats: [
-    { value: 12, label: 'OBJAVLJENIH KURSEVA', live: 'publishedCourses' },
-    { value: 350, label: 'REGISTROVANIH STUDENATA', live: 'students' },
+    { value: 12, label: 'OBJAVLJENIH OBUKA', live: 'publishedCourses' },
+    { value: 350, label: 'REGISTRIRANIH STUDENATA', live: 'students' },
     { value: REVIEW_HOURS, suffix: 'h', label: 'ROK ZA PREGLED PREDANOG ZADATKA' },
-    { value: 78, suffix: '%', label: 'STUDENATA ZAVRŠI UPISANI KURS', live: 'completionRate' },
+    { value: 78, suffix: '%', label: 'STUDENATA ZAVRŠI UPISANU OBUKU', live: 'completionRate' },
   ],
 
   /**
    * Profiles linked from the footer. An entry with an empty `href` is not
    * rendered, so a network the business is not on is simply left blank.
-   * PLACEHOLDER — these point at the networks' home pages.
+   * Empty until the real profile URLs are known: they used to point at the
+   * networks' home pages, which read as links to profiles that do not exist.
    */
   social: [
-    { label: 'Instagram', href: 'https://instagram.com' },
-    { label: 'LinkedIn', href: 'https://linkedin.com' },
-    { label: 'Facebook', href: 'https://facebook.com' },
+    { label: 'Instagram', href: '' },
+    { label: 'LinkedIn', href: '' },
+    { label: 'Facebook', href: '' },
   ],
 
   /**

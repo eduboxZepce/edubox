@@ -63,7 +63,7 @@ export default function CourseCatalogue() {
           <SearchField
             value={list.search}
             onChange={list.setSearch}
-            placeholder="Pretraži kurseve…"
+            placeholder="Pretraži obuke…"
           />
         </Stack>
 
@@ -80,17 +80,17 @@ export default function CourseCatalogue() {
       <QueryState
         skeleton="grid"
         query={courses}
-        errorTitle="Kurseve nije moguće učitati"
+        errorTitle="Obuke nije moguće učitati"
         isEmpty={(page) => page.data.length === 0}
         empty={
           list.hasActiveFilters ? (
             <EmptyState
               title="Nema rezultata"
-              description="Nijedan kurs ne odgovara zadatoj pretrazi. Pokušaj s drugim pojmom ili kategorijom."
+              description="Nijedna obuka ne odgovara zadanoj pretrazi. Pokušaj s drugim pojmom ili kategorijom."
             />
           ) : (
             <EmptyState
-              title="Još nema objavljenih kurseva"
+              title="Još nema objavljenih obuka"
               description="Uskoro dodajemo sadržaj — svrati ponovo."
             />
           )

@@ -27,7 +27,7 @@ export const updateLegalDocumentSchema = z
     content: z.string().max(100_000).optional(),
   })
   .refine((value) => Object.keys(value).length > 0, {
-    error: 'Nema izmjena za spremanje.',
+    error: 'Nema izmjena za čuvanje.',
   })
   .openapi('UpdateLegalDocumentRequest');
 

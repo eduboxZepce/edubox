@@ -61,14 +61,14 @@ export default function StudentDashboardPage() {
   return (
     <PageContainer>
       <PageHeader
-        title={profile ? `Zdravo, ${profile.full_name}` : 'Kontrolna tabla'}
-        description="Sve na jednom mjestu — izaberite gdje želite da nastavite."
+        title={profile ? `Zdravo, ${profile.full_name}` : 'Kontrolna ploča'}
+        description="Sve na jednom mjestu — izaberite gdje želite nastaviti."
       />
 
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
           <StatCard
-            label="Moji kursevi"
+            label="Moje obuke"
             caption="Pristup i napredak"
             value={enrolled.data?.meta.total}
             icon={LibraryBooksOutlinedIcon}
@@ -98,7 +98,7 @@ export default function StudentDashboardPage() {
           <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
             <StatCard
               label="Certifikati"
-              caption="Završeni kursevi"
+              caption="Završene obuke"
               value={certificates.data?.meta.total}
               icon={WorkspacePremiumOutlinedIcon}
               href="/dashboard/certificates"
@@ -147,10 +147,10 @@ export default function StudentDashboardPage() {
               <ExploreOutlinedIcon />
               <Box sx={{ flex: 1, minWidth: 0 }}>
                 <Typography variant="subtitle2" sx={{ color: 'inherit', fontWeight: 700 }}>
-                  Pregledaj kurseve
+                  Pregledaj obuke
                 </Typography>
                 <Typography variant="body2" sx={{ opacity: 0.85 }}>
-                  Pronađite novi kurs u katalogu i zatražite pristup.
+                  Pronađite novu obuku u katalogu i zatražite pristup.
                 </Typography>
               </Box>
               <ArrowForwardIcon fontSize="small" />

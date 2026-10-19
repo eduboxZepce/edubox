@@ -106,6 +106,13 @@ import {
 } from '@/lib/schemas/payment.schema';
 import { legalDocumentResponseSchema, updateLegalDocumentSchema } from '@/lib/schemas/legal.schema';
 import {
+  blogPostListResponseSchema,
+  blogPostResponseSchema,
+  createBlogPostSchema,
+  listBlogPostsQuerySchema,
+  updateBlogPostSchema,
+} from '@/lib/schemas/blog.schema';
+import {
   newsletterRecipientsResponseSchema,
   sendNewsletterResponseSchema,
   sendNewsletterSchema,
@@ -247,6 +254,69 @@ registry.registerPath({
   path: '/api/admin/categories/{id}',
   tags: ['Categories'],
   summary: 'Delete a category (admin)',
+  security,
+  request: { params: idParam },
+  responses: { 204: { description: 'Deleted' }, ...errors },
+});
+
+/* -------------------------------------------------------------------------- */
+/* Blog                                                                        */
+/* -------------------------------------------------------------------------- */
+
+registry.registerPath({
+  method: 'get',
+  path: '/api/admin/blog-posts',
+  tags: ['Blog'],
+  summary: 'List blog posts, newest first (admin)',
+  description:
+    'Without `content`. The public blog pages do not use this — they read on the server so the article is in the initial HTML.',
+  security,
+  request: { query: listBlogPostsQuerySchema },
+  responses: { 200: json(blogPostListResponseSchema, 'Paginated posts'), ...errors },
+});
+
+registry.registerPath({
+  method: 'post',
+  path: '/api/admin/blog-posts',
+  tags: ['Blog'],
+  summary: 'Create a blog post (admin)',
+  description:
+    'Public immediately — there is no draft state. The slug is derived from the title by the database. `id` may be supplied so images can be uploaded to `blog-images/{id}/` before the post exists.',
+  security,
+  request: { body: { content: { 'application/json': { schema: createBlogPostSchema } } } },
+  responses: { 201: json(blogPostResponseSchema, 'Created'), ...errors },
+});
+
+registry.registerPath({
+  method: 'get',
+  path: '/api/admin/blog-posts/{id}',
+  tags: ['Blog'],
+  summary: 'Get one blog post with its content (admin)',
+  security,
+  request: { params: idParam },
+  responses: { 200: json(blogPostResponseSchema, 'The post'), ...errors },
+});
+
+registry.registerPath({
+  method: 'patch',
+  path: '/api/admin/blog-posts/{id}',
+  tags: ['Blog'],
+  summary: 'Update a blog post (admin)',
+  description:
+    "`slug: ''` regenerates the address from the title; a duplicate slug is a 409. A new `image_path` must come with `image_alt`; `image_path: null` removes the cover.",
+  security,
+  request: {
+    params: idParam,
+    body: { content: { 'application/json': { schema: updateBlogPostSchema } } },
+  },
+  responses: { 200: json(blogPostResponseSchema, 'Updated'), ...errors },
+});
+
+registry.registerPath({
+  method: 'delete',
+  path: '/api/admin/blog-posts/{id}',
+  tags: ['Blog'],
+  summary: 'Delete a blog post and its images (admin)',
   security,
   request: { params: idParam },
   responses: { 204: { description: 'Deleted' }, ...errors },

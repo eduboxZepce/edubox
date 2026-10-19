@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
  * number is still arriving. Here the grid stays put and each tile fills in.
  *
  *   <StatCard
- *     label="Kursevi"
+ *     label="Obuke"
  *     value={courses.data?.meta.total}
  *     icon={LibraryBooksOutlinedIcon}
  *     href="/admin/courses"
@@ -46,7 +46,7 @@ export default function StatCard({
   /**
    * A line under the label, for tiles that need to say what the destination is
    * rather than only how many things are in it. The admin dashboard omits it —
-   * "Kursevi" needs no gloss — while the student hub uses it, since that screen
+   * "Obuke" needs no gloss — while the student hub uses it, since that screen
    * exists to be navigated rather than read.
    */
   caption?: string;

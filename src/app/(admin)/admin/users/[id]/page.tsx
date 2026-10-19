@@ -88,7 +88,7 @@ export default function AdminUserDetailPage(props: PageProps<'/admin/users/[id]'
                         label: 'Status naloga',
                         value: <StatusChip {...accountStatus(profile.deactivated_at)} />,
                       },
-                      { label: 'Registrovan', value: formatDateTime(profile.created_at) },
+                      { label: 'Registriran', value: formatDateTime(profile.created_at) },
                       { label: 'Posljednja izmjena', value: formatDateTime(profile.updated_at) },
                       {
                         label: 'ID',
@@ -104,7 +104,7 @@ export default function AdminUserDetailPage(props: PageProps<'/admin/users/[id]'
                   <Alert severity="info">
                     Email adresu mijenja sam korisnik kroz svoj nalog — ovdje se ne može izmijeniti.
                     {FEATURES.teachers
-                      ? ' Predavač uređuje isključivo kurseve koje posjeduje; ako mu oduzmete tu ulogu, odmah gubi pristup njihovom sadržaju, ali kursevi ostaju sačuvani.'
+                      ? ' Predavač uređuje isključivo obuke koje posjeduje; ako mu oduzmete tu ulogu, odmah gubi pristup njihovom sadržaju, ali obuke ostaju sačuvane.'
                       : null}
                   </Alert>
                 </ContentCard>
@@ -120,7 +120,7 @@ export default function AdminUserDetailPage(props: PageProps<'/admin/users/[id]'
                   empty={
                     <EmptyState
                       title="Nema zahtjeva"
-                      description="Ovaj korisnik još nije zatražio nijedan kurs."
+                      description="Ovaj korisnik još nije zatražio nijednu obuku."
                     />
                   }
                 >
@@ -132,7 +132,7 @@ export default function AdminUserDetailPage(props: PageProps<'/admin/users/[id]'
                       columns={[
                         {
                           id: 'course',
-                          header: 'Kurs',
+                          header: 'Obuka',
                           cell: (row) => row.courses?.name ?? '—',
                         },
                         {
@@ -148,7 +148,7 @@ export default function AdminUserDetailPage(props: PageProps<'/admin/users/[id]'
                         },
                         {
                           id: 'created',
-                          header: 'Poslat',
+                          header: 'Poslan',
                           cell: (row) => formatDateTime(row.created_at),
                         },
                       ]}
@@ -167,7 +167,7 @@ export default function AdminUserDetailPage(props: PageProps<'/admin/users/[id]'
                   empty={
                     <EmptyState
                       title="Nema certifikata"
-                      description="Korisnik još nije završio nijedan kurs."
+                      description="Korisnik još nije završio nijednu obuku."
                     />
                   }
                 >
@@ -178,7 +178,7 @@ export default function AdminUserDetailPage(props: PageProps<'/admin/users/[id]'
                       onRowClick={(row) => `/admin/certificates/${row.id}`}
                       columns={[
                         { id: 'readable', header: 'Broj', cell: (row) => row.readable_id },
-                        { id: 'course', header: 'Kurs', cell: (row) => row.courses?.name ?? '—' },
+                        { id: 'course', header: 'Obuka', cell: (row) => row.courses?.name ?? '—' },
                         {
                           id: 'delivery',
                           header: 'Dostava',
@@ -190,7 +190,7 @@ export default function AdminUserDetailPage(props: PageProps<'/admin/users/[id]'
                         },
                         {
                           id: 'created',
-                          header: 'Izdat',
+                          header: 'Izdan',
                           cell: (row) => formatDateTime(row.created_at),
                         },
                       ]}

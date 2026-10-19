@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
  * A bordered panel with an optional titled header. The default container for
  * any self-contained block of a page: a form section, a table, a list.
  *
- *   <ContentCard title="Osnovni podaci" description="Naziv i opis kursa.">
+ *   <ContentCard title="Osnovni podaci" description="Naziv i opis obuke.">
  *     …fields…
  *   </ContentCard>
  *

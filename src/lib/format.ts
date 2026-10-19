@@ -126,14 +126,14 @@ export function truncate(text: string, maxLength = 120): string {
  *
  * There are three, chosen by the *last digit* (with a carve-out for the teens):
  *
- *   1 kurs   ·  21 kurs   ·  101 kurs        → `one`
- *   2 kursa  ·  34 kursa                     → `few`   (last digit 2–4)
- *   5 kurseva · 11 kurseva · 100 kurseva     → `many`  (everything else, incl. 11–14)
+ *   1 zadatak  ·  21 zadatak  ·  101 zadatak       → `one`
+ *   2 zadatka  ·  34 zadatka                       → `few`   (last digit 2–4)
+ *   5 zadataka · 11 zadataka · 100 zadataka        → `many`  (everything else, incl. 11–14)
  *
  * The 11–14 exception is the part that's easy to miss: 11 ends in 1 but takes
- * `many`, so "11 kurs" is wrong. Pass all three forms and let this pick.
+ * `many`, so "11 zadatak" is wrong. Pass all three forms and let this pick.
  *
- *   `${n} ${pluralBs(n, 'kurs', 'kursa', 'kurseva')}`  →  "3 kursa"
+ *   `${n} ${pluralBs(n, 'zadatak', 'zadatka', 'zadataka')}`  →  "3 zadatka"
  */
 export function pluralBs(count: number, one: string, few: string, many: string): string {
   const lastTwo = Math.abs(count) % 100;
@@ -145,9 +145,9 @@ export function pluralBs(count: number, one: string, few: string, many: string):
   return many;
 }
 
-/** `3` → `3 kursa`. The count of courses in a category, phrased correctly. */
+/** `3` → `3 obuke`. The count of courses in a category, phrased correctly. */
 export function formatCourseCount(count: number): string {
-  return `${count} ${pluralBs(count, 'kurs', 'kursa', 'kurseva')}`;
+  return `${count} ${pluralBs(count, 'obuka', 'obuke', 'obuka')}`;
 }
 
 /** First letters of a name, for avatar fallbacks. */

@@ -9,7 +9,8 @@ import Image from 'next/image';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import MarkdownContent from '@/components/markdown/MarkdownContent';
-import { BLOG_POSTS, estimateReadingMinutes, findBlogPost, type BlogPost } from '@/lib/blog';
+import { estimateReadingMinutes, type BlogPost } from '@/lib/blog';
+import { getBlogPost, listBlogSlugs } from '@/lib/server/blog';
 import { formatDate } from '@/lib/format';
 import JsonLd from '@/components/seo/JsonLd';
 import { absoluteUrl, organizationJsonLd, pageMetadata } from '@/lib/seo';
@@ -17,31 +18,38 @@ import { absoluteUrl, organizationJsonLd, pageMetadata } from '@/lib/seo';
 /**
  * One blog post.
  *
- * A server component reading from `src/lib/blog.ts`, so a post is static HTML
- * with no client JavaScript and no request to anything.
+ * A Server Component reading `blog_posts` (migration 0035) through the
+ * cookie-free public client, so a post is static HTML with no client
+ * JavaScript — the point of having a blog at all.
  *
- * `generateStaticParams` pre-renders every post at build time. With the array
- * empty it yields nothing, which is correct - there is simply nothing to
- * pre-render yet, and the route still 404s properly for any slug.
+ * ## ISR
+ *
+ * `generateStaticParams` pre-renders every post at build time. A post written
+ * since is rendered on its first visit and cached; admin edits mark the pages
+ * stale through `revalidateBlog()`, with `revalidate` as an hourly fallback.
+ *
+ * ## An unknown slug is a soft 404, knowingly
+ *
+ * This used to be `dynamicParams = false` over a fixed array, which made an
+ * unknown slug a genuine 404 status. Posts are no longer fixed, so new slugs
+ * must be allowed — and then `notFound()` runs inside the `loading.tsx`
+ * boundaries (this route's and `/blog`'s), after the response has committed as
+ * 200. Next marks it `noindex`, so it stays out of search results. Measured,
+ * not assumed: removing this route's `loading.tsx` alone does not change it,
+ * since `/blog/loading.tsx` wraps the segment too. Same trade as
+ * `/courses/[slug]`; a real status would need the check in `proxy.ts`, a
+ * database read on every blog request.
  */
-/**
- * Only the slugs above exist, so anything else is a 404 *status*, decided
- * before rendering. Without this, an unknown slug reaches `notFound()` after
- * `loading.tsx` has already committed the response as 200 — Next then marks it
- * `noindex`, which keeps it out of results but reads to crawlers as a "soft
- * 404". The blog is a fixed array, so there is nothing dynamic to allow.
- */
-export const dynamicParams = false;
+export const revalidate = 3600;
 
-export function generateStaticParams() {
-  return BLOG_POSTS.map((post) => ({ slug: post.slug }));
+export async function generateStaticParams() {
+  return (await listBlogSlugs()).map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata(props: PageProps<'/blog/[slug]'>) {
   const { slug } = await props.params;
-  const post = findBlogPost(slug);
+  const post = await getBlogPost(slug);
 
-  // Unreachable while `dynamicParams` is false; it narrows the type.
   if (!post) notFound();
 
   return pageMetadata({
@@ -77,7 +85,7 @@ function blogPostingJsonLd(post: BlogPost) {
 
 export default async function BlogPostPage(props: PageProps<'/blog/[slug]'>) {
   const { slug } = await props.params;
-  const post = findBlogPost(slug);
+  const post = await getBlogPost(slug);
 
   //An unknown slug is genuine 404, handled by `app/not-found.tsx`. Rendering
   //an empty article instead would leave a URL that looks real and says

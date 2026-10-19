@@ -161,7 +161,7 @@ export function renderEmail(content: EmailContent): { html: string; text: string
    */
   const footerLines = [
     ...(footer?.lines ?? [
-      'Ovo obavještenje ste dobili jer je uključeno u podešavanjima vašeg naloga.',
+      'Ovo obavještenje ste dobili jer je uključeno u postavkama vašeg naloga.',
       'Možete ga isključiti na stranici „Obavještenja”.',
     ]),
     // The sender address is send-only, so a reply would go nowhere. Say so,

@@ -16,9 +16,9 @@ export type Crumb = {
  * optional one-line explanation, and a slot for page-level actions.
  *
  *   <PageHeader
- *     breadcrumbs={[{ label: 'Kursevi', href: '/admin/courses' }, { label: 'Novi kurs' }]}
- *     title="Novi kurs"
- *     description="Popunite osnovne podatke o kursu."
+ *     breadcrumbs={[{ label: 'Obuke', href: '/admin/courses' }, { label: 'Nova obuka' }]}
+ *     title="Nova obuka"
+ *     description="Popunite osnovne podatke o obuci."
  *     actions={<Button variant="contained">Sačuvaj</Button>}
  *   />
  */

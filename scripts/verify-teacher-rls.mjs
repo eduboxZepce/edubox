@@ -64,7 +64,7 @@ async function main() {
 
   const ana = await signIn('ana@kursevi.test');
   const marko = await signIn('marko@kursevi.test');
-  const student = await signIn('jovana@kursevi.test');
+  const student = await signIn('lejla@kursevi.test');
 
   console.log('\nReading courses');
   {
@@ -126,7 +126,7 @@ async function main() {
   {
     const { data, error } = await ana
       .from('courses')
-      .insert({ name: 'Provjera: novi kurs', price: 0 })
+      .insert({ name: 'Provjera: nova obuka', price: 0 })
       .select()
       .single();
     check('teacher can create a course', !error, error?.message);
@@ -195,42 +195,39 @@ async function main() {
     //
     // Set up with the service client, like the other lookups at the top. Only
     // the assertions need a user JWT; arranging the data does not.
-    const { data: nikola } = await service
+    const { data: emir } = await service
       .from('profiles')
       .select('id')
-      .eq('email', 'nikola@kursevi.test')
+      .eq('email', 'emir@kursevi.test')
       .single();
 
     const { data: existing } = await service
       .from('purchases')
       .select('id')
       .eq('course_id', anaCourse.id)
-      .eq('student_id', nikola.id)
+      .eq('student_id', emir.id)
       .maybeSingle();
 
     if (!existing) {
       await service
         .from('purchases')
-        .insert({ course_id: anaCourse.id, student_id: nikola.id, price: 0, status: 'requested' });
+        .insert({ course_id: anaCourse.id, student_id: emir.id, price: 0, status: 'requested' });
     }
 
     const { data } = await ana.from('profiles').select('id, full_name');
     const names = (data ?? []).map((p) => p.full_name);
 
-    check('teacher can read a student who bought their course', names.includes('Jovana Jovanović'));
+    check('teacher can read a student who bought their course', names.includes('Lejla Begović'));
 
-    // Nikola only *requested* Ana's course — `teaches_student` deliberately
+    // Emir only *requested* Ana's course — `teaches_student` deliberately
     // does not filter on status, because the purchase queue Ana is allowed to
     // read is exactly the list of pending requests and it needs names on it.
-    check(
-      'teacher can read a student who requested their course',
-      names.includes('Nikola Nikolić'),
-    );
+    check('teacher can read a student who requested their course', names.includes('Emir Hadžić'));
 
     // Nobody with no relationship to Ana's courses at all.
     check(
       'teacher cannot read unrelated profiles',
-      !names.includes('Marko Marković') && !names.includes('Milica Petrović'),
+      !names.includes('Marko Marković') && !names.includes('Amra Kovačević'),
       `saw: ${names.join(', ')}`,
     );
   }

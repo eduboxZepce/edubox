@@ -34,13 +34,16 @@ if (process.env.VERCEL_ENV) {
 }
 
 /**
- * The public bucket course thumbnails are served from, so `next/image` may
- * resize them and serve WebP. Only that bucket: allowing the whole Supabase host
- * would let anyone route arbitrary objects through the optimiser.
+ * The public buckets `next/image` renders from — course thumbnails and blog
+ * images — so it may resize them and serve WebP. Only those buckets: allowing
+ * the whole Supabase host would let anyone route arbitrary objects through the
+ * optimiser.
  */
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const thumbnailPattern = supabaseUrl
-  ? [new URL(`${supabaseUrl.replace(/\/$/, '')}/storage/v1/object/public/course-thumbnails/**`)]
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, '');
+const imagePatterns = supabaseUrl
+  ? ['course-thumbnails', 'blog-images'].map(
+      (bucket) => new URL(`${supabaseUrl}/storage/v1/object/public/${bucket}/**`),
+    )
   : [];
 
 const nextConfig: NextConfig = {
@@ -56,7 +59,7 @@ const nextConfig: NextConfig = {
     '/api/certificates/[certificateId]/pdf': ['./src/lib/pdf/fonts/**/*'],
   },
 
-  images: { remotePatterns: thumbnailPattern },
+  images: { remotePatterns: imagePatterns },
 
   /**
    * One canonical host: the apex domain answers with a 301 to `www`, path and

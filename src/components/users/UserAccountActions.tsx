@@ -91,14 +91,14 @@ export default function UserAccountActions({ profile }: { profile: Profile }) {
         description={
           isDeactivated ? (
             <>
-              <strong>{profile.full_name}</strong> će ponovo moći da se prijavi i nastaviće tamo
+              <strong>{profile.full_name}</strong> će se ponovo moći prijaviti i nastavit će tamo
               gdje je stao/la.
             </>
           ) : (
             <>
-              <strong>{profile.full_name}</strong> više neće moći da se prijavi. Ništa se ne briše —
-              kupovine, certifikati i kursevi ostaju sačuvani, a nalog možete ponovo aktivirati u
-              bilo kom trenutku.
+              <strong>{profile.full_name}</strong> se više neće moći prijaviti. Ništa se ne briše —
+              kupovine, certifikati i obuke ostaju sačuvani, a nalog možete ponovo aktivirati u bilo
+              kom trenutku.
             </>
           )
         }

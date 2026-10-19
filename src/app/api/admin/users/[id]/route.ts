@@ -128,7 +128,7 @@ export const PATCH = withRoute(async (req, ctx: Ctx) => {
         lines: [
           `Administrator je promijenio ulogu vašeg naloga na: ${USER_ROLE[updated.role].label}.`,
           updated.role === 'teacher'
-            ? 'Sada možete da kreirate i uređujete vlastite kurseve, module, kvizove i zadatke, i da pregledate predata rješenja.'
+            ? 'Sada možete kreirati i uređivati vlastite obuke, module, kvizove i zadatke te pregledati predana rješenja.'
             : 'Promjena važi odmah, bez ponovne prijave.',
         ],
         action: { label: 'Otvori nalog', href: landingPathForRole(updated.role) },

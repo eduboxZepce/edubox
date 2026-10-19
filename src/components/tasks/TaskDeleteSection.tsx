@@ -45,7 +45,7 @@ export default function TaskDeleteSection({ task }: { task: Task }) {
         sx={{ alignItems: { sm: 'center' }, justifyContent: 'space-between' }}
       >
         <Typography variant="body2" color="text.secondary">
-          Briše zadatak, njegove priloge i sva predata rješenja studenata, zajedno sa porukama uz
+          Briše zadatak, njegove priloge i sva predana rješenja studenata, zajedno sa porukama uz
           njih. Modul ostaje, samo više neće imati zadatak.
         </Typography>
 
@@ -63,7 +63,7 @@ export default function TaskDeleteSection({ task }: { task: Task }) {
       <ConfirmDialog
         open={confirming}
         title="Obrisati zadatak?"
-        description="Zadatak, prilozi i sva predata rješenja studenata bit će trajno obrisani. Ova akcija se ne može poništiti."
+        description="Zadatak, prilozi i sva predana rješenja studenata bit će trajno obrisani. Ova akcija se ne može poništiti."
         confirmLabel="Obriši zadatak"
         pending={deleteTask.isPending}
         onCancel={() => setConfirming(false)}

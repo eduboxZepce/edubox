@@ -87,7 +87,7 @@ export const certificateResponseSchema = z
 export const verifyCertificateRequestSchema = z
   .object({
     number: z.string().trim().min(1).max(40).openapi({ example: 'CERT-2026-0001' }),
-    surname: z.string().trim().min(2).max(100).openapi({ example: 'Jovanović' }),
+    surname: z.string().trim().min(2).max(100).openapi({ example: 'Begović' }),
   })
   .openapi('VerifyCertificateRequest');
 

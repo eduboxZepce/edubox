@@ -76,14 +76,14 @@ export default function QuizQuestionFields({
             <FormTextField
               name={`questions.${questionIndex}.text`}
               label="Pitanje"
-              placeholder="npr. Šta znači skraćenica HTTP?"
+              placeholder="npr. Što znači skraćenica HTTP?"
               multiline
               rows={2}
               required
             />
           </Box>
 
-          <Tooltip title={canRemove ? 'Obriši pitanje' : 'Kviz mora imati bar jedno pitanje'}>
+          <Tooltip title={canRemove ? 'Obriši pitanje' : 'Kviz mora imati barem jedno pitanje'}>
             {/* A disabled IconButton fires no events, so the tooltip needs a
                 wrapper to stay hoverable on the last remaining question. */}
             <span>
@@ -129,7 +129,7 @@ export default function QuizQuestionFields({
 
               <Tooltip
                 title={
-                  answers.fields.length > 2 ? 'Obriši odgovor' : 'Potrebna su bar dva odgovora'
+                  answers.fields.length > 2 ? 'Obriši odgovor' : 'Potrebna su barem dva odgovora'
                 }
               >
                 <span>

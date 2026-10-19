@@ -8,7 +8,7 @@ import { SITE } from '@/lib/siteConfig';
 
 export const metadata = pageMetadata({
   title: 'Provjera certifikata',
-  description: `Provjeri da li je certifikat platforme ${SITE.name} izdat: unesi broj certifikata i prezime vlasnika i odmah vidi kurs i datum završetka.`,
+  description: `Provjeri da li je certifikat platforme ${SITE.name} izdan: unesi broj certifikata i prezime vlasnika i odmah vidi obuku i datum završetka.`,
   path: VERIFICATION_PATH,
 });
 
@@ -41,8 +41,8 @@ export default async function CertificateVerificationPage(
           Je li certifikat pravi?
         </Typography>
         <Typography variant="body1" color="text.secondary">
-          Unesi broj certifikata i prezime osobe na koju glasi. Ako se oba podatka poklapaju,
-          prikazat ćemo kurs i datum završetka.
+          Unesi broj certifikata i prezime osobe na koju glasi. Ako se oba podatka podudaraju,
+          prikazat ćemo obuku i datum završetka.
         </Typography>
       </Stack>
 

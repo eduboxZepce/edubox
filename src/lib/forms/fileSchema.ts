@@ -30,13 +30,13 @@ export function fileSchema({
   typeErrorMessage?: string;
 } = {}) {
   return z
-    .instanceof(File, { message: 'Izaberite fajl.' })
-    .refine((file) => file.size > 0, { message: 'Izabrani fajl je prazan.' })
+    .instanceof(File, { message: 'Izaberite datoteku.' })
+    .refine((file) => file.size > 0, { message: 'Izabrana datoteka je prazna.' })
     .refine((file) => file.size <= maxBytes, {
-      message: `Fajl je prevelik. Maksimalna veličina je ${formatBytes(maxBytes)}.`,
+      message: `Datoteka je prevelika. Maksimalna veličina je ${formatBytes(maxBytes)}.`,
     })
     .refine((file) => !acceptedTypes || acceptedTypes.includes(file.type), {
-      message: typeErrorMessage ?? 'Format fajla nije podržan.',
+      message: typeErrorMessage ?? 'Format datoteke nije podržan.',
     });
 }
 
@@ -52,7 +52,7 @@ export const imageFileSchema = fileSchema({
  */
 export const moduleFileSchema = fileSchema({
   acceptedTypes: ACCEPTED_MODULE_FILE_TYPES,
-  typeErrorMessage: 'Materijali moraju biti PDF fajlovi.',
+  typeErrorMessage: 'Materijali moraju biti PDF datoteke.',
 });
 
 /**

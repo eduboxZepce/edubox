@@ -80,7 +80,7 @@ function LegalEditor({ document: doc }: { document: LegalDocument }) {
         value={content}
         onChange={setContent}
         disabled={update.isPending}
-        helperText="Koristite alatku iznad za naslove, podebljano, liste i linkove. Tekst se čuva u Markdown formatu."
+        helperText="Koristite alatnu traku iznad za naslove, podebljano, liste i linkove. Tekst se čuva u Markdown formatu."
       />
 
       <Stack
@@ -101,7 +101,7 @@ function LegalEditor({ document: doc }: { document: LegalDocument }) {
             onClick={() => void save()}
             disabled={!dirty || update.isPending || title.trim() === ''}
           >
-            {update.isPending ? 'Spremanje…' : 'Sačuvaj'}
+            {update.isPending ? 'Čuvanje…' : 'Sačuvaj'}
           </Button>
         </Stack>
       </Stack>
@@ -126,7 +126,7 @@ export default function AdminLegalSettingsPage() {
   return (
     <PageContainer>
       <PageHeader
-        breadcrumbs={[{ label: 'Kontrolna tabla', href: '/admin' }, { label: 'Pravni dokumenti' }]}
+        breadcrumbs={[{ label: 'Kontrolna ploča', href: '/admin' }, { label: 'Pravni dokumenti' }]}
         title="Pravni dokumenti"
         description="Uvjeti korištenja i politika privatnosti, vidljivi svim posjetiocima."
       />

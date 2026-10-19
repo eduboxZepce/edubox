@@ -57,7 +57,7 @@ export default function NotificationsPage() {
         actions={
           <Stack direction="row" spacing={1}>
             <Button href="/settings/notifications" startIcon={<SettingsOutlinedIcon />}>
-              Podešavanja
+              Postavke
             </Button>
             <Button
               variant="outlined"

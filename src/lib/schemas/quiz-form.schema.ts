@@ -30,7 +30,7 @@ export const quizQuestionFormSchema = z
       .string({ error: 'Tekst pitanja je obavezan.' })
       .trim()
       .min(1, 'Tekst pitanja je obavezan.')
-      .max(2000, 'Pitanje može imati najviše 2000 karaktera.'),
+      .max(2000, 'Pitanje može imati najviše 2000 znakova.'),
 
     answers: z
       .array(
@@ -39,10 +39,10 @@ export const quizQuestionFormSchema = z
             .string({ error: 'Tekst odgovora je obavezan.' })
             .trim()
             .min(1, 'Tekst odgovora je obavezan.')
-            .max(500, 'Odgovor može imati najviše 500 karaktera.'),
+            .max(500, 'Odgovor može imati najviše 500 znakova.'),
         }),
       )
-      .min(2, 'Pitanje mora imati bar dva odgovora.'),
+      .min(2, 'Pitanje mora imati barem dva odgovora.'),
 
     /** Index into `answers` of the single correct option. */
     correctIndex: z.number({ error: 'Označite tačan odgovor.' }).int().min(0),
@@ -56,11 +56,11 @@ export const quizQuestionFormSchema = z
 export const quizFormSchema = z.object({
   passing_score: z
     .number({ error: 'Unesite prag prolaznosti.' })
-    .int('Prag mora biti cio broj.')
+    .int('Prag mora biti cijeli broj.')
     .min(0, 'Prag ne može biti manji od 0.')
     .max(100, 'Prag ne može biti veći od 100.'),
 
-  questions: z.array(quizQuestionFormSchema).min(1, 'Kviz mora imati bar jedno pitanje.'),
+  questions: z.array(quizQuestionFormSchema).min(1, 'Kviz mora imati barem jedno pitanje.'),
 });
 
 export type QuizFormValues = z.output<typeof quizFormSchema>;

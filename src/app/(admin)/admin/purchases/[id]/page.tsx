@@ -61,15 +61,15 @@ export default function AdminPurchaseDetailPage(props: PageProps<'/admin/purchas
               {row.status === 'requested' ? (
                 <ContentCard
                   title="Odluka"
-                  description="Odobravanje odmah otvara pristup svim modulima kursa."
+                  description="Odobravanje odmah otvara pristup svim modulima obuke."
                 >
                   <PurchaseActions purchase={row} size="medium" />
                 </ContentCard>
               ) : (
                 <Alert severity={row.status === 'approved' ? 'success' : 'info'}>
                   {row.status === 'approved'
-                    ? 'Pristup je odobren. Student može da otvara module ovog kursa.'
-                    : 'Zahtjev je odbijen. Student može poslati novi zahtjev za isti kurs.'}
+                    ? 'Pristup je odobren. Student može otvarati module ove obuke.'
+                    : 'Zahtjev je odbijen. Student može poslati novi zahtjev za istu obuku.'}
                 </Alert>
               )}
 
@@ -95,7 +95,7 @@ export default function AdminPurchaseDetailPage(props: PageProps<'/admin/purchas
                 </Grid>
 
                 <Grid size={{ xs: 12, md: 6 }}>
-                  <ContentCard title="Kurs">
+                  <ContentCard title="Obuka">
                     <DetailList
                       items={[
                         {
@@ -126,7 +126,7 @@ export default function AdminPurchaseDetailPage(props: PageProps<'/admin/purchas
                       value: <PaymentReference readableId={row.readable_id} variant="inline" />,
                     },
                     { label: 'Status', value: <StatusChip {...PURCHASE_STATUS[row.status]} /> },
-                    { label: 'Zahtjev poslat', value: formatDateTime(row.created_at) },
+                    { label: 'Zahtjev poslan', value: formatDateTime(row.created_at) },
                     { label: 'Posljednja izmjena', value: formatDateTime(row.updated_at) },
                     {
                       label: 'ID zahtjeva',

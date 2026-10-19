@@ -79,7 +79,7 @@ export default function NotificationSettingsPage() {
   return (
     // No container or heading: `settings/layout.tsx` owns the shell and the
     // tabs, so this page is only its own section.
-    <QueryState skeleton="list" query={preferences} errorTitle="Podešavanja nije moguće učitati">
+    <QueryState skeleton="list" query={preferences} errorTitle="Postavke nije moguće učitati">
       {(response) => {
         // Grouped for reading. The catalogue's order is preserved inside each
         // group, so the screen matches the order things are declared in.

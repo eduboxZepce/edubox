@@ -68,19 +68,19 @@ export default function CourseForm({
 
   return (
     <Form form={form} onSubmit={onSubmit} pendingLabel={pendingLabel}>
-      <ContentCard title="Osnovni podaci" description="Naziv i opis koje studenti vide na kursu.">
+      <ContentCard title="Osnovni podaci" description="Naziv i opis koje studenti vide na obuci.">
         <Stack spacing={2}>
           <FormTextField
             name="name"
-            label="Naziv kursa"
+            label="Naziv obuke"
             placeholder="npr. Uvod u web programiranje"
             required
           />
           <FormTextField
             name="description"
             label="Opis"
-            placeholder="Šta student uči na ovom kursu i kome je namijenjen."
-            helperText="Prikazuje se na stranici kursa. Nije obavezan, ali pomaže pri odluci o kupovini."
+            placeholder="Što student uči na ovoj obuci i kome je namijenjena."
+            helperText="Prikazuje se na stranici obuke. Nije obavezan, ali pomaže pri odluci o kupovini."
             multiline
             rows={5}
           />
@@ -99,7 +99,7 @@ export default function CourseForm({
               helperText={
                 categories.isError
                   ? 'Kategorije nije bilo moguće učitati.'
-                  : 'Koristi se za filtriranje kurseva.'
+                  : 'Koristi se za filtriranje obuka.'
               }
             />
           </Grid>
@@ -112,7 +112,7 @@ export default function CourseForm({
               // Marks, not dinars — courses land in the tens-to-hundreds, so the
               // spinner steps by 10 rather than 100.
               step={10}
-              helperText="Unesite 0 za besplatan kurs."
+              helperText="Unesite 0 za besplatnu obuku."
               required
             />
           </Grid>
@@ -122,28 +122,28 @@ export default function CourseForm({
       {showSlugField ? (
         <ContentCard
           title="Adresa stranice"
-          description="Dio URL-a po kojem je kurs dostupan javno."
+          description="Dio URL-a po kojem je obuka dostupna javno."
         >
           <Stack spacing={2}>
             <FormTextField
               name="slug"
               label="Adresa (slug)"
               placeholder="uvod-u-web-programiranje"
-              helperText="Ostavite prazno da se adresa ponovo generiše iz naziva kursa."
+              helperText="Ostavite prazno da se adresa ponovo generira iz naziva obuke."
             />
             <Alert severity="warning">
-              Promjena adrese mijenja javni link ka kursu. Stari link prestaje da radi, pa ga
-              nemojte mijenjati ako je već negdje podijeljen. Preimenovanje kursa samo po sebi ne
-              mijenja adresu.
+              Promjena adrese mijenja javni link na obuku. Stari link prestaje raditi, pa ga nemojte
+              mijenjati ako je već negdje podijeljen. Preimenovanje obuke samo po sebi ne mijenja
+              adresu.
             </Alert>
           </Stack>
         </ContentCard>
       ) : null}
 
-      <ContentCard title="Naslovna slika" description="Prikazuje se na kartici kursa u katalogu.">
+      <ContentCard title="Naslovna slika" description="Prikazuje se na kartici obuke u katalogu.">
         <FormImageUpload
           name="thumbnail"
-          label="Slika kursa"
+          label="Slika obuke"
           currentImageUrl={currentThumbnailUrl}
         />
       </ContentCard>
@@ -152,12 +152,12 @@ export default function CourseForm({
         {canPublish ? (
           <FormSwitch
             name="published"
-            label="Objavi kurs"
-            description="Objavljeni kursevi su vidljivi svim posjetiocima i mogu se kupiti. Nacrti su vidljivi samo vama i administratorima."
+            label="Objavi obuku"
+            description="Objavljene obuke su vidljive svim posjetiocima i mogu se kupiti. Nacrti su vidljivi samo vama i administratorima."
           />
         ) : (
           <Alert severity="info">
-            Kurs se čuva kao nacrt. Objavljivanje kursa radi administrator — javite se kada sadržaj
+            Obuka se čuva kao nacrt. Objavljivanje obuke radi administrator — javite se kada sadržaj
             bude spreman.
           </Alert>
         )}

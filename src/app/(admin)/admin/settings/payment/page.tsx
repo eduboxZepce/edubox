@@ -80,7 +80,7 @@ function PaymentSettingsForm({ settings }: { settings: PaymentSettings }) {
             name="account_number"
             label="Broj računa"
             required
-            helperText="Unosi se tačno onako kako treba da bude prepisan u nalog za plaćanje."
+            helperText="Unosi se tačno onako kako treba biti prepisan u nalog za plaćanje."
           />
           <FormTextField
             name="swift"
@@ -97,8 +97,8 @@ function PaymentSettingsForm({ settings }: { settings: PaymentSettings }) {
         <Stack spacing={2}>
           <FormTextField
             name="payment_purpose_template"
-            label="Šablon svrhe uplate"
-            helperText="Koristite {reference} za poziv na broj i {course} za naziv kursa."
+            label="Predložak svrhe uplate"
+            helperText="Koristite {reference} za poziv na broj i {course} za naziv obuke."
           />
           <FormTextField
             name="note"
@@ -125,9 +125,9 @@ export default function AdminPaymentSettingsPage() {
   return (
     <PageContainer maxWidth="form">
       <PageHeader
-        breadcrumbs={[{ label: 'Kontrolna tabla', href: '/admin' }, { label: 'Podaci za uplatu' }]}
+        breadcrumbs={[{ label: 'Kontrolna ploča', href: '/admin' }, { label: 'Podaci za uplatu' }]}
         title="Podaci za uplatu"
-        description="Prikazuju se studentu uz poziv na broj kada zatraži pristup kursu."
+        description="Prikazuju se studentu uz poziv na broj kada zatraži pristup obuci."
       />
 
       <QueryState query={settings} errorTitle="Podatke nije moguće učitati">

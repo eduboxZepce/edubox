@@ -90,11 +90,11 @@ export default function AdminCourseModulesPage(props: PageProps<'/admin/courses/
       <PageContainer>
         <ContentCard>
           <EmptyState
-            title="Kurs nije pronađen"
-            description="Ovaj kurs ne postoji ili nemate pristup njemu."
+            title="Obuka nije pronađena"
+            description="Ova obuka ne postoji ili nemate pristup njoj."
             action={
               <Button href="/admin/courses" variant="contained">
-                Nazad na kurseve
+                Nazad na obuke
               </Button>
             }
           />
@@ -107,8 +107,8 @@ export default function AdminCourseModulesPage(props: PageProps<'/admin/courses/
     <PageContainer>
       <PageHeader
         breadcrumbs={[
-          { label: 'Kursevi', href: '/admin/courses' },
-          { label: course.data?.name ?? 'Kurs', href: `/admin/courses/${courseId}/edit` },
+          { label: 'Obuke', href: '/admin/courses' },
+          { label: course.data?.name ?? 'Obuka', href: `/admin/courses/${courseId}/edit` },
           { label: 'Moduli' },
         ]}
         title="Moduli"
@@ -135,7 +135,7 @@ export default function AdminCourseModulesPage(props: PageProps<'/admin/courses/
           isEmpty={(page) => page.data.length === 0}
           empty={
             <EmptyState
-              title="Kurs još nema module"
+              title="Obuka još nema module"
               description="Dodajte prvi modul — redoslijed možete mijenjati kasnije."
               action={
                 <Button

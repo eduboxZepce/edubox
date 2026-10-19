@@ -18,7 +18,7 @@ export const userFormSchema = z.object({
     .string({ error: 'Ime je obavezno.' })
     .trim()
     .min(1, 'Ime je obavezno.')
-    .max(200, 'Ime može imati najviše 200 karaktera.'),
+    .max(200, 'Ime može imati najviše 200 znakova.'),
 
   role: z.enum(['admin', 'teacher', 'student'], { error: 'Izaberite ulogu.' }),
 });

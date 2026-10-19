@@ -79,7 +79,7 @@ export const SECTIONS = [
   {
     key: 'categories',
     label: 'Kategorije',
-    description: 'Kategorije kurseva',
+    description: 'Kategorije obuka',
     match: /categor/i,
   },
   {
@@ -100,12 +100,12 @@ export const SECTIONS = [
     label: 'Javni sajt',
     description: 'Naslovna, blog, kontakt, SEO i javno zaglavlje',
     match:
-      /\(marketing\)\/(page|layout|blog|kontakt|uvjeti|politika)|components\/(landing|blog|contact|seo|markdown)\/|lib\/(blog|seo|siteConfig)\.|app\/(sitemap|robots)\.ts|app\/og\/|api\/contact|PublicHeader|PublicFooter|Logo\.tsx|^public\//,
+      /\(marketing\)\/(page|layout|blog|kontakt|uvjeti|politika)|components\/(landing|blog|contact|seo|markdown)\/|lib\/(blog|seo|siteConfig)\.|app\/(sitemap|robots)\.ts|app\/og\/|api\/contact|PublicHeader|PublicFooter|Logo\.tsx|^public\/|[Bb]log/,
   },
   {
     key: 'courses',
-    label: 'Kursevi',
-    description: 'Katalog, stranica kursa, izrada i pregled kurseva',
+    label: 'Obuke',
+    description: 'Katalog, stranica obuke, izrada i pregled obuka',
     match: /course/i,
   },
   {

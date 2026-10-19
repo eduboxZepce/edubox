@@ -89,7 +89,7 @@ export default function AdminIssuesPage() {
             ) : (
               <EmptyState
                 title="Nema zahtjeva"
-                description="Nijedan zahtjev ne odgovara zadatoj pretrazi i filteru."
+                description="Nijedan zahtjev ne odgovara zadanoj pretrazi i filteru."
               />
             )
           }
@@ -142,7 +142,7 @@ export default function AdminIssuesPage() {
                   },
                   {
                     id: 'created',
-                    header: 'Poslato',
+                    header: 'Poslano',
                     cell: (row) => (
                       <Typography variant="body2" color="text.secondary">
                         {formatRelativeTime(row.created_at)}

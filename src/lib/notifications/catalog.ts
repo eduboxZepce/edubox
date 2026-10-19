@@ -54,7 +54,7 @@ export const NOTIFICATION_GROUPS: Record<
   purchases: {
     feature: 'purchases',
     title: 'Kupovine',
-    description: 'Zahtjevi za pristup kursevima i odluke o njima.',
+    description: 'Zahtjevi za pristup obukama i odluke o njima.',
   },
   submissions: {
     feature: 'tasks',
@@ -67,8 +67,8 @@ export const NOTIFICATION_GROUPS: Record<
     description: 'Izdavanje certifikata i slanje štampanih primjeraka.',
   },
   account: {
-    title: 'Nalog i kursevi',
-    description: 'Promjene na vašem nalogu i na kursevima koje vodite.',
+    title: 'Nalog i obuke',
+    description: 'Promjene na vašem nalogu i na obukama koje vodite.',
   },
   support: {
     feature: 'support',
@@ -81,7 +81,7 @@ export const NOTIFICATION_CATALOG: Record<NotificationType, NotificationDefiniti
   /* ---- purchases ---- */
   purchase_requested: {
     label: 'Novi zahtjev za kupovinu',
-    description: 'Kada student zatraži pristup kursu i čeka odobrenje.',
+    description: 'Kada student zatraži pristup obuci i čeka odobrenje.',
     // Only admins decide on purchases, so only admins are told. A teacher may
     // read the requests on their own courses but cannot act on them, and a
     // notification you can do nothing about is noise.
@@ -90,21 +90,21 @@ export const NOTIFICATION_CATALOG: Record<NotificationType, NotificationDefiniti
   },
   purchase_approved: {
     label: 'Pristup odobren',
-    description: 'Kada vam administrator odobri pristup kursu.',
+    description: 'Kada vam administrator odobri pristup obuci.',
     audience: ['student'],
     group: 'purchases',
   },
   purchase_denied: {
     label: 'Zahtjev odbijen',
-    description: 'Kada vam administrator odbije zahtjev za pristup kursu.',
+    description: 'Kada vam administrator odbije zahtjev za pristup obuci.',
     audience: ['student'],
     group: 'purchases',
   },
 
   /* ---- submissions ---- */
   submission_received: {
-    label: 'Novo predato rješenje',
-    description: 'Kada student preda rješenje zadatka na kursu koji pregledate.',
+    label: 'Novo predano rješenje',
+    description: 'Kada student preda rješenje zadatka na obuci koju pregledate.',
     audience: ['admin', 'teacher'],
     group: 'submissions',
   },
@@ -116,7 +116,7 @@ export const NOTIFICATION_CATALOG: Record<NotificationType, NotificationDefiniti
   },
   submission_needs_revision: {
     label: 'Zatražena izmjena rješenja',
-    description: 'Kada predavač traži da ispravite predato rješenje.',
+    description: 'Kada predavač traži da ispravite predano rješenje.',
     audience: ['student'],
     group: 'submissions',
   },
@@ -129,8 +129,8 @@ export const NOTIFICATION_CATALOG: Record<NotificationType, NotificationDefiniti
 
   /* ---- certificates ---- */
   certificate_issued: {
-    label: 'Certifikat izdat',
-    description: 'Kada završite sve module kursa i dobijete certifikat.',
+    label: 'Certifikat izdan',
+    description: 'Kada završite sve module obuke i dobijete certifikat.',
     audience: ['student'],
     group: 'certificates',
   },
@@ -141,16 +141,16 @@ export const NOTIFICATION_CATALOG: Record<NotificationType, NotificationDefiniti
     group: 'certificates',
   },
   certificate_delivered: {
-    label: 'Certifikat poslat poštom',
-    description: 'Kada administrator označi da je vaš štampani certifikat poslat.',
+    label: 'Certifikat poslan poštom',
+    description: 'Kada administrator označi da je vaš štampani certifikat poslan.',
     audience: ['student'],
     group: 'certificates',
   },
 
   /* ---- account ---- */
   course_published: {
-    label: 'Kurs objavljen',
-    description: 'Kada administrator objavi kurs čiji ste autor.',
+    label: 'Obuka objavljena',
+    description: 'Kada administrator objavi obuku čiji ste autor.',
     // A teacher cannot publish their own course, so this is the only way they
     // learn it went live.
     audience: ['teacher'],

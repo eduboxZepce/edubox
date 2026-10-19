@@ -36,7 +36,7 @@ export default function CourseActions({ course }: { course: Course }) {
   async function handleDelete() {
     try {
       await deleteCourse.mutateAsync(course.id);
-      toast.success(`Kurs „${course.name}” je obrisan.`);
+      toast.success(`Obuka „${course.name}” je obrisana.`);
       setConfirmingDelete(false);
     } catch (error) {
       // The dialog stays open so the admin can retry or cancel deliberately.
@@ -49,7 +49,7 @@ export default function CourseActions({ course }: { course: Course }) {
       <IconButton
         size="small"
         onClick={(event) => setAnchorEl(event.currentTarget)}
-        aria-label={`Akcije za kurs ${course.name}`}
+        aria-label={`Akcije za obuku ${course.name}`}
         aria-haspopup="menu"
       >
         <MoreVertIcon fontSize="small" />
@@ -73,7 +73,7 @@ export default function CourseActions({ course }: { course: Course }) {
             opens something, so it said nothing about *what*. This page is the
             course's numbers: enrolment, completion, pending submissions.
           */}
-          <Typography variant="body2">Statistika kursa</Typography>
+          <Typography variant="body2">Statistika obuke</Typography>
         </MenuItem>
 
         <MenuItem component={NextLink} href={`/admin/courses/${course.id}/edit`} onClick={close}>
@@ -106,14 +106,14 @@ export default function CourseActions({ course }: { course: Course }) {
 
       <ConfirmDialog
         open={confirmingDelete}
-        title="Obrisati kurs?"
+        title="Obrisati obuku?"
         description={
           <>
-            Kurs <strong>{course.name}</strong> i sav njegov sadržaj — moduli, kvizovi, zadaci i
-            fajlovi — bit će trajno obrisani. Ova akcija se ne može poništiti.
+            Obuka <strong>{course.name}</strong> i sav njen sadržaj — moduli, kvizovi, zadaci i
+            datoteke — bit će trajno obrisani. Ova akcija se ne može poništiti.
           </>
         }
-        confirmLabel="Obriši kurs"
+        confirmLabel="Obriši obuku"
         pending={deleteCourse.isPending}
         onCancel={() => setConfirmingDelete(false)}
         onConfirm={() => void handleDelete()}

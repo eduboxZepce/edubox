@@ -77,7 +77,7 @@ export default function ModuleVideo({ url, title }: { url: string; title: string
   if (!video) {
     return (
       <Alert severity="warning" sx={{ m: 2 }}>
-        Video za ovaj modul trenutno nije dostupan. Predavač treba da ga zamijeni ispravnim YouTube
+        Video za ovaj modul trenutno nije dostupan. Predavač ga treba zamijeniti ispravnim YouTube
         linkom.
       </Alert>
     );

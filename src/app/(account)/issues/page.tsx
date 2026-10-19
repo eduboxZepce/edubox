@@ -86,7 +86,7 @@ export default function MyIssuesPage() {
                         {issue.subject}
                       </Typography>
                       <Typography variant="caption" color="text.secondary">
-                        Poslato {formatRelativeTime(issue.created_at)}
+                        Poslano {formatRelativeTime(issue.created_at)}
                         {issue.message_count ? ` · ${issue.message_count} poruka` : ''}
                       </Typography>
                     </Stack>

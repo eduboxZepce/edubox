@@ -75,7 +75,7 @@ export default function CertificatePage(props: PageProps<'/certificates/[certifi
             action={
               FEATURES.catalog ? (
                 <Button href="/courses" variant="contained">
-                  Pogledaj kurseve
+                  Pogledaj obuke
                 </Button>
               ) : undefined
             }
@@ -108,10 +108,10 @@ export default function CertificatePage(props: PageProps<'/certificates/[certifi
 
                 <Stack spacing={0.5}>
                   <Typography variant="overline" color="text.secondary">
-                    Certifikat o završenom kursu
+                    Certifikat o završenoj obuci
                   </Typography>
                   <Typography variant="h4" component="h1">
-                    {certificate.courses?.name ?? 'Kurs više ne postoji'}
+                    {certificate.courses?.name ?? 'Obuka više ne postoji'}
                   </Typography>
                 </Stack>
 
@@ -120,7 +120,7 @@ export default function CertificatePage(props: PageProps<'/certificates/[certifi
                 <Stack spacing={2} sx={{ width: '100%' }}>
                   <Stack spacing={0.25}>
                     <Typography variant="caption" color="text.secondary">
-                      Izdat na ime
+                      Izdan na ime
                     </Typography>
                     <Typography variant="h6" component="p">
                       {certificate.profiles?.full_name ?? '—'}

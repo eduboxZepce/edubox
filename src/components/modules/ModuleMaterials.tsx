@@ -82,7 +82,9 @@ export default function ModuleMaterials({
     for (const file of Array.from(picked)) {
       const parsed = moduleFileSchema.safeParse(file);
       if (!parsed.success) {
-        toast.error(`${file.name}: ${parsed.error.issues[0]?.message ?? 'Fajl nije prihvaćen.'}`);
+        toast.error(
+          `${file.name}: ${parsed.error.issues[0]?.message ?? 'Datoteka nije prihvaćena.'}`,
+        );
         continue;
       }
 
@@ -99,7 +101,7 @@ export default function ModuleMaterials({
           body: { file_path: path, file_name: file.name },
         });
 
-        toast.success(`Materijal "${file.name}" je dodat.`);
+        toast.success(`Materijal "${file.name}" je dodan.`);
       } catch (error) {
         toast.error(`${file.name}: ${errorMessage(error)}`);
       }
@@ -180,12 +182,12 @@ export default function ModuleMaterials({
           disabled={isUploading}
           sx={{ flexShrink: 0 }}
         >
-          {isUploading ? 'Otpremanje…' : 'Dodaj materijal'}
+          {isUploading ? 'Učitavanje…' : 'Dodaj materijal'}
         </Button>
 
         <Typography variant="caption" color="text.secondary">
-          Samo PDF, najviše {formatBytes(MAX_UPLOAD_BYTES)} po fajlu. Studenti materijale pregledaju
-          u aplikaciji.
+          Samo PDF, najviše {formatBytes(MAX_UPLOAD_BYTES)} po datoteci. Studenti materijale
+          pregledaju u aplikaciji.
         </Typography>
 
         {/* Hidden on purpose: the styled MUI button is the control, while the
@@ -207,8 +209,8 @@ export default function ModuleMaterials({
         title="Obrisati materijal?"
         description={
           <>
-            Fajl <strong>{deleting?.file_name ?? ''}</strong> bit će trajno obrisan i studenti više
-            neće moći da ga preuzmu.
+            Datoteka <strong>{deleting?.file_name ?? ''}</strong> bit će trajno obrisana i studenti
+            je više neće moći preuzeti.
           </>
         }
         confirmLabel="Obriši"

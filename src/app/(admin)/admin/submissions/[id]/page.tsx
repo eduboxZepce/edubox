@@ -44,7 +44,7 @@ export default function AdminSubmissionDetailPage(props: PageProps<'/admin/submi
         <ContentCard>
           <EmptyState
             title="Predaja nije pronađena"
-            description="Ova predaja ne postoji ili nije na vašem kursu."
+            description="Ova predaja ne postoji ili nije na vašoj obuci."
           />
         </ContentCard>
       </PageContainer>
@@ -63,12 +63,12 @@ export default function AdminSubmissionDetailPage(props: PageProps<'/admin/submi
             <>
               <PageHeader
                 breadcrumbs={[
-                  { label: 'Predati zadaci', href: '/admin/submissions' },
+                  { label: 'Predani zadaci', href: '/admin/submissions' },
                   { label: studentName },
                 ]}
-                title={currentModule?.title ?? 'Predati zadatak'}
+                title={currentModule?.title ?? 'Predani zadatak'}
                 description={`Rješenje koje je predao/la ${studentName}${
-                  course ? ` — kurs „${course.name}”` : ''
+                  course ? ` — obuka „${course.name}”` : ''
                 }.`}
                 actions={<StatusChip {...SUBMISSION_STATUS[row.status]} size="medium" />}
               />
@@ -82,7 +82,7 @@ export default function AdminSubmissionDetailPage(props: PageProps<'/admin/submi
 
               {row.status === 'needs_revision' ? (
                 <Alert severity="info">
-                  Zatražena je izmjena. Student može da odgovori u istoj prepisci.
+                  Zatražena je izmjena. Student može odgovoriti u istoj prepisci.
                 </Alert>
               ) : null}
 
@@ -102,7 +102,7 @@ export default function AdminSubmissionDetailPage(props: PageProps<'/admin/submi
                           ),
                         },
                         { label: 'Email', value: row.profiles?.email ?? '—' },
-                        { label: 'Predato', value: formatDateTime(row.created_at) },
+                        { label: 'Predano', value: formatDateTime(row.created_at) },
                         { label: 'Posljednja izmjena', value: formatDateTime(row.updated_at) },
                       ]}
                     />
@@ -110,11 +110,11 @@ export default function AdminSubmissionDetailPage(props: PageProps<'/admin/submi
                 </Grid>
 
                 <Grid size={{ xs: 12, md: 6 }}>
-                  <ContentCard title="Kurs i modul">
+                  <ContentCard title="Obuka i modul">
                     <DetailList
                       items={[
                         {
-                          label: 'Kurs',
+                          label: 'Obuka',
                           value: course ? (
                             <Link href={`/admin/courses/${course.id}/edit`} underline="hover">
                               {course.name}
@@ -158,7 +158,7 @@ export default function AdminSubmissionDetailPage(props: PageProps<'/admin/submi
               </Grid>
 
               <ContentCard
-                title="Šta je traženo"
+                title="Što je traženo"
                 description="Tekst zadatka, onakav kakav je student vidio."
               >
                 <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>

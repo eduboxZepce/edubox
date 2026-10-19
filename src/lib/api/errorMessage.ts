@@ -19,7 +19,7 @@ const STATUS_MESSAGES: Record<number, string> = {
   403: 'Nemate dozvolu za ovu akciju.',
   404: 'Traženi sadržaj ne postoji.',
   409: 'Ovaj zapis već postoji.',
-  413: 'Fajl je prevelik.',
+  413: 'Datoteka je prevelika.',
   500: 'Došlo je do greške na serveru. Pokušajte ponovo.',
 };
 
@@ -33,7 +33,7 @@ export function errorMessage(error: unknown, fallback = 'Došlo je do neočekiva
 
   // A failed fetch (offline, DNS, connection reset) never reaches ApiRequestError.
   if (error instanceof TypeError) {
-    return 'Neuspješno povezivanje sa serverom. Provjerite internet konekciju.';
+    return 'Neuspješno povezivanje sa serverom. Provjerite internetsku vezu.';
   }
 
   if (error instanceof Error && error.message) return error.message;

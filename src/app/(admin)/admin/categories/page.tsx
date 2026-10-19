@@ -49,7 +49,7 @@ export default function AdminCategoriesPage() {
     <PageContainer>
       <PageHeader
         title="Kategorije"
-        description="Kategorije po kojima se kursevi grupišu i filtriraju."
+        description="Kategorije po kojima se obuke grupiraju i filtriraju."
         actions={
           <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreating(true)}>
             Nova kategorija
@@ -74,12 +74,12 @@ export default function AdminCategoriesPage() {
             list.hasActiveFilters ? (
               <EmptyState
                 title="Nema rezultata"
-                description="Nijedna kategorija ne odgovara zadatoj pretrazi."
+                description="Nijedna kategorija ne odgovara zadanoj pretrazi."
               />
             ) : (
               <EmptyState
                 title="Još nema kategorija"
-                description="Kategorije grupišu kurseve i pomažu studentima da se snađu u katalogu."
+                description="Kategorije grupiraju obuke i pomažu studentima da se snađu u katalogu."
                 action={
                   <Button
                     variant="contained"
@@ -112,7 +112,7 @@ export default function AdminCategoriesPage() {
                   },
                   {
                     id: 'courses',
-                    header: 'Kursevi',
+                    header: 'Obuke',
                     cell: (category) => (
                       <Typography
                         variant="body2"
@@ -122,7 +122,7 @@ export default function AdminCategoriesPage() {
                       >
                         {category.course_count > 0
                           ? formatCourseCount(category.course_count)
-                          : 'Nema kurseva'}
+                          : 'Nema obuka'}
                       </Typography>
                     ),
                   },

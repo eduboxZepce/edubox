@@ -65,7 +65,7 @@ export default function ModuleQuizPage(
               <ContentCard>
                 <EmptyState
                   title="Modul nije pronađen"
-                  description="Modul ne postoji ili ne pripada ovom kursu."
+                  description="Modul ne postoji ili ne pripada ovoj obuci."
                 />
               </ContentCard>
             );
@@ -110,8 +110,8 @@ function ModuleQuizScreen({
   const header = (
     <PageHeader
       breadcrumbs={[
-        { label: 'Kursevi', href: '/admin/courses' },
-        { label: courseName ?? 'Kurs', href: `/admin/courses/${courseId}/edit` },
+        { label: 'Obuke', href: '/admin/courses' },
+        { label: courseName ?? 'Obuka', href: `/admin/courses/${courseId}/edit` },
         { label: 'Moduli', href: `/admin/courses/${courseId}/modules` },
         { label: currentModule.title, href: backHref },
         { label: 'Kviz' },

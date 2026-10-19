@@ -62,7 +62,7 @@ export default function ModuleActions({
   return (
     <>
       <Stack direction="row" spacing={0.5} sx={{ flexShrink: 0 }}>
-        <Tooltip title="Pomeri gore">
+        <Tooltip title="Pomjeri gore">
           {/* A disabled IconButton renders no events, so the tooltip needs a
               wrapper element to remain hoverable at the ends of the list. */}
           <span>
@@ -70,20 +70,20 @@ export default function ModuleActions({
               size="small"
               disabled={!canMoveUp || isMoving}
               onClick={() => onMove('up')}
-              aria-label={`Pomeri modul ${currentModule.title} gore`}
+              aria-label={`Pomjeri modul ${currentModule.title} gore`}
             >
               <ArrowUpwardIcon fontSize="small" />
             </IconButton>
           </span>
         </Tooltip>
 
-        <Tooltip title="Pomeri dole">
+        <Tooltip title="Pomjeri dolje">
           <span>
             <IconButton
               size="small"
               disabled={!canMoveDown || isMoving}
               onClick={() => onMove('down')}
-              aria-label={`Pomeri modul ${currentModule.title} dole`}
+              aria-label={`Pomjeri modul ${currentModule.title} dolje`}
             >
               <ArrowDownwardIcon fontSize="small" />
             </IconButton>

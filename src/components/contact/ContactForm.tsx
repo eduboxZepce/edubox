@@ -94,7 +94,7 @@ export default function ContactForm() {
 
         <TextField
           label="Poruka"
-          placeholder="Napiši nam u nekoliko rečenica šta te zanima."
+          placeholder="Napiši nam u nekoliko rečenica što te zanima."
           value={values.message}
           onChange={handleChange('message')}
           required

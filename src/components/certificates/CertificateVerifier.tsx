@@ -93,7 +93,7 @@ export default function CertificateVerifier({
           name="number"
           label="Broj certifikata"
           placeholder="CERT-2026-0001"
-          helperText="Otisnut je na certifikatu, ispod imena."
+          helperText="Otisnut je na dnu certifikata, pod „Broj certifikata”."
           required
         />
         <FormTextField
@@ -113,13 +113,13 @@ export default function CertificateVerifier({
         >
           <AlertTitle>Certifikat je važeći</AlertTitle>
           <Typography variant="body2" sx={{ mb: 2 }}>
-            Izdala ga je ova platforma nakon što je polaznik završio sve module kursa.
+            Izdala ga je ova platforma nakon što je polaznik završio sve module obuke.
           </Typography>
           <DetailList
             items={[
               { label: 'Broj certifikata', value: outcome.certificate.readable_id },
-              { label: 'Izdat na ime', value: outcome.certificate.student_name },
-              { label: 'Kurs', value: outcome.certificate.course_name },
+              { label: 'Izdan na ime', value: outcome.certificate.student_name },
+              { label: 'Obuka', value: outcome.certificate.course_name },
               { label: 'Datum završetka', value: formatDate(outcome.certificate.issued_at) },
             ]}
           />
@@ -128,7 +128,7 @@ export default function CertificateVerifier({
 
       {outcome?.kind === 'missing' ? (
         <Alert severity="warning">
-          <AlertTitle>Nema poklapanja</AlertTitle>
+          <AlertTitle>Nema podudaranja</AlertTitle>
           {outcome.message}
         </Alert>
       ) : null}

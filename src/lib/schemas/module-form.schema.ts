@@ -22,9 +22,9 @@ export const moduleFormSchema = z.object({
     .string({ error: 'Naslov je obavezan.' })
     .trim()
     .min(1, 'Naslov je obavezan.')
-    .max(200, 'Naslov može imati najviše 200 karaktera.'),
+    .max(200, 'Naslov može imati najviše 200 znakova.'),
 
-  description: z.string().trim().max(5000, 'Opis može imati najviše 5000 karaktera.').default(''),
+  description: z.string().trim().max(5000, 'Opis može imati najviše 5000 znakova.').default(''),
 
   /**
    * Optional, but a YouTube link when present — the same parser the API and
@@ -48,7 +48,7 @@ export const moduleFormSchema = z.object({
    */
   order: z
     .number({ error: 'Redni broj je obavezan.' })
-    .int('Redni broj mora biti cio broj.')
+    .int('Redni broj mora biti cijeli broj.')
     .min(0, 'Redni broj ne može biti negativan.'),
 });
 

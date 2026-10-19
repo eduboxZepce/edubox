@@ -9,7 +9,7 @@ import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import { usePaintedColorScheme } from '@/theme/usePaintedColorScheme';
 import MarkdownContent from './MarkdownContent';
-import { imageFilesFrom, useImagePaste } from './useImagePaste';
+import { imageFilesFrom, useImagePaste, type ImageUploadTarget } from './useImagePaste';
 import '@uiw/react-md-editor/markdown-editor.css';
 
 /**
@@ -44,10 +44,9 @@ import '@uiw/react-md-editor/markdown-editor.css';
  * ## Images are pasted, dropped, or neither
  *
  * `allowImages` turns on paste and drop handling: the file is uploaded and
- * `![alt](url)` is appended. It is opt-in because the two callers differ — a
- * newsletter is emailed, so its images must live at a public URL a mail client
- * can fetch anonymously, while the legal documents are rendered in-app and have
- * no such need. Turning it on where it is not wanted would put an upload
+ * `![alt](url)` is appended. It is opt-in because the callers differ — a
+ * newsletter is emailed and a blog post is public, so their images must live at
+ * a public URL, while the legal documents have no images to host. Turning it on where it is not wanted would put an upload
  * affordance on a screen with nowhere sensible to put the file.
  *
  * ## Why the dynamic import
@@ -68,6 +67,7 @@ export default function MarkdownEditor({
   height = 460,
   helperText,
   allowImages = false,
+  imageTarget,
 }: {
   value: string;
   onChange: (value: string) => void;
@@ -76,9 +76,11 @@ export default function MarkdownEditor({
   helperText?: string;
   /** Enables paste/drop image upload. See the note above. */
   allowImages?: boolean;
+  /** Where pasted images go. Defaults to the newsletter bucket — see `useImagePaste`. */
+  imageTarget?: ImageUploadTarget;
 }) {
   const colorMode = usePaintedColorScheme();
-  const { uploadImage, uploading } = useImagePaste();
+  const { uploadImage, uploading } = useImagePaste(imageTarget);
 
   /*
    * `onChange` is read through a ref inside the handlers below. Without it the
@@ -191,7 +193,7 @@ export default function MarkdownEditor({
         <Stack direction="row" spacing={1} sx={{ alignItems: 'center', mt: 1 }}>
           <CircularProgress size={14} />
           <Typography variant="caption" color="text.secondary">
-            Slika se otprema…
+            Slika se učitava…
           </Typography>
         </Stack>
       ) : null}
