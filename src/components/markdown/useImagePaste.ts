@@ -5,7 +5,8 @@ import { useUploadFile } from '@/hooks/useUploads';
 import {
   ACCEPTED_IMAGE_TYPES,
   BUCKETS,
-  MAX_UPLOAD_BYTES,
+  MAX_IMAGE_SOURCE_BYTES,
+  formatBytes,
   publicUrl,
   type BucketName,
 } from '@/lib/storage';
@@ -59,10 +60,10 @@ export function useImagePaste(target?: ImageUploadTarget) {
         return null;
       }
 
-      // Checked here as well as on the server, so a 5MB screenshot fails
-      // instantly instead of after the upload.
-      if (file.size > MAX_UPLOAD_BYTES) {
-        toast.error('Slika je prevelika — najviše 5 MB.');
+      // The source limit, not the stored one: `useUploadFile` resizes the
+      // image first, and the stored limit is checked after that.
+      if (file.size > MAX_IMAGE_SOURCE_BYTES) {
+        toast.error(`Slika je prevelika — najviše ${formatBytes(MAX_IMAGE_SOURCE_BYTES)}.`);
         return null;
       }
 

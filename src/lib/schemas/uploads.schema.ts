@@ -1,12 +1,9 @@
 import { z } from '@/lib/openapi/zod';
-import { BUCKETS, MAX_UPLOAD_BYTES } from '@/lib/storage';
+import { BUCKETS } from '@/lib/storage';
 
 /**
- * Contract for `POST /api/admin/uploads`.
- *
- * The request is `multipart/form-data`, so unlike every other endpoint there is
- * no JSON body schema — the route validates the individual form fields against
- * the pieces below instead.
+ * Contract for `POST /api/admin/uploads` (which signs an upload) and for the
+ * multipart submission-attachment route (which still proxies one).
  */
 
 export const bucketNameSchema = z
@@ -46,8 +43,31 @@ export const uploadResponseSchema = z
   .object({ data: uploadResultSchema })
   .openapi('UploadResponse');
 
-/** Documented here so the limit appears in `/api-docs` alongside the endpoint. */
-export const UPLOAD_MAX_BYTES = MAX_UPLOAD_BYTES;
+/**
+ * `POST /api/admin/uploads` body: a description of the file, not the file.
+ * The browser then sends the bytes straight to storage with the returned token.
+ */
+export const signUploadRequestSchema = z
+  .object({
+    bucket: bucketNameSchema,
+    folder: uploadFolderSchema,
+    fileName: z.string().trim().min(1).max(200),
+    contentType: z.string().min(1),
+    size: z.number().int().positive(),
+  })
+  .openapi('SignUploadRequest');
+
+export const signedUploadSchema = uploadResultSchema
+  .extend({
+    token: z.string().openapi({ description: 'Pass to `uploadToSignedUrl` with `path`' }),
+  })
+  .openapi('SignedUpload');
+
+export const signedUploadResponseSchema = z
+  .object({ data: signedUploadSchema })
+  .openapi('SignedUploadResponse');
 
 export type BucketNameValue = z.infer<typeof bucketNameSchema>;
 export type UploadResult = z.infer<typeof uploadResultSchema>;
+export type SignUploadRequest = z.infer<typeof signUploadRequestSchema>;
+export type SignedUpload = z.infer<typeof signedUploadSchema>;

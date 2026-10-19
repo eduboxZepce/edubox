@@ -68,9 +68,11 @@ export const GET = withRoute(async (_req, ctx: Ctx) => {
   // timestamp prefix `safeFileName()` adds, which the reader must never see.
   const name = file.file_name ?? displayFileName(file.file_path) ?? 'prilog';
 
-  return new NextResponse(await data.arrayBuffer(), {
+  // Streamed, not `arrayBuffer()` — see the module-files content route.
+  return new NextResponse(data.stream(), {
     headers: {
       'Content-Type': data.type || 'application/octet-stream',
+      'Content-Length': String(data.size),
       'Content-Disposition': `attachment; filename="${encodeURIComponent(name)}"`,
       'Cache-Control': 'private, no-store',
     },

@@ -4,6 +4,7 @@ import {
   embeddedProfileSchema,
   paginatedResponse,
   paginationQuerySchema,
+  timestampSchema,
   uuidSchema,
 } from './common.schema';
 
@@ -19,6 +20,10 @@ export const taskMessageSchema = z
     body: z.string(),
     attachment_path: z.string().nullable().openapi({
       description: 'Object path in task-message-attachments: {submission_id}/{filename}',
+    }),
+    attachment_deleted_at: timestampSchema.nullable().openapi({
+      description:
+        'Set once the file was removed from storage (7 days after approval). The path stays so the name can still be shown.',
     }),
     ...auditFields,
   })

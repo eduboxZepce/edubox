@@ -1,16 +1,16 @@
 import { NextResponse } from 'next/server';
-import { ApiError, badRequest, withRoute } from '@/lib/api/errors';
+import { ApiError, badRequest, parseBody, withRoute } from '@/lib/api/errors';
 import { requireStaff } from '@/lib/auth/guards';
 import { createClient } from '@/lib/supabase/server';
-import { bucketNameSchema, uploadFolderSchema } from '@/lib/schemas/uploads.schema';
+import { signUploadRequestSchema } from '@/lib/schemas/uploads.schema';
 import {
   ACCEPTED_IMAGE_TYPES,
   ACCEPTED_MESSAGE_ATTACHMENT_TYPES,
   ACCEPTED_MODULE_FILE_TYPES,
   ACCEPTED_TASK_FILE_TYPES,
   BUCKETS,
+  BUCKET_MAX_BYTES,
   BUCKET_PATH_SEGMENTS,
-  MAX_UPLOAD_BYTES,
   type BucketName,
   formatBytes,
   storagePath,
@@ -49,39 +49,47 @@ const ACCEPTED_TYPES: Record<BucketName, readonly string[]> = {
 };
 
 /**
- * POST /api/admin/uploads — upload one file to a storage bucket (admin).
+ * POST /api/admin/uploads — sign one upload to a storage bucket (staff).
  *
- * Takes `multipart/form-data` with `bucket`, `folder` and `file`, and returns
- * the resulting object path. It deliberately does **not** write that path to
- * any table: the caller decides which column it belongs in, which is what lets
- * one endpoint serve thumbnails, module files, task files and attachments.
+ * Takes JSON describing the file (`bucket`, `folder`, `fileName`,
+ * `contentType`, `size`) and returns the object path plus a one-time token.
+ * The browser then sends the bytes **straight to Supabase Storage** with
+ * `uploadToSignedUrl` — the file never passes through this function.
  *
- * The client validates size and type too (`imageFileSchema`); that copy is for
- * fast feedback, this one is the boundary that actually enforces it.
+ * ## Why signed, not proxied
+ *
+ * It used to take the file as multipart. A Vercel function's request body is
+ * capped at 4.5 MB, so anything bigger died with a platform 413 before this
+ * code ran — and a PowerPoint deck exported to PDF is routinely 5–25 MB.
+ *
+ * ## Where the limits are enforced now
+ *
+ * The size and type checked here are what the client *claims*; they exist to
+ * give a clear message before any bytes move. The real boundary is the
+ * bucket's own `file_size_limit` and `allowed_mime_types` (migration 0036),
+ * which storage applies to the actual upload. Keep the two in step via
+ * `BUCKET_MAX_BYTES` and the `ACCEPTED_*` lists.
+ *
+ * The path is still built here, and the signing call runs on the caller's own
+ * client, so the bucket's write policy (and its folder-depth rule) is checked
+ * exactly as it was for a direct upload. Persisting the path to the owning
+ * record remains the caller's job.
  */
 export const POST = withRoute(async (req) => {
   await requireStaff();
 
-  let formData: FormData;
-  try {
-    formData = await req.formData();
-  } catch {
-    throw badRequest('Request must be multipart/form-data');
+  const { bucket, folder, fileName, contentType, size } = await parseBody(
+    req,
+    signUploadRequestSchema,
+  );
+
+  const maxBytes = BUCKET_MAX_BYTES[bucket];
+  if (size > maxBytes) {
+    throw new ApiError(413, `File exceeds the ${formatBytes(maxBytes)} limit`);
   }
 
-  const bucket = bucketNameSchema.parse(formData.get('bucket'));
-  const folder = uploadFolderSchema.parse(formData.get('folder'));
-  const file = formData.get('file');
-
-  if (!(file instanceof File)) throw badRequest('Missing "file" part');
-  if (file.size === 0) throw badRequest('Uploaded file is empty');
-
-  if (file.size > MAX_UPLOAD_BYTES) {
-    throw new ApiError(413, `File exceeds the ${formatBytes(MAX_UPLOAD_BYTES)} limit`);
-  }
-
-  if (!ACCEPTED_TYPES[bucket].includes(file.type)) {
-    throw badRequest(`Content type "${file.type}" is not allowed for bucket "${bucket}"`);
+  if (!ACCEPTED_TYPES[bucket].includes(contentType)) {
+    throw badRequest(`Content type "${contentType}" is not allowed for bucket "${bucket}"`);
   }
 
   // The RLS policies read fixed folder positions out of the path (see migration
@@ -95,19 +103,17 @@ export const POST = withRoute(async (req) => {
     );
   }
 
-  // The request-scoped client, not the service-role one: the admin's own
-  // session satisfies the bucket's write policy, so RLS stays in force.
+  // The request-scoped client, not the service-role one: signing requires
+  // INSERT on the object under the admin's own session, so RLS stays in force.
+  // `storagePath` timestamps every name, so the token can never overwrite.
   const supabase = await createClient();
-  const path = storagePath(folders, file.name);
+  const path = storagePath(folders, fileName);
 
-  const { error } = await supabase.storage.from(bucket).upload(path, file, {
-    contentType: file.type,
-    // `storagePath` timestamps every name, so a collision means something is
-    // wrong rather than a re-upload — fail loudly instead of overwriting.
-    upsert: false,
-  });
+  const { data, error } = await supabase.storage.from(bucket).createSignedUploadUrl(path);
 
-  if (error) throw new ApiError(502, `Upload failed: ${error.message}`);
+  if (error || !data) {
+    throw new ApiError(502, `Could not prepare the upload: ${error?.message ?? 'no token'}`);
+  }
 
-  return NextResponse.json({ data: { bucket, path } }, { status: 201 });
+  return NextResponse.json({ data: { bucket, path, token: data.token } }, { status: 201 });
 });

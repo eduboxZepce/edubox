@@ -121,8 +121,69 @@ export function publicUrl(bucket: BucketName, path: string | null | undefined): 
 export const courseThumbnailUrl = (path: string | null | undefined) =>
   publicUrl(BUCKETS.courseThumbnails, path);
 
-/** Upload limits, mirrored by the `/api/admin/uploads` route. */
-export const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
+const MB = 1024 * 1024;
+
+/**
+ * Default limit for working documents: task files and message attachments.
+ *
+ * Message attachments still travel through a route handler as multipart, and
+ * Vercel caps a function's request body at 4.5 MB — so this cannot usefully
+ * grow until that route moves to signed uploads too.
+ */
+export const MAX_UPLOAD_BYTES = 5 * MB;
+
+/**
+ * Stored size limit for images in the public buckets (thumbnails, blog,
+ * newsletter). Low on purpose: the free plan has 1 GB of storage for
+ * everything, and `compressImage()` resizes to `IMAGE_MAX_DIMENSION` before
+ * upload, after which a photo is typically 100–300 KB.
+ */
+export const MAX_IMAGE_BYTES = 1 * MB;
+
+/**
+ * What the image picker accepts *before* compression. A phone photo is
+ * routinely 5–15 MB; rejecting it would make the admin resize by hand
+ * something the browser is about to resize anyway.
+ */
+export const MAX_IMAGE_SOURCE_BYTES = 25 * MB;
+
+/**
+ * Longest edge of an uploaded image, in pixels. The widest slot images fill is
+ * the 800px blog article column, so 1600 covers it on a 2× screen; next/image
+ * derives every smaller size from this.
+ */
+export const IMAGE_MAX_DIMENSION = 1600;
+
+/**
+ * Module materials. A 50–100 slide deck exported from PowerPoint is usually
+ * 3–15 MB, and up to ~25 MB when it is mostly full-bleed photos. Above that the
+ * export settings are the problem (see the hint in `<ModuleMaterials>`), not
+ * the limit. Free-plan projects cap any single file at 50 MB regardless.
+ */
+export const MAX_MODULE_FILE_BYTES = 25 * MB;
+
+/**
+ * Per-bucket ceiling, checked by `/api/admin/uploads` before it signs an upload
+ * and enforced on the actual bytes by the bucket's own `file_size_limit`
+ * (migration 0036) — the browser uploads straight to storage, so the route
+ * never sees the file.
+ */
+export const BUCKET_MAX_BYTES: Record<BucketName, number> = {
+  [BUCKETS.courseThumbnails]: MAX_IMAGE_BYTES,
+  [BUCKETS.moduleFiles]: MAX_MODULE_FILE_BYTES,
+  [BUCKETS.taskFiles]: MAX_UPLOAD_BYTES,
+  [BUCKETS.taskMessageAttachments]: MAX_UPLOAD_BYTES,
+  [BUCKETS.newsletterImages]: MAX_IMAGE_BYTES,
+  [BUCKETS.blogImages]: MAX_IMAGE_BYTES,
+};
+
+/** Buckets whose uploads go through `compressImage()` first. */
+export const IMAGE_BUCKETS: readonly BucketName[] = [
+  BUCKETS.courseThumbnails,
+  BUCKETS.newsletterImages,
+  BUCKETS.blogImages,
+];
+
 export const ACCEPTED_IMAGE_TYPES = [
   'image/jpeg',
   'image/png',

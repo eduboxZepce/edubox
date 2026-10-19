@@ -94,7 +94,17 @@ export default function MessageThread({
                 {/* A real download, unlike module materials: the reviewer needs
                     to open the student's actual work, and the student needs the
                     reviewer's marked-up file back. */}
-                {message.attachment_path ? (
+                {/* Removed by the cleanup a week after approval: keep the name, so
+                    the thread still says what was handed in, but no dead link. */}
+                {message.attachment_path && message.attachment_deleted_at ? (
+                  <Typography
+                    variant="caption"
+                    sx={{ mt: 1, display: 'flex', alignItems: 'center', gap: 0.5, opacity: 0.75 }}
+                  >
+                    <AttachFileIcon fontSize="inherit" />
+                    {displayFileName(message.attachment_path)} — uklonjeno nakon odobrenja
+                  </Typography>
+                ) : message.attachment_path ? (
                   <Button
                     href={`/api/messages/${message.id}/attachment`}
                     size="small"

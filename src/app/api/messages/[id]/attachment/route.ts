@@ -34,10 +34,20 @@ export const GET = withRoute(async (_req, ctx: Ctx) => {
   const supabase = await createClient();
 
   const message = unwrapMaybe(
-    await supabase.from('task_messages').select('attachment_path').eq('id', id).maybeSingle(),
+    await supabase
+      .from('task_messages')
+      .select('attachment_path, attachment_deleted_at')
+      .eq('id', id)
+      .maybeSingle(),
   );
 
   if (!message?.attachment_path) throw notFound();
+
+  // Removed by the cleanup a week after approval. 410 rather than 404: the
+  // message did carry a file, it just is not kept any more.
+  if (message.attachment_deleted_at) {
+    throw new ApiError(410, 'Prilog je uklonjen sedam dana nakon odobrenja rada.');
+  }
 
   const svc = createServiceRoleClient();
   const { data, error } = await svc.storage
@@ -52,9 +62,11 @@ export const GET = withRoute(async (_req, ctx: Ctx) => {
   // reviewer gets the file back under the name the sender chose.
   const original = displayFileName(message.attachment_path) || 'prilog';
 
-  return new NextResponse(await data.arrayBuffer(), {
+  // Streamed — see the module-files content route.
+  return new NextResponse(data.stream(), {
     headers: {
       'Content-Type': data.type || 'application/octet-stream',
+      'Content-Length': String(data.size),
       'Content-Disposition': `attachment; filename="${encodeURIComponent(original)}"`,
       'Cache-Control': 'private, no-store',
     },

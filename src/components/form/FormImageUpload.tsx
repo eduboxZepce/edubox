@@ -11,7 +11,12 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormLabel from '@mui/material/FormLabel';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { ACCEPTED_IMAGE_TYPES, MAX_UPLOAD_BYTES, formatBytes } from '@/lib/storage';
+import {
+  ACCEPTED_IMAGE_TYPES,
+  IMAGE_MAX_DIMENSION,
+  MAX_IMAGE_SOURCE_BYTES,
+  formatBytes,
+} from '@/lib/storage';
 
 /**
  * An image picker whose form value is the selected `File` (or `null`).
@@ -23,6 +28,8 @@ import { ACCEPTED_IMAGE_TYPES, MAX_UPLOAD_BYTES, formatBytes } from '@/lib/stora
  *
  * Size and format are validated by the schema (`imageFileSchema`), so an
  * oversized file surfaces as a normal field error rather than a failed request.
+ * The picked file is resized when it is uploaded (`compressImage`), so the size
+ * shown here is the original's, not what will be stored.
  *
  *   <FormImageUpload
  *     name="thumbnail"
@@ -147,7 +154,7 @@ export default function FormImageUpload<TFieldValues extends FieldValues = Field
           <Typography variant="body2" color="text.secondary" sx={{ wordBreak: 'break-all' }}>
             {file
               ? `${file.name} · ${formatBytes(file.size)}`
-              : `JPG, PNG, WebP ili AVIF · najviše ${formatBytes(MAX_UPLOAD_BYTES)}`}
+              : `JPG, PNG, WebP ili AVIF · do ${formatBytes(MAX_IMAGE_SOURCE_BYTES)} · smanjuje se na ${IMAGE_MAX_DIMENSION} px`}
           </Typography>
         </Stack>
       </Stack>

@@ -4,6 +4,8 @@ import {
   ACCEPTED_MESSAGE_ATTACHMENT_TYPES,
   ACCEPTED_MODULE_FILE_TYPES,
   ACCEPTED_TASK_FILE_TYPES,
+  MAX_IMAGE_SOURCE_BYTES,
+  MAX_MODULE_FILE_BYTES,
   MAX_UPLOAD_BYTES,
   formatBytes,
 } from '@/lib/storage';
@@ -40,8 +42,15 @@ export function fileSchema({
     });
 }
 
-/** Image upload constrained to the formats the thumbnail/`<img>` pipeline handles. */
+/**
+ * Image upload constrained to the formats the thumbnail/`<img>` pipeline handles.
+ *
+ * The size here is the *source* limit: `useUploadFile` resizes the image before
+ * it is stored, so a large phone photo is fine to pick. The stored limit
+ * (`MAX_IMAGE_BYTES`) is checked after compression.
+ */
 export const imageFileSchema = fileSchema({
+  maxBytes: MAX_IMAGE_SOURCE_BYTES,
   acceptedTypes: ACCEPTED_IMAGE_TYPES,
   typeErrorMessage: 'Dozvoljeni formati su JPG, PNG, WebP i AVIF.',
 });
@@ -51,6 +60,7 @@ export const imageFileSchema = fileSchema({
  * why that is about being *displayable in-page*, not about being harder to copy.
  */
 export const moduleFileSchema = fileSchema({
+  maxBytes: MAX_MODULE_FILE_BYTES,
   acceptedTypes: ACCEPTED_MODULE_FILE_TYPES,
   typeErrorMessage: 'Materijali moraju biti PDF datoteke.',
 });

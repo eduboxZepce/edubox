@@ -129,8 +129,8 @@ import {
   requestDeliverySchema,
 } from '@/lib/schemas/certificates.schema';
 import {
-  bucketNameSchema,
-  uploadFolderSchema,
+  signUploadRequestSchema,
+  signedUploadResponseSchema,
   uploadResponseSchema,
 } from '@/lib/schemas/uploads.schema';
 
@@ -1326,36 +1326,25 @@ registry.registerPath({
   method: 'post',
   path: '/api/admin/uploads',
   tags: ['Uploads'],
-  summary: 'Upload a file to a storage bucket (admin)',
+  summary: 'Sign an upload to a storage bucket (staff)',
   description: [
-    'Accepts `multipart/form-data`, not JSON. `folder` is the `/`-joined list of',
+    'Takes JSON describing the file and returns the object path plus a one-time',
+    'token; the browser then uploads the bytes straight to Supabase Storage with',
+    '`uploadToSignedUrl(path, token, file)`. Signed rather than proxied because a',
+    'Vercel function body is capped at 4.5 MB. `folder` is the `/`-joined list of',
     "id segments the bucket's path convention requires — `{course_id}` for",
     '`course-thumbnails`, `{course_id}/{module_id}` for `module-files` and',
-    '`task-files`, `{submission_id}` for `task-message-attachments`. The storage',
-    'RLS policies parse those segments back out to decide who may read the object,',
-    'so the depth is validated rather than assumed.',
-    '',
-    'Returns the stored object path. Persisting it to the owning record (e.g.',
-    '`courses.thumbnail_path`) is a separate call.',
+    '`task-files`. The depth is validated, because the storage RLS policies parse',
+    'those segments back out. Size and type are checked here for a clear message;',
+    "the bucket's own `file_size_limit` and `allowed_mime_types` enforce them on",
+    'the actual bytes. Persisting the path to the owning record is a separate call.',
   ].join(' '),
   security,
-  request: {
-    body: {
-      content: {
-        'multipart/form-data': {
-          schema: z.object({
-            bucket: bucketNameSchema,
-            folder: uploadFolderSchema,
-            file: z.string().openapi({ type: 'string', format: 'binary' }),
-          }),
-        },
-      },
-    },
-  },
+  request: { body: { content: { 'application/json': { schema: signUploadRequestSchema } } } },
   responses: {
-    201: json(uploadResponseSchema, 'Uploaded'),
+    201: json(signedUploadResponseSchema, 'Upload signed'),
     ...errors,
-    413: json(errorResponseSchema, 'File too large'),
-    502: json(errorResponseSchema, 'Storage rejected the upload'),
+    413: json(errorResponseSchema, 'File too large for this bucket'),
+    502: json(errorResponseSchema, 'Storage refused to sign the upload'),
   },
 });

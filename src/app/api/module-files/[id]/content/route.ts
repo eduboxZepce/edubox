@@ -32,6 +32,15 @@ type Ctx = { params: Promise<{ id: string }> };
  *
  * `Content-Disposition: inline` matches that: the viewer renders it in place and
  * the browser is never asked to save it.
+ *
+ * ## Why the browser may keep it for a day
+ *
+ * `private, max-age=86400`, not `no-store`. Every fetch here is a download from
+ * Supabase, and the free plan's egress (5 GB a month) runs out long before its
+ * storage does: a 15 MB deck opened five times by fifty students is 3.75 GB.
+ * `private` still forbids any shared cache (CDN, proxy) from holding it, and a
+ * fresh copy still needs the session. What is given up is small: the student's
+ * own browser holds a file it already had to download to display.
  */
 export const GET = withRoute(async (_req, ctx: Ctx) => {
   const auth = await requireUser();
@@ -62,14 +71,17 @@ export const GET = withRoute(async (_req, ctx: Ctx) => {
     throw new ApiError(502, `Could not read the file: ${error?.message ?? 'missing object'}`);
   }
 
-  return new NextResponse(await data.arrayBuffer(), {
+  // Streamed, not `arrayBuffer()`: Vercel caps a *buffered* function response
+  // at 4.5 MB, and a material may be up to `MAX_MODULE_FILE_BYTES` (25 MB).
+  return new NextResponse(data.stream(), {
     headers: {
       'Content-Type': 'application/pdf',
+      'Content-Length': String(data.size),
       // `inline`, never `attachment` — the point is that it is read in the app.
       'Content-Disposition': `inline; filename="${encodeURIComponent(file.file_name ?? 'materijal.pdf')}"`,
-      // Private: this response is scoped to one session and must never be
-      // held in a shared cache.
-      'Cache-Control': 'private, no-store',
+      // Private: scoped to one session, so never held in a shared cache. One day
+      // in the viewer's own browser — see "Why the browser may keep it".
+      'Cache-Control': 'private, max-age=86400',
     },
   });
 });

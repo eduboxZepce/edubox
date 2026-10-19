@@ -1,5 +1,5 @@
-import { timingSafeEqual } from 'node:crypto';
 import { NextResponse, type NextRequest } from 'next/server';
+import { isCronAuthorized } from '@/lib/api/cronAuth';
 import { createPublicClient } from '@/lib/supabase/public';
 
 // Every invocation must reach the database — a cached response would let the
@@ -16,11 +16,10 @@ export const dynamic = 'force-dynamic';
  * no elevated key, and a cron job that only proves the database is alive has no
  * business holding the service-role one.
  *
- * Vercel sends `Authorization: Bearer $CRON_SECRET`. With `CRON_SECRET` unset
- * every request is refused, rather than accepting the literal "Bearer undefined".
+ * Vercel sends `Authorization: Bearer $CRON_SECRET` (`isCronAuthorized`).
  */
 export async function GET(request: NextRequest) {
-  if (!isAuthorized(request.headers.get('authorization'))) {
+  if (!isCronAuthorized(request.headers.get('authorization'))) {
     return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -32,15 +31,4 @@ export async function GET(request: NextRequest) {
   }
 
   return NextResponse.json({ ok: true });
-}
-
-function isAuthorized(header: string | null): boolean {
-  const secret = process.env.CRON_SECRET;
-  if (!secret || !header) return false;
-
-  // Constant-time comparison, so the secret cannot be guessed byte by byte
-  // from response timing. timingSafeEqual requires equal lengths.
-  const expected = Buffer.from(`Bearer ${secret}`);
-  const actual = Buffer.from(header);
-  return expected.length === actual.length && timingSafeEqual(expected, actual);
 }

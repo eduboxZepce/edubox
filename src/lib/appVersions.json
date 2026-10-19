@@ -1,13 +1,13 @@
 {
-  "updatedAt": "2026-10-19T12:31:23.115Z",
+  "updatedAt": "2026-10-19T13:03:28.311Z",
   "sections": {
     "database": {
       "label": "Baza podataka",
       "description": "Shema, RLS politike, okidači i migracije",
       "frontend": null,
       "backend": {
-        "version": "1.8.0",
-        "updatedAt": "2026-10-19T12:31:23.115Z"
+        "version": "1.9.0",
+        "updatedAt": "2026-10-19T13:03:28.311Z"
       }
     },
     "quizzes": {
@@ -26,12 +26,12 @@
       "label": "Moduli i materijali",
       "description": "Moduli, video, PDF materijali i završavanje modula",
       "frontend": {
-        "version": "1.8.1",
-        "updatedAt": "2026-10-19T12:31:23.115Z"
+        "version": "1.8.2",
+        "updatedAt": "2026-10-19T13:03:28.311Z"
       },
       "backend": {
-        "version": "1.2.4",
-        "updatedAt": "2026-10-19T12:31:23.115Z"
+        "version": "1.2.5",
+        "updatedAt": "2026-10-19T13:03:28.311Z"
       }
     },
     "support": {
@@ -50,12 +50,12 @@
       "label": "Zadaci i pregled",
       "description": "Zadaci, predaje, poruke i ocjenjivanje",
       "frontend": {
-        "version": "1.3.2",
-        "updatedAt": "2026-10-19T12:31:23.115Z"
+        "version": "1.3.3",
+        "updatedAt": "2026-10-19T13:03:28.311Z"
       },
       "backend": {
-        "version": "1.2.2",
-        "updatedAt": "2026-10-19T12:31:23.115Z"
+        "version": "1.2.3",
+        "updatedAt": "2026-10-19T13:03:28.311Z"
       }
     },
     "purchases": {
@@ -138,16 +138,16 @@
         "updatedAt": "2026-10-19T12:31:23.115Z"
       },
       "backend": {
-        "version": "1.3.4",
-        "updatedAt": "2026-10-18T12:41:36.350Z"
+        "version": "1.3.5",
+        "updatedAt": "2026-10-19T13:03:28.311Z"
       }
     },
     "public": {
       "label": "Javni sajt",
       "description": "Naslovna, blog, kontakt, SEO i javno zaglavlje",
       "frontend": {
-        "version": "1.24.0",
-        "updatedAt": "2026-10-19T12:31:23.115Z"
+        "version": "1.24.1",
+        "updatedAt": "2026-10-19T13:03:28.311Z"
       },
       "backend": {
         "version": "1.2.0",
@@ -170,16 +170,88 @@
       "label": "Jezgro",
       "description": "Zajedničke komponente, tema, rasporedi i infrastruktura",
       "frontend": {
-        "version": "1.17.5",
-        "updatedAt": "2026-10-19T12:31:23.115Z"
+        "version": "1.18.0",
+        "updatedAt": "2026-10-19T13:03:28.311Z"
       },
       "backend": {
-        "version": "1.7.1",
-        "updatedAt": "2026-10-19T12:31:23.115Z"
+        "version": "1.8.0",
+        "updatedAt": "2026-10-19T13:03:28.311Z"
       }
     }
   },
   "history": [
+    {
+      "at": "2026-10-19T13:03:28.311Z",
+      "section": "public",
+      "layer": "frontend",
+      "from": "1.24.0",
+      "to": "1.24.1",
+      "files": 16
+    },
+    {
+      "at": "2026-10-19T13:03:28.311Z",
+      "section": "core",
+      "layer": "backend",
+      "from": "1.7.1",
+      "to": "1.8.0",
+      "files": 8
+    },
+    {
+      "at": "2026-10-19T13:03:28.311Z",
+      "section": "tasks",
+      "layer": "backend",
+      "from": "1.2.2",
+      "to": "1.2.3",
+      "files": 3
+    },
+    {
+      "at": "2026-10-19T13:03:28.311Z",
+      "section": "modules",
+      "layer": "backend",
+      "from": "1.2.4",
+      "to": "1.2.5",
+      "files": 1
+    },
+    {
+      "at": "2026-10-19T13:03:28.311Z",
+      "section": "core",
+      "layer": "frontend",
+      "from": "1.17.5",
+      "to": "1.18.0",
+      "files": 6
+    },
+    {
+      "at": "2026-10-19T13:03:28.311Z",
+      "section": "modules",
+      "layer": "frontend",
+      "from": "1.8.1",
+      "to": "1.8.2",
+      "files": 1
+    },
+    {
+      "at": "2026-10-19T13:03:28.311Z",
+      "section": "tasks",
+      "layer": "frontend",
+      "from": "1.3.2",
+      "to": "1.3.3",
+      "files": 1
+    },
+    {
+      "at": "2026-10-19T13:03:28.311Z",
+      "section": "auth",
+      "layer": "backend",
+      "from": "1.3.4",
+      "to": "1.3.5",
+      "files": 1
+    },
+    {
+      "at": "2026-10-19T13:03:28.311Z",
+      "section": "database",
+      "layer": "backend",
+      "from": "1.8.0",
+      "to": "1.9.0",
+      "files": 2
+    },
     {
       "at": "2026-10-19T12:31:23.115Z",
       "section": "core",
@@ -907,78 +979,6 @@
       "from": "1.6.3",
       "to": "1.7.0",
       "files": 4
-    },
-    {
-      "at": "2026-10-02T08:48:49.700Z",
-      "section": "modules",
-      "layer": "backend",
-      "from": "1.2.2",
-      "to": "1.2.3",
-      "files": 2
-    },
-    {
-      "at": "2026-10-02T08:48:49.700Z",
-      "section": "core",
-      "layer": "frontend",
-      "from": "1.11.1",
-      "to": "1.11.2",
-      "files": 1
-    },
-    {
-      "at": "2026-10-02T08:48:40.912Z",
-      "section": "certificates",
-      "layer": "frontend",
-      "from": "1.5.0",
-      "to": "1.5.1",
-      "files": 2
-    },
-    {
-      "at": "2026-10-02T08:48:40.912Z",
-      "section": "settings",
-      "layer": "frontend",
-      "from": "1.2.0",
-      "to": "1.3.0",
-      "files": 6
-    },
-    {
-      "at": "2026-10-02T08:48:40.912Z",
-      "section": "notifications",
-      "layer": "frontend",
-      "from": "1.1.0",
-      "to": "1.1.1",
-      "files": 1
-    },
-    {
-      "at": "2026-10-02T08:48:40.912Z",
-      "section": "courses",
-      "layer": "frontend",
-      "from": "1.7.1",
-      "to": "1.7.2",
-      "files": 5
-    },
-    {
-      "at": "2026-10-02T08:48:40.912Z",
-      "section": "modules",
-      "layer": "frontend",
-      "from": "1.6.2",
-      "to": "1.6.3",
-      "files": 3
-    },
-    {
-      "at": "2026-10-02T08:48:40.912Z",
-      "section": "core",
-      "layer": "frontend",
-      "from": "1.11.0",
-      "to": "1.11.1",
-      "files": 4
-    },
-    {
-      "at": "2026-10-02T08:48:40.912Z",
-      "section": "users",
-      "layer": "frontend",
-      "from": "1.4.0",
-      "to": "1.4.1",
-      "files": 3
     }
   ]
 }

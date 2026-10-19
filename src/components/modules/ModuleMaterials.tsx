@@ -17,7 +17,7 @@ import { useCreateModuleFile, useDeleteModuleFile } from '@/hooks/useModules';
 import { useUploadFile } from '@/hooks/useUploads';
 import { moduleFileSchema } from '@/lib/forms/fileSchema';
 import { errorMessage } from '@/lib/api/errorMessage';
-import { BUCKETS, MAX_UPLOAD_BYTES, formatBytes } from '@/lib/storage';
+import { BUCKETS, MAX_MODULE_FILE_BYTES, formatBytes } from '@/lib/storage';
 import { toast } from '@/store/useToastStore';
 import type { ModuleFile } from '@/lib/schemas/modules.schema';
 
@@ -186,8 +186,9 @@ export default function ModuleMaterials({
         </Button>
 
         <Typography variant="caption" color="text.secondary">
-          Samo PDF, najviše {formatBytes(MAX_UPLOAD_BYTES)} po datoteci. Studenti materijale
-          pregledaju u aplikaciji.
+          Samo PDF, najviše {formatBytes(MAX_MODULE_FILE_BYTES)} po datoteci. Studenti materijale
+          pregledaju u aplikaciji. Iz PowerPointa izvezite PDF s opcijom „Minimalna veličina”
+          (objavljivanje na mreži) — prostor za pohranu je ograničen.
         </Typography>
 
         {/* Hidden on purpose: the styled MUI button is the control, while the

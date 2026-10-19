@@ -505,7 +505,8 @@ but must still handle a 403 on an individual resource.
   after `assertModuleAccess`. A signed URL would also work, but it hands the client a
   link that works for anyone holding it until it expires; a same-origin route is
   useless without the caller's session cookie, and the storage URL is never produced.
-  `Content-Disposition: inline` and `Cache-Control: private, no-store` match that.
+  `Content-Disposition: inline` matches that. (`Cache-Control` was `private, no-store`; it is now
+  `private, max-age=86400` — see "Uploads are signed" below.)
 
   Note the access denial arrives as **404, not 403** — `module_files` is RLS-scoped, so
   the row is invisible before `assertModuleAccess` runs. That is fine (it does not
@@ -2395,6 +2396,67 @@ course-scoped page, add it there or it is URL-only.
 
 - **One public email address**, `SITE.contact.email` (info@edubox-zepce.ba). The separate
   `supportEmail` is gone.
+
+### Uploads are signed, images are shrunk, limits live on the bucket (migration 0036)
+
+- **The free plan is 1 GB of storage in total**, so limits are per bucket
+  (`BUCKET_MAX_BYTES` in `storage.ts`): images 1 MB, module PDFs 25 MB, task files and
+  message attachments 5 MB. 25 MB covers a 50–100 slide deck exported from PowerPoint
+  (usually 3–15 MB); the materials screen tells authors to export with "Minimalna
+  veličina".
+
+- **`/api/admin/uploads` signs; it no longer receives the file.** A Vercel function's
+  request body is capped at 4.5 MB, so a proxied 10 MB PDF died with a platform 413
+  before any of our code ran. The route checks the _claimed_ size, type and folder
+  depth, calls `createSignedUploadUrl` on the caller's own client (so the bucket's
+  write policy still applies), and `useUploadFile` sends the bytes straight to Storage.
+  Callers did not change — the hook still returns `{ bucket, path }`.
+
+- **Because the route never sees the bytes, the bucket is the real boundary.** 0036
+  sets `file_size_limit` and `allowed_mime_types` on every bucket, and Storage applies
+  them to every upload. Verified with a token-only client: 26 MB PDF, 2 MB image and a
+  zip into `module-files` all rejected. Keep the migration, `BUCKET_MAX_BYTES` and the
+  `ACCEPTED_*` lists in step.
+
+- **Images are compressed in the browser before upload** (`compressImage`): longest
+  edge `IMAGE_MAX_DIMENSION` (1600 px — the 800 px article column at 2×), WebP, quality
+  stepping down until it fits. The picker therefore accepts a 25 MB source
+  (`MAX_IMAGE_SOURCE_BYTES`); only the _stored_ size is held to 1 MB. If the browser
+  cannot decode the file, the original goes up and the bucket limit decides.
+
+- **The content routes stream** (`data.stream()`, not `arrayBuffer()`) — a buffered
+  function response has the same 4.5 MB cap, which a 25 MB material would hit.
+
+- **Message attachments are still multipart through their own route**, so their
+  practical ceiling on Vercel is 4.5 MB despite the 5 MB constant. Moving them to signed
+  uploads is the fix if that ever matters.
+
+- The 15 seeded blog covers in `public/images/blog/` were 4000–8000 px camera
+  originals (102 MB); they were resized in place to 1600 px JPEG (1.5 MB total). Names
+  were kept because `blog_posts.image_path` points at them; a stale optimiser cache
+  only serves the same picture.
+
+- **Module PDFs are cached in the viewer's browser for a day** (`private, max-age=86400`,
+  was `no-store`). Egress runs out before storage: 5 GB a month, and every re-open was a
+  fresh download from Supabase. `private` still keeps it out of shared caches and a new
+  copy still needs the session; the cost is a file staying in that one browser's cache
+  for up to a day after it was legitimately shown there.
+
+- **Attachments on approved submissions are deleted 7 days after approval**
+  (`ATTACHMENT_RETENTION_DAYS`, `/api/cron/attachment-cleanup`, daily in `vercel.json`).
+  The message row keeps `attachment_path` so the thread still names what was handed in,
+  and gets `attachment_deleted_at` (migration 0037); the thread shows the name as
+  "uklonjeno nakon odobrenja" and the download route answers 410. "Approved at" is
+  `task_submissions.updated_at`, which is safe only because an approved thread is sealed
+  — if anything ever writes to one, its files are kept longer, never deleted early.
+  The week is the compromise against "the decision and its transcript must agree": long
+  enough to reopen the work if a decision is questioned, short enough to free the space.
+
+- **PDFs are not compressed on upload, deliberately.** The weight of an exported deck is
+  its embedded images, and shrinking those needs Ghostscript (or a paid API), neither of
+  which runs on Vercel. A browser re-save (pdf-lib object streams) gains a few percent;
+  rasterising pages would make text unselectable and often _larger_. The lever is the
+  export setting, which is why `<ModuleMaterials>` says so.
 
 ### Signing out lives in the user menu
 

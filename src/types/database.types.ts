@@ -928,6 +928,7 @@ export type Database = {
       }
       task_messages: {
         Row: {
+          attachment_deleted_at: string | null
           attachment_path: string | null
           body: string
           created_at: string
@@ -939,6 +940,7 @@ export type Database = {
           updated_by: string | null
         }
         Insert: {
+          attachment_deleted_at?: string | null
           attachment_path?: string | null
           body: string
           created_at?: string
@@ -950,6 +952,7 @@ export type Database = {
           updated_by?: string | null
         }
         Update: {
+          attachment_deleted_at?: string | null
           attachment_path?: string | null
           body?: string
           created_at?: string
