@@ -3,6 +3,8 @@
 Working memory for this codebase. Read this before writing code; append to it when a
 decision is made that a future session would otherwise have to re-derive.
 
+All project docs live under `docs/` — see `docs/README.md` for the map.
+
 **This file is for decisions and conventions, not narration.** Don't log "built page X" —
 log the rule that page established, or the trap it hit.
 
@@ -40,7 +42,7 @@ certificate.
 
 Backend (Supabase schema, RLS, API routes, OpenAPI docs) was generated from
 `docs/build-specs/` and is essentially complete. The frontend is being built page by page,
-by hand. `pages-to-build.md` is the checklist — treat it as a starting point, not a locked
+by hand. `docs/build-specs/05-pages-to-build.md` is the checklist — treat it as a starting point, not a locked
 spec; several of its decisions have since been overridden (see §7).
 
 **Audience matters:** a beginner developer will use this codebase as their reference for
@@ -337,7 +339,7 @@ but must still handle a 403 on an individual resource.
 
 ---
 
-## 7. Decisions made (overriding or extending `pages-to-build.md`)
+## 7. Decisions made (overriding or extending `05-pages-to-build.md`)
 
 - **Language: Bosnian (ijekavian)** for all UI copy. Code identifiers stay English.
   **Write every new user-facing string in ijekavian** — see "The UI language is Bosnian"
@@ -1698,19 +1700,19 @@ course-scoped page, add it there or it is URL-only.
   every full page load, because the server cannot know a choice that lives in localStorage;
   the attribute goes with it, since the script mutates `<html>` before React hydrates.
 
-### Public pages are light for strangers, themed for signed-in users
+### Dark mode belongs to the platform; the website is always light
 
-- **A signed-in user's scheme applies on every page; a signed-out visitor always gets light
-  on public pages.** A visitor deciding whether to buy a course should see one presentation
-  of the product — never dark just because their OS prefers it — and the preference belongs
-  to an account, so it follows the account. `src/theme/colorSchemeRules.ts` holds the rule
-  (`followsUserScheme`), `<ColorSchemeScope />` applies it.
+- **Public and auth pages are light for everyone, signed in or not.** Only the gated
+  sections (`THEMED_PREFIXES`, the module/quiz/task pages) follow the user's scheme — plus
+  `/courses` and `/courses/{slug}`, but **only for a signed-in viewer**, since a student
+  browses between those and their modules. `src/theme/colorSchemeRules.ts` holds the rule
+  (`followsUserScheme`), `<ColorSchemeScope />` and the first-paint script apply it.
 
-- **This was originally by URL alone**, which painted `/courses/{slug}` light for a
-  dark-mode student between two modules (see "Accepted consequence" below, now obsolete).
-  The project owner found it grating. Theming by _viewer_ fixes it without letting a
-  stranger's OS setting leak onto the catalogue — which moving `/courses` into the themed
-  list would have done.
+- **Third revision of this rule.** By URL alone painted `/courses/{slug}` light for a
+  dark-mode student between two modules; by viewer alone then darkened the whole marketing
+  site and the login form for signed-in users, which the project owner found confusing —
+  a dark landing page beside a light auth card read as two products. The current rule is
+  the middle: themed by URL, with the course pages the one place the viewer matters.
 
 - **The first-paint script reads the Supabase session cookie** (`sb-<ref>-auth-token`,
   JS-readable under `@supabase/ssr`), because it runs before React and the auth store exist.
@@ -1761,7 +1763,7 @@ course-scoped page, add it there or it is URL-only.
   public → themed flips correctly both ways; and forcing `dark` onto `<html>` by hand on a
   public page is reverted before the next animation frame.
 
-- ~~**Accepted consequence:**~~ **Obsolete** (signed-in users are now themed everywhere):
+- ~~**Accepted consequence:**~~ **Obsolete** (course pages now follow a signed-in user's scheme):
   a dark-mode student clicking from a course page into one of its
   modules crosses a light→dark boundary, because the course page is public and the module page
   is not. That is the rule applied honestly rather than an oversight. If it grates, the change
@@ -1939,8 +1941,11 @@ course-scoped page, add it there or it is URL-only.
   touches `window` at module scope; without it the page 500s on the server.
 
 - The library themes itself from a `data-color-mode` attribute rather than from the MUI
-  theme, so `<MarkdownEditor>` maps `useColorScheme()` onto it — resolving `'system'`
-  through `systemMode`, or the editor renders light-on-light for anyone on a dark OS.
+  theme, so `<MarkdownEditor>` sets it from `usePaintedColorScheme()` — the class actually
+  on `<html>` — and **not** from `useColorScheme()`. MUI's mode is the user's preference,
+  which differs from what is painted whenever a page is held light (the `themeSwitch` flag
+  off, or a page outside the themed list); following it rendered a black editor on a light
+  page in production.
 
 ### The legal pages became Server Components
 

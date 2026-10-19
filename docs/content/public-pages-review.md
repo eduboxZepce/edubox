@@ -82,7 +82,7 @@ formal **vi**:
   "odgovaramo **vam**". That's a switch within one component.
 - `LegalDocumentPage.tsx`: "Ako **vam** je potreban…"
 
-Suggestion: pick one. PROJECT-CONTEXT says marketing copy uses "ti", so either move the
+Suggestion: pick one. docs/project-context.md says marketing copy uses "ti", so either move the
 public and auth pages to ti, or decide that ti applies only to the landing page. The contact
 form needs fixing either way.
 

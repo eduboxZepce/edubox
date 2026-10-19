@@ -40,7 +40,7 @@ const NO_MATCH =
  * that is the holder's choice to publish.
  *
  * Not behind the `certificates` feature flag: flags hide UI, they do not gate
- * the API (§7 of PROJECT-CONTEXT).
+ * the API (§7 of docs/project-context.md).
  */
 export const POST = withRoute(async (req) => {
   const ip = clientIp(req);

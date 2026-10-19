@@ -6,10 +6,10 @@ This file ties together the four spec files into a single build instruction. Rea
 
 ## 1. Files and where to put them
 
-Create a `docs/build-spec/` folder at the root of your new repo (before scaffolding, or right after — either works) and place all four files there:
+Create a `docs/build-specs/` folder at the root of your new repo (before scaffolding, or right after — either works) and place all four files there:
 
 ```
-docs/build-spec/
+docs/build-specs/
   01-project-setup.md
   02-database-and-migrations.md
   03-api-docs-setup.md
@@ -57,10 +57,10 @@ Paste this as your opening message to Claude Code, from the repo root, after the
 
 ```
 I'm building an online courses platform. Read, in order:
-docs/build-spec/01-project-setup.md
-docs/build-spec/02-database-and-migrations.md
-docs/build-spec/03-auth-pages-setup.md
-docs/build-spec/04-api-docs-setup.md
+docs/build-specs/01-project-setup.md
+docs/build-specs/02-database-and-migrations.md
+docs/build-specs/03-auth-pages-setup.md
+docs/build-specs/04-api-docs-setup.md
 
 Then execute them in that order: scaffold the Next.js project per file 01,
 set up the Supabase migrations/RLS/storage/endpoints per file 02, build the

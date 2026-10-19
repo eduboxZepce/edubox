@@ -18,7 +18,7 @@ type Ctx = { params: Promise<{ certificateId: string }> };
  *
  * Same access model as `GET /api/certificates/:id`: signed in, on the caller's
  * own client, so RLS admits only the student, admins and the owning teacher.
- * (It was briefly public; see "Certificates are private" in PROJECT-CONTEXT.)
+ * (It was briefly public; see "Certificates are private" in docs/project-context.md.)
  *
  * The document carries a QR code and a printed link to the **public** check,
  * `/provjera-certifikata`, with number and surname filled in — that is how a

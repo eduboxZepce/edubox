@@ -7,8 +7,9 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { DARK_CLASS, LIGHT_CLASS, followsUserScheme, hasSessionCookie } from './colorSchemeRules';
 
 /**
- * Holds public pages in the light scheme for signed-out visitors, whatever their
- * OS or stored preference. Signed-in users get their own scheme everywhere.
+ * Holds public and auth pages in the light scheme, whatever the viewer's OS or
+ * stored preference. Only the platform itself — and, for a signed-in user, the
+ * course catalogue and course pages — follows the user's scheme.
  *
  * The rule and the reasoning live in `colorSchemeRules.ts`; this is the half
  * that survives client-side navigation. The inline script in the root layout

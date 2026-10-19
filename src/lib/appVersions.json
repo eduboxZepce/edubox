@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-19T09:46:16.847Z",
+  "updatedAt": "2026-10-19T10:21:20.585Z",
   "sections": {
     "database": {
       "label": "Baza podataka",
@@ -14,8 +14,8 @@
       "label": "Kvizovi",
       "description": "Izrada kvizova i polaganje",
       "frontend": {
-        "version": "1.1.3",
-        "updatedAt": "2026-10-02T08:48:40.912Z"
+        "version": "1.1.4",
+        "updatedAt": "2026-10-19T10:21:20.585Z"
       },
       "backend": {
         "version": "1.1.1",
@@ -78,8 +78,8 @@
         "updatedAt": "2026-10-02T17:36:29.174Z"
       },
       "backend": {
-        "version": "1.3.2",
-        "updatedAt": "2026-10-16T17:11:53.203Z"
+        "version": "1.3.3",
+        "updatedAt": "2026-10-19T10:21:20.585Z"
       }
     },
     "notifications": {
@@ -122,8 +122,8 @@
       "label": "Postavke",
       "description": "Pravni dokumenti, newsletter, izgled i korisničke postavke",
       "frontend": {
-        "version": "1.3.2",
-        "updatedAt": "2026-10-18T08:59:19.607Z"
+        "version": "1.4.0",
+        "updatedAt": "2026-10-19T10:21:20.585Z"
       },
       "backend": {
         "version": "1.0.1",
@@ -146,8 +146,8 @@
       "label": "Javni sajt",
       "description": "Naslovna, blog, kontakt, SEO i javno zaglavlje",
       "frontend": {
-        "version": "1.23.5",
-        "updatedAt": "2026-10-19T09:46:16.847Z"
+        "version": "1.23.6",
+        "updatedAt": "2026-10-19T10:21:20.585Z"
       },
       "backend": {
         "version": "1.1.4",
@@ -170,8 +170,8 @@
       "label": "Jezgro",
       "description": "Zajedničke komponente, tema, rasporedi i infrastruktura",
       "frontend": {
-        "version": "1.17.3",
-        "updatedAt": "2026-10-18T15:48:09.548Z"
+        "version": "1.17.4",
+        "updatedAt": "2026-10-19T10:21:20.585Z"
       },
       "backend": {
         "version": "1.7.0",
@@ -180,6 +180,46 @@
     }
   },
   "history": [
+    {
+      "at": "2026-10-19T10:21:20.585Z",
+      "section": "core",
+      "layer": "frontend",
+      "from": "1.17.3",
+      "to": "1.17.4",
+      "files": 4
+    },
+    {
+      "at": "2026-10-19T10:21:20.585Z",
+      "section": "public",
+      "layer": "frontend",
+      "from": "1.23.5",
+      "to": "1.23.6",
+      "files": 2
+    },
+    {
+      "at": "2026-10-19T10:21:20.585Z",
+      "section": "certificates",
+      "layer": "backend",
+      "from": "1.3.2",
+      "to": "1.3.3",
+      "files": 2
+    },
+    {
+      "at": "2026-10-19T10:21:20.585Z",
+      "section": "quizzes",
+      "layer": "frontend",
+      "from": "1.1.3",
+      "to": "1.1.4",
+      "files": 1
+    },
+    {
+      "at": "2026-10-19T10:21:20.585Z",
+      "section": "settings",
+      "layer": "frontend",
+      "from": "1.3.2",
+      "to": "1.4.0",
+      "files": 3
+    },
     {
       "at": "2026-10-19T09:46:16.847Z",
       "section": "public",
@@ -938,46 +978,6 @@
       "layer": "frontend",
       "from": "1.18.0",
       "to": "1.18.1",
-      "files": 1
-    },
-    {
-      "at": "2026-09-29T20:13:23+02:00",
-      "section": "core",
-      "layer": "frontend",
-      "from": "1.10.0",
-      "to": "1.10.1",
-      "files": 1
-    },
-    {
-      "at": "2026-09-25T22:55:08+02:00",
-      "section": "public",
-      "layer": "frontend",
-      "from": "1.17.0",
-      "to": "1.18.0",
-      "files": 17
-    },
-    {
-      "at": "2026-09-25T20:48:44+02:00",
-      "section": "public",
-      "layer": "frontend",
-      "from": "1.16.0",
-      "to": "1.17.0",
-      "files": 3
-    },
-    {
-      "at": "2026-09-25T20:48:44+02:00",
-      "section": "public",
-      "layer": "backend",
-      "from": null,
-      "to": "1.0.0",
-      "files": 1
-    },
-    {
-      "at": "2026-09-25T20:48:44+02:00",
-      "section": "core",
-      "layer": "backend",
-      "from": "1.3.5",
-      "to": "1.4.0",
       "files": 1
     }
   ]

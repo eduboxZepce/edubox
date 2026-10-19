@@ -7,7 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Stack from '@mui/material/Stack';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
-import { useColorScheme } from '@mui/material/styles';
+import { usePaintedColorScheme } from '@/theme/usePaintedColorScheme';
 import MarkdownContent from './MarkdownContent';
 import { imageFilesFrom, useImagePaste } from './useImagePaste';
 import '@uiw/react-md-editor/markdown-editor.css';
@@ -77,7 +77,7 @@ export default function MarkdownEditor({
   /** Enables paste/drop image upload. See the note above. */
   allowImages?: boolean;
 }) {
-  const { mode, systemMode } = useColorScheme();
+  const colorMode = usePaintedColorScheme();
   const { uploadImage, uploading } = useImagePaste();
 
   /*
@@ -135,12 +135,11 @@ export default function MarkdownEditor({
 
   /*
    * The library themes itself from a `data-color-mode` attribute rather than
-   * from our theme, so it has to be told. `mode` is `'system'` when the user
-   * has not chosen explicitly, and `systemMode` is what that resolves to;
-   * without the fallback the editor would render light-on-light for anyone on
-   * a dark OS.
+   * from our theme, so it has to be told — and it is told the scheme the page
+   * is *painted* in, not MUI's mode. Those differ whenever a page is held light
+   * (the `themeSwitch` flag off, for one), and following MUI's mode is what
+   * made the editor render black on a light page.
    */
-  const colorMode = (mode === 'system' ? systemMode : mode) ?? 'light';
 
   return (
     <Box>

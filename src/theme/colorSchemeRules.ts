@@ -5,16 +5,23 @@ import { FEATURES } from '@/lib/features';
  *
  * ## The rule
  *
- * A signed-in user gets their saved scheme on every page, public ones included.
- * A signed-out visitor gets light on public pages, always. The preference
- * belongs to an account, so it follows the account: a student reading a course
- * page between two modules should not be flipped to light and back. A stranger
- * deciding whether to buy sees one presentation of the product — never dark just
- * because their OS prefers it, which MUI's `system` mode would otherwise do.
+ * The dark scheme belongs to the platform, not to the website around it:
  *
- * (It used to be decided by URL alone, which lit `/courses/{slug}` light for
- * signed-in dark-mode users too. That was the documented trade-off; the project
- * owner found it grating, and theming by viewer removes it.)
+ *   - The gated sections (`THEMED_PREFIXES`, plus the module/quiz/task pages
+ *     under `THEMED_PATTERN`) follow the user's saved scheme.
+ *   - The course catalogue and a course's own page (`SIGNED_IN_THEMED_PATTERN`)
+ *     follow it **for a signed-in user only** — a student browses between those
+ *     and their modules, and should not be flipped to light and back.
+ *   - Everything else — landing, blog, legal, contact, certificate check and
+ *     the auth pages — is light, always, whoever is looking. A dark marketing
+ *     site next to a light login form read as two different products.
+ *
+ * A signed-out visitor therefore never sees dark on a public page, even with an
+ * OS that prefers it, which MUI's `system` mode would otherwise follow.
+ *
+ * (History: first decided by URL alone, which lit course pages light for
+ * signed-in dark-mode users; then by viewer alone, which darkened the whole
+ * public site for them. This is the middle that was asked for.)
  *
  * ## Why the list is of *themed* prefixes rather than public ones
  *
@@ -27,7 +34,7 @@ import { FEATURES } from '@/lib/features';
  * deliberately a *separate* list, because the two questions differ in exactly
  * one place: the module viewer, quiz and task pages live under the public
  * `/courses/{slug}` URL and are gated by `checkModulePageAccess` rather than by
- * the proxy — see §7 of `docs/PROJECT-CONTEXT.md`. The proxy cannot express
+ * the proxy — see §7 of `docs/project-context.md`. The proxy cannot express
  * "under `/modules` but not the course page"; a regex here can.
  */
 
@@ -49,6 +56,12 @@ export const THEMED_PREFIXES = [
 export const THEMED_PATTERN = '^/courses/[^/]+/modules(?:/|$)';
 
 /**
+ * `/courses` and `/courses/{slug}` — themed only for a signed-in viewer. Also
+ * matches the module pages, which `THEMED_PATTERN` already themes for everyone.
+ */
+export const SIGNED_IN_THEMED_PATTERN = '^/courses(?:/|$)';
+
+/**
  * True when the page at `pathname` follows the user's saved colour scheme.
  *
  * With `themeSwitch` off, no page does: the app is light everywhere, as if dark
@@ -65,12 +78,14 @@ export function isThemedPath(pathname: string): boolean {
 }
 
 /**
- * Whether the page follows the user's scheme for this viewer: always when signed
- * in, otherwise only on the gated sections. `themeSwitch` off still wins.
+ * Whether the page follows the user's scheme for this viewer: the gated
+ * sections always, the course pages only when signed in, nothing else ever.
+ * `themeSwitch` off still wins (inside `isThemedPath`, and checked here too).
  */
 export function followsUserScheme(pathname: string, signedIn: boolean): boolean {
   if (!FEATURES.themeSwitch) return false;
-  return signedIn || isThemedPath(pathname);
+  if (isThemedPath(pathname)) return true;
+  return signedIn && new RegExp(SIGNED_IN_THEMED_PATTERN).test(pathname);
 }
 
 /**
@@ -101,8 +116,8 @@ export const LIGHT_CLASS = 'light';
 export const DARK_CLASS = 'dark';
 
 /**
- * Forces the light class on `<html>` before the first paint of a public page
- * seen by a signed-out visitor.
+ * Forces the light class on `<html>` before the first paint of a page that
+ * does not follow the user's scheme (see `followsUserScheme`).
  *
  * ## Why `<html>` and not a wrapper
  *
@@ -125,8 +140,8 @@ export const DARK_CLASS = 'dark';
  */
 export const colorSchemeScopeScript = `(function(){try{var p=location.pathname;var themed=${JSON.stringify(
   FEATURES.themeSwitch,
-)}&&(new RegExp(${JSON.stringify(SESSION_COOKIE_PATTERN)}).test(document.cookie)||${JSON.stringify(
-  THEMED_PREFIXES,
-)}.some(function(x){return p===x||p.indexOf(x+'/')===0})||new RegExp(${JSON.stringify(
+)}&&(${JSON.stringify(THEMED_PREFIXES)}.some(function(x){return p===x||p.indexOf(x+'/')===0})||new RegExp(${JSON.stringify(
   THEMED_PATTERN,
-)}).test(p));if(!themed){var e=document.documentElement;e.classList.remove('${DARK_CLASS}');e.classList.add('${LIGHT_CLASS}');}}catch(e){}})();`;
+)}).test(p)||(new RegExp(${JSON.stringify(SIGNED_IN_THEMED_PATTERN)}).test(p)&&new RegExp(${JSON.stringify(
+  SESSION_COOKIE_PATTERN,
+)}).test(document.cookie)));if(!themed){var e=document.documentElement;e.classList.remove('${DARK_CLASS}');e.classList.add('${LIGHT_CLASS}');}}catch(e){}})();`;

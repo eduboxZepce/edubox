@@ -33,7 +33,14 @@ export type DetailItem = {
  *     ]}
  *   />
  */
-export default function DetailList({ items }: { items: DetailItem[] }) {
+export default function DetailList({
+  items,
+  dense = false,
+}: {
+  items: DetailItem[];
+  /** Tighter rows and a narrower label column, for short reference blocks. */
+  dense?: boolean;
+}) {
   const visible = items.filter((item) => !item.hidden);
 
   return (
@@ -43,13 +50,13 @@ export default function DetailList({ items }: { items: DetailItem[] }) {
           key={item.label}
           direction={{ xs: 'column', sm: 'row' }}
           spacing={{ xs: 0.5, sm: 3 }}
-          sx={{ py: 1.75, alignItems: { sm: 'baseline' } }}
+          sx={{ py: dense ? 0.75 : 1.75, alignItems: { sm: 'baseline' } }}
         >
           <Typography
             component="dt"
             variant="body2"
             color="text.secondary"
-            sx={{ minWidth: 180, flexShrink: 0 }}
+            sx={{ minWidth: dense ? 150 : 180, flexShrink: 0 }}
           >
             {item.label}
           </Typography>

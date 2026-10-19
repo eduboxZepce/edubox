@@ -12,7 +12,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import ContentCard from '@/components/layout/ContentCard';
-import CollapsibleCard from '@/components/layout/CollapsibleCard';
 import PageContainer from '@/components/layout/PageContainer';
 import PageHeader from '@/components/layout/PageHeader';
 import DetailList from '@/components/data/DetailList';
@@ -108,6 +107,7 @@ export default async function AboutAppPage() {
 
       <ContentCard title="Izdanje">
         <DetailList
+          dense
           items={[
             { label: 'Verzija aplikacije', value: <Mono>{packageJson.version}</Mono> },
             {
@@ -136,9 +136,7 @@ export default async function AboutAppPage() {
         />
       </ContentCard>
 
-      {/* The two reference sections start collapsed: they are long, and the
-          release card above is what most visits are for. */}
-      <CollapsibleCard title="Verzije po cjelinama" disablePadding>
+      <ContentCard title="Verzije po cjelinama" disablePadding>
         <TableContainer>
           <Table size="small" sx={COMPACT_TABLE_SX}>
             <TableHead>
@@ -174,9 +172,9 @@ export default async function AboutAppPage() {
             </TableBody>
           </Table>
         </TableContainer>
-      </CollapsibleCard>
+      </ContentCard>
 
-      <CollapsibleCard title="Dostupnost" disablePadding>
+      <ContentCard title="Dostupnost" disablePadding>
         <TableContainer>
           <Table size="small" sx={COMPACT_TABLE_SX}>
             <TableHead>
@@ -213,7 +211,7 @@ export default async function AboutAppPage() {
             </TableBody>
           </Table>
         </TableContainer>
-      </CollapsibleCard>
+      </ContentCard>
     </PageContainer>
   );
 }

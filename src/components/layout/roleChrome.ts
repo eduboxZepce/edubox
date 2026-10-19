@@ -24,7 +24,7 @@ export function roleTint(role: UserRole) {
  * Background + bottom edge for a role-tinted surface (the top bar, and the
  * admin sidebar's brand block, which sits level with it).
  *
- * Written as literal CSS variables for the reason given in PROJECT-CONTEXT
+ * Written as literal CSS variables for the reason given in docs/project-context.md
  * ("Gradients are written as literal CSS variables"): with `cssVariables` on,
  * `palette.secondary.main` is itself a `var(--…)`, so `alpha()` cannot parse it.
  * The tint is layered over `background.paper` rather than replacing it, because

@@ -113,7 +113,7 @@ export default function QuizQuestionFields({
                 value={answerIndex}
                 name={`correct-${questionIndex}`}
                 sx={{ mt: 0.5 }}
-                // MUI v9 renamed `inputProps` — see PROJECT-CONTEXT §2.
+                // MUI v9 renamed `inputProps` — see docs/project-context.md §2.
                 slotProps={{
                   input: { 'aria-label': `Odgovor ${answerIndex + 1} je tačan` },
                 }}

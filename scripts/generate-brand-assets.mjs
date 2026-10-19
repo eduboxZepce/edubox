@@ -18,7 +18,7 @@
  * This is a generated placeholder. To use a designed image instead, overwrite
  * `public/og-image.jpg` — keep it 1200×630, JPEG, under ~300 KB, with anything
  * important inside the central ~1000×500 (some platforms crop the edges) — and
- * stop running this script for it. Note the cache warning in PROJECT-CONTEXT
+ * stop running this script for it. Note the cache warning in docs/project-context.md
  * ("Replacing a `public/` image under the same name serves the old one"):
  * social platforms cache share images per URL too, so a redesign may want a new
  * filename and a matching change to `DEFAULT_OG_IMAGE`.
