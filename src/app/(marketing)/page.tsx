@@ -19,8 +19,9 @@ export const revalidate = 3600;
 export const metadata = pageMetadata({
   title: `${SITE.name} — ${SITE.tagline}`,
   absoluteTitle: true,
-  description:
-    'Online kursevi s video lekcijama, materijalima i zadacima koje pregleda predavač. Uči svojim tempom i dobij certifikat po završetku.',
+  // Opens with the brand: for a search on the name, Google skips a description
+  // that does not contain it and quotes the footer instead.
+  description: `${SITE.name} — online kursevi s video lekcijama, materijalima i zadacima koje pregleda predavač. Uči svojim tempom i dobij certifikat.`,
   path: '/',
 });
 

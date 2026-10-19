@@ -82,7 +82,9 @@ export default async function PublicFooter() {
   ];
 
   return (
-    <Box component="footer" sx={{ mt: 8, borderTop: 1, borderColor: 'divider' }}>
+    // `data-nosnippet`: Google once built a page's search snippet out of this
+    // footer — contacts and social labels run together into one line.
+    <Box component="footer" data-nosnippet sx={{ mt: 8, borderTop: 1, borderColor: 'divider' }}>
       <Container maxWidth="lg" sx={{ py: 5 }}>
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
