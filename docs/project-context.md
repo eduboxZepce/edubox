@@ -700,8 +700,8 @@ purchase` shape `assertCourseAccess` exists to prevent — so a teacher clicking
   (`useAdminPurchases({ studentId })`) rather than needing new ones.
 - **Purchases list defaults to `status=requested`** — it's a work queue, and opening on
   "everything" buries the rows needing a decision.
-- Both approve _and_ deny are confirmed. Approving grants paid access and isn't reversible
-  through the UI.
+- Both approve _and_ deny are confirmed. Approving grants paid access; it can be undone
+  only by revoking (see "Revoking access to a course" below), which is confirmed too.
 
 - **Teachers are scoped authors, enforced in the database.** The rules live in
   migrations 0016–0017 as `can_author_*()` predicates, not in application code, so
@@ -1428,7 +1428,35 @@ purchase` shape `assertCourseAccess` exists to prevent — so a teacher clicking
   dynamic. Removing `[slug]/loading.tsx` does not help — `/blog/loading.tsx` also wraps the
   segment. A real status would need a database read in `proxy.ts` on every blog request.
 
-### Deliberately not built
+### Revoking access to a course (migration 0038)
+
+- **An approved purchase can be revoked, and `revoked` is its own status.** Reusing
+  `denied` would have worked mechanically, but a denied request was never honoured while
+  a revoked one was approved — usually paid — first. An admin reconciling `readable_id`
+  against a bank statement must be able to tell those apart.
+
+- **The legal moves are a table in the route** (`PURCHASE_TRANSITIONS`):
+  requested → approved | denied, approved → revoked, revoked → approved ("Vrati
+  pristup", so a mis-click is undoable). Anything else is 409 — which also stops a
+  repeated approve from re-sending "access granted". The update is conditioned on the
+  status just read, so two admins acting at once cannot both succeed.
+
+- **Revoking changes nothing but the status.** Every gate tests `status = 'approved'`, so
+  access ends on the student's next request; progress, submissions and certificates
+  survive, which is what lets a restore resume where they were. The student is told
+  (`purchase_revoked`, its own switch in settings).
+
+- **A revoked student may ask again**, like a denied one — the 0009 unique index covers
+  only `requested`/`approved`, and the new request still needs an admin. Restoring the
+  old row while a newer request is open would trip that index, so the route 409s with a
+  sentence instead.
+
+- The actions sit in `<PurchaseActions>`, so they appear on the purchases queue, the
+  purchase detail page, and the purchases table on `/admin/users/{id}`.
+
+- **Renaming and deactivating a user already existed** (`UserFormDialog`,
+  `UserAccountActions`) — see "Admin users page is editable" above. Deactivation blocks
+  the whole account; revoking is the per-course tool.
 
 - **Self-service account editing.** No changing your own name, email or password while
   signed in — the project owner's call. Password recovery remains the signed-out

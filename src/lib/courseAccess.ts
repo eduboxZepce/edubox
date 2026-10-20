@@ -22,20 +22,22 @@ export type PurchaseState = PurchaseStatus | 'none';
  * A course can legitimately have more than one row: the unique index in
  * migration 0009 excludes `denied`, so a student who was rejected and
  * re-requested has both a denied row and a new one. Approved beats requested
- * beats denied, which is why this can't just read the first row.
+ * beats revoked beats denied, which is why this can't just read the first row.
  */
 export function purchaseStateFrom(purchases: Purchase[] | undefined): PurchaseState {
   if (!purchases?.length) return 'none';
   if (purchases.some((p) => p.status === 'approved')) return 'approved';
   if (purchases.some((p) => p.status === 'requested')) return 'requested';
+  if (purchases.some((p) => p.status === 'revoked')) return 'revoked';
   if (purchases.some((p) => p.status === 'denied')) return 'denied';
   return 'none';
 }
 
 /** Whether the "request access" button should do anything. */
 export function canRequestPurchase(state: PurchaseState): boolean {
-  // Denied is deliberately re-requestable — the DB's unique index permits it.
-  return state === 'none' || state === 'denied';
+  // Denied and revoked are deliberately re-requestable — the DB's unique index
+  // covers only requested/approved, and a new request still needs an admin.
+  return state === 'none' || state === 'denied' || state === 'revoked';
 }
 
 /**

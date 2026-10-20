@@ -848,8 +848,9 @@ registry.registerPath({
   method: 'patch',
   path: '/api/admin/purchases/{id}',
   tags: ['Purchases'],
-  summary: 'Approve or deny a purchase (admin)',
-  description: 'Approving grants access to the course content.',
+  summary: 'Approve, deny, revoke or restore a purchase (admin)',
+  description:
+    'Approving grants access to the course content. Allowed moves: requested → approved | denied, approved → revoked, revoked → approved. Anything else is 409.',
   security,
   request: {
     params: idParam,

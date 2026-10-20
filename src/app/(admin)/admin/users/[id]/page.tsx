@@ -3,6 +3,7 @@
 import * as React from 'react';
 import Alert from '@mui/material/Alert';
 import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import PageContainer from '@/components/layout/PageContainer';
 import PageHeader from '@/components/layout/PageHeader';
@@ -13,6 +14,7 @@ import DetailList from '@/components/data/DetailList';
 import DataTable from '@/components/data/DataTable';
 import StatusChip from '@/components/data/StatusChip';
 import UserAccountActions from '@/components/users/UserAccountActions';
+import PurchaseActions from '@/components/purchases/PurchaseActions';
 import { useAdminUser } from '@/hooks/useUsers';
 import { useAdminPurchases } from '@/hooks/usePurchases';
 import { useAdminCertificates } from '@/hooks/useCertificates';
@@ -150,6 +152,24 @@ export default function AdminUserDetailPage(props: PageProps<'/admin/users/[id]'
                           id: 'created',
                           header: 'Poslan',
                           cell: (row) => formatDateTime(row.created_at),
+                        },
+                        {
+                          // The same actions as the purchases queue, so access to
+                          // one course can be revoked from the person's own page
+                          // rather than by hunting for the row there.
+                          id: 'actions',
+                          header: '',
+                          align: 'right',
+                          width: 220,
+                          cell: (row) => (
+                            <Stack
+                              direction="row"
+                              sx={{ justifyContent: 'flex-end' }}
+                              onClick={(event) => event.stopPropagation()}
+                            >
+                              <PurchaseActions purchase={row} />
+                            </Stack>
+                          ),
                         },
                       ]}
                     />

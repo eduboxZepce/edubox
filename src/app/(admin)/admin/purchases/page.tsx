@@ -79,6 +79,7 @@ export default function AdminPurchasesPage(props: PageProps<'/admin/purchases'>)
               { value: 'requested', label: 'Na čekanju' },
               { value: 'approved', label: 'Odobreni' },
               { value: 'denied', label: 'Odbijeni' },
+              { value: 'revoked', label: 'Opozvani' },
             ]}
           />
 
@@ -193,7 +194,7 @@ export default function AdminPurchasesPage(props: PageProps<'/admin/purchases'>)
                     align: 'right',
                     width: 220,
                     cell: (row) => (
-                      // Stops a click on Odobri/Odbij from also navigating to
+                      // Stops a click on an action from also navigating to
                       // the detail page via the row's own click handler.
                       <Stack
                         direction="row"

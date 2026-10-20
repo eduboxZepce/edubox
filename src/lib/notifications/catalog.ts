@@ -100,6 +100,12 @@ export const NOTIFICATION_CATALOG: Record<NotificationType, NotificationDefiniti
     audience: ['student'],
     group: 'purchases',
   },
+  purchase_revoked: {
+    label: 'Pristup opozvan',
+    description: 'Kada vam administrator opozove već odobren pristup obuci.',
+    audience: ['student'],
+    group: 'purchases',
+  },
 
   /* ---- submissions ---- */
   submission_received: {

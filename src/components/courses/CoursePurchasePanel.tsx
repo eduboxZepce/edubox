@@ -27,10 +27,12 @@ import { FEATURES } from '@/lib/features';
  *
  *   signed out        → the button sends them to login and back again
  *   no row / denied   → request access
+ *   revoked           → request access, with a note that it was taken away
  *   requested         → waiting on an admin, nothing to do
  *
- * `denied` is actionable on purpose: the unique index in migration 0009
- * excludes denied rows specifically so a student can ask again.
+ * `denied` and `revoked` are actionable on purpose: the unique index in
+ * migration 0009 covers only requested/approved rows, so a student can ask
+ * again — and an admin still decides.
  */
 export default function CoursePurchasePanel({
   courseId,
@@ -132,6 +134,13 @@ export default function CoursePurchasePanel({
             {state === 'denied' ? (
               <Alert severity="warning">
                 Prethodni zahtjev za ovu obuku je odbijen. Možeš poslati novi.
+              </Alert>
+            ) : null}
+
+            {state === 'revoked' ? (
+              <Alert severity="warning">
+                Pristup ovoj obuci ti je opozvan. Napredak je sačuvan — možeš poslati novi zahtjev
+                ili se javiti podršci.
               </Alert>
             ) : null}
 

@@ -21,6 +21,7 @@ export const PURCHASE_STATUS: Record<PurchaseStatus, StatusDisplay> = {
   requested: { label: 'Na čekanju', color: 'warning' },
   approved: { label: 'Odobreno', color: 'success' },
   denied: { label: 'Odbijeno', color: 'error' },
+  revoked: { label: 'Opozvano', color: 'default' },
 };
 
 export const SUBMISSION_STATUS: Record<TaskSubmissionStatus, StatusDisplay> = {

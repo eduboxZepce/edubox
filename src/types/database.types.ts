@@ -1147,7 +1147,8 @@ export type Database = {
         | "issue_opened"
         | "issue_reply"
         | "issue_closed"
-      purchase_status: "requested" | "denied" | "approved"
+        | "purchase_revoked"
+      purchase_status: "requested" | "denied" | "approved" | "revoked"
       task_submission_status: "pending" | "needs_revision" | "approved"
       user_role: "admin" | "student" | "teacher"
     }
@@ -1297,8 +1298,9 @@ export const Constants = {
         "issue_opened",
         "issue_reply",
         "issue_closed",
+        "purchase_revoked",
       ],
-      purchase_status: ["requested", "denied", "approved"],
+      purchase_status: ["requested", "denied", "approved", "revoked"],
       task_submission_status: ["pending", "needs_revision", "approved"],
       user_role: ["admin", "student", "teacher"],
     },

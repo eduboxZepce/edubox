@@ -67,6 +67,7 @@ export default function StudentPurchasesPage() {
               { value: 'requested', label: 'Na čekanju' },
               { value: 'approved', label: 'Odobrene' },
               { value: 'denied', label: 'Odbijene' },
+              { value: 'revoked', label: 'Opozvane' },
             ]}
           />
         </Stack>
@@ -132,6 +133,13 @@ export default function StudentPurchasesPage() {
                     {purchase.status === 'denied' ? (
                       <Alert severity="warning">
                         Ovaj zahtjev je odbijen. Možete poslati novi sa stranice obuke.
+                      </Alert>
+                    ) : null}
+
+                    {purchase.status === 'revoked' ? (
+                      <Alert severity="warning">
+                        Pristup ovoj obuci je opozvan. Vaš napredak je sačuvan; za pomoć se javite
+                        podršci.
                       </Alert>
                     ) : null}
                   </Stack>

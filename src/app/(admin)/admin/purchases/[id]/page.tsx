@@ -65,12 +65,21 @@ export default function AdminPurchaseDetailPage(props: PageProps<'/admin/purchas
                 >
                   <PurchaseActions purchase={row} size="medium" />
                 </ContentCard>
-              ) : (
-                <Alert severity={row.status === 'approved' ? 'success' : 'info'}>
-                  {row.status === 'approved'
-                    ? 'Pristup je odobren. Student može otvarati module ove obuke.'
-                    : 'Zahtjev je odbijen. Student može poslati novi zahtjev za istu obuku.'}
+              ) : row.status === 'denied' ? (
+                <Alert severity="info">
+                  Zahtjev je odbijen. Student može poslati novi zahtjev za istu obuku.
                 </Alert>
+              ) : (
+                <ContentCard
+                  title="Pristup"
+                  description={
+                    row.status === 'approved'
+                      ? 'Pristup je odobren. Student može otvarati module ove obuke.'
+                      : 'Pristup je opozvan. Student ne može otvarati module, ali napredak i certifikati su sačuvani.'
+                  }
+                >
+                  <PurchaseActions purchase={row} size="medium" />
+                </ContentCard>
               )}
 
               <Grid container spacing={3}>

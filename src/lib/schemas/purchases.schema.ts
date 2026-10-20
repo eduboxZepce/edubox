@@ -9,7 +9,7 @@ import {
 } from './common.schema';
 
 export const purchaseStatusSchema = z
-  .enum(['requested', 'denied', 'approved'])
+  .enum(['requested', 'denied', 'approved', 'revoked'])
   .openapi('PurchaseStatus');
 
 export const purchaseSchema = z
@@ -86,9 +86,13 @@ export const createPurchaseSchema = z
   })
   .openapi('CreatePurchaseRequest');
 
+/**
+ * The status an admin moves a purchase to. Which moves are legal depends on
+ * where it stands now — see `PURCHASE_TRANSITIONS` in the route.
+ */
 export const updatePurchaseSchema = z
   .object({
-    status: z.enum(['approved', 'denied']),
+    status: z.enum(['approved', 'denied', 'revoked']),
   })
   .openapi('UpdatePurchaseRequest');
 
