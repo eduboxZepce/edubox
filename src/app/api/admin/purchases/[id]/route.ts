@@ -78,7 +78,7 @@ export const PATCH = withRoute(async (req, ctx: Ctx) => {
     await svc.from('purchases').select('status, student_id, course_id').eq('id', id).maybeSingle(),
   );
   if (!PURCHASE_TRANSITIONS[current.status].includes(body.status)) {
-    throw conflict(`A ${current.status} purchase cannot be changed to ${body.status}`);
+    throw conflict(`Cannot change a purchase from ${current.status} to ${body.status}`);
   }
 
   // A revoked student may already have asked again. Restoring the old row too
