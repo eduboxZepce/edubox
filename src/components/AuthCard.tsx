@@ -28,17 +28,24 @@ export default function AuthCard({
       elevation={0}
       // `relative` + `overflow: hidden` are what <AuthCardProgress> pins itself
       // to: it sits on the card's top edge, clipped to the rounded corners.
+      // Frosted glass over the layout's bokeh backdrop: mostly opaque, so text
+      // contrast never depends on which light happens to drift behind it.
       sx={{
-        p: 4,
+        px: { xs: 3, sm: 4 },
+        py: { xs: 3, sm: 3.5 },
         width: '100%',
         maxWidth: 420,
         border: 1,
-        borderColor: 'divider',
+        borderColor: 'color-mix(in srgb, var(--mui-palette-divider) 60%, transparent)',
         position: 'relative',
         overflow: 'hidden',
+        bgcolor: 'color-mix(in srgb, var(--mui-palette-background-paper) 80%, transparent)',
+        backdropFilter: 'blur(18px) saturate(140%)',
+        WebkitBackdropFilter: 'blur(18px) saturate(140%)',
+        boxShadow: '0 24px 60px -24px rgb(20 30 70 / 0.25)',
       }}
     >
-      <Stack spacing={1} sx={{ mb: 3 }}>
+      <Stack spacing={0.75} sx={{ mb: 2.5 }}>
         <Typography variant="h2" component="h1">
           {title}
         </Typography>

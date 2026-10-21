@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-21T08:35:01.253Z",
+  "updatedAt": "2026-10-21T10:03:44.672Z",
   "sections": {
     "database": {
       "label": "Baza podataka",
@@ -134,8 +134,8 @@
       "label": "Prijava i nalozi",
       "description": "Registracija, prijava, lozinke i zaštita ruta",
       "frontend": {
-        "version": "1.3.6",
-        "updatedAt": "2026-10-19T12:31:23.115Z"
+        "version": "1.3.7",
+        "updatedAt": "2026-10-21T10:03:44.672Z"
       },
       "backend": {
         "version": "1.3.5",
@@ -170,8 +170,8 @@
       "label": "Jezgro",
       "description": "Zajedničke komponente, tema, rasporedi i infrastruktura",
       "frontend": {
-        "version": "1.18.1",
-        "updatedAt": "2026-10-20T16:28:03.769Z"
+        "version": "1.19.0",
+        "updatedAt": "2026-10-21T10:03:44.672Z"
       },
       "backend": {
         "version": "1.8.1",
@@ -180,6 +180,22 @@
     }
   },
   "history": [
+    {
+      "at": "2026-10-21T10:03:44.672Z",
+      "section": "auth",
+      "layer": "frontend",
+      "from": "1.3.6",
+      "to": "1.3.7",
+      "files": 3
+    },
+    {
+      "at": "2026-10-21T10:03:44.672Z",
+      "section": "core",
+      "layer": "frontend",
+      "from": "1.18.1",
+      "to": "1.19.0",
+      "files": 1
+    },
     {
       "at": "2026-10-21T08:35:01.253Z",
       "section": "database",
@@ -962,22 +978,6 @@
       "layer": "backend",
       "from": "1.4.3",
       "to": "1.5.0",
-      "files": 3
-    },
-    {
-      "at": "2026-10-02T17:36:29.174Z",
-      "section": "certificates",
-      "layer": "frontend",
-      "from": "1.5.1",
-      "to": "1.6.0",
-      "files": 4
-    },
-    {
-      "at": "2026-10-02T17:36:29.174Z",
-      "section": "core",
-      "layer": "frontend",
-      "from": "1.12.2",
-      "to": "1.13.0",
       "files": 3
     }
   ]

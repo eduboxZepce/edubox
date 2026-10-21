@@ -88,7 +88,17 @@ export default function RegisterPage() {
   }
 
   return (
-    <AuthCard title="Kreiraj nalog" subtitle="Počni učiti za par minuta.">
+    // The way back to sign-in lives in the subtitle rather than under the
+    // button: the form is the tallest in the group, and that row was one of
+    // the things pushing it past a laptop screen.
+    <AuthCard
+      title="Kreiraj nalog"
+      subtitle={
+        <>
+          Već imaš nalog? <Link href="/login">Prijavi se</Link>
+        </>
+      }
+    >
       <AuthCardProgress active={pending} />
       <form onSubmit={handleSubmit} noValidate>
         <Stack spacing={2}>
@@ -109,34 +119,55 @@ export default function RegisterPage() {
             autoComplete="email"
             required
           />
-          <TextField
-            label="Lozinka"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="new-password"
-            helperText="Najmanje 8 znakova."
-            required
-          />
-          <TextField
-            label="Potvrdi lozinku"
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            autoComplete="new-password"
-            error={passwordMismatch}
-            helperText={passwordMismatch ? 'Lozinke se ne podudaraju.' : ' '}
-            required
-          />
+          {/* Side by side from `sm` up: they are one decision ("pick a
+              password"), and sharing a row saves a field's height. The
+              reserved ' ' helper keeps the row from growing when the mismatch
+              error appears; stacked on a phone it does the same per field. */}
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+            <TextField
+              label="Lozinka"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="new-password"
+              helperText="Najmanje 8 znakova."
+              required
+              fullWidth
+            />
+            <TextField
+              label="Potvrdi lozinku"
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              autoComplete="new-password"
+              error={passwordMismatch}
+              helperText={passwordMismatch ? 'Lozinke se ne podudaraju.' : ' '}
+              required
+              fullWidth
+            />
+          </Stack>
 
           {/* The links open in a new tab: following one in place would throw
               away everything typed into the form above. */}
           <FormControlLabel
-            control={<Checkbox checked={consent} onChange={(e) => setConsent(e.target.checked)} />}
+            control={
+              <Checkbox
+                size="small"
+                checked={consent}
+                onChange={(e) => setConsent(e.target.checked)}
+              />
+            }
             label={
               <Typography variant="body2">
-                Prihvatam <Link href="/uvjeti-koristenja">uvjete korištenja</Link> i{' '}
-                <Link href="/politika-privatnosti">politiku privatnosti</Link>.
+                Prihvatam{' '}
+                <Link href="/uvjeti-koristenja" target="_blank" rel="noopener">
+                  uvjete korištenja
+                </Link>{' '}
+                i{' '}
+                <Link href="/politika-privatnosti" target="_blank" rel="noopener">
+                  politiku privatnosti
+                </Link>
+                .
               </Typography>
             }
           />
@@ -151,10 +182,6 @@ export default function RegisterPage() {
           >
             {pending ? 'Kreiranje naloga…' : 'Kreiraj nalog'}
           </Button>
-
-          <Link href="/login" variant="body2">
-            Već imaš nalog? Prijavi se
-          </Link>
         </Stack>
       </form>
 

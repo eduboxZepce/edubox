@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
+import AuthBackdrop from '@/components/auth/AuthBackdrop';
 
 /**
  * Chrome for the auth pages: one centred card, and deliberately no nav bar.
@@ -15,14 +16,11 @@ import Stack from '@mui/material/Stack';
  *
  * ## The background
  *
- * A flat `background.default` left the card floating on an empty grey field.
- * This is two soft radial tints in the brand colours over that same base, plus
- * a faint grid.
- *
- * Built from `color-mix()` against the theme's own palette tokens rather than
- * hardcoded rgba, so it follows the colour scheme: in dark mode the tints mix
- * toward the dark background instead of glowing. `currentColor`-free and
- * CSS-only — no image to load, and nothing that shifts layout while it arrives.
+ * `<AuthBackdrop>` — a brand-tinted wash with drifting bokeh lights. It
+ * replaced two faint radial tints and a grid, which were too quiet to read as
+ * anything but an off-white page. The card is frosted glass over it (see
+ * `<AuthCard>`), so the lights show through softly instead of stopping dead
+ * at its edge.
  *
  * ## The legal links
  *
@@ -42,32 +40,10 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         alignContent: 'center',
         p: 2,
         position: 'relative',
-        bgcolor: 'background.default',
-        backgroundImage: [
-          // Two off-centre pools of colour, primary top-left and secondary
-          // bottom-right, so the card sits in the calmer middle.
-          'radial-gradient(70rem 40rem at 12% -10%, color-mix(in srgb, var(--mui-palette-primary-main) 16%, transparent), transparent 60%)',
-          'radial-gradient(60rem 38rem at 105% 108%, color-mix(in srgb, var(--mui-palette-secondary-main) 14%, transparent), transparent 60%)',
-        ].join(', '),
-        // The grid sits above the gradients but below the card. Masked to fade
-        // out toward the edges so it never reads as a hard-edged texture.
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          inset: 0,
-          pointerEvents: 'none',
-          backgroundImage: [
-            'linear-gradient(var(--mui-palette-divider) 1px, transparent 1px)',
-            'linear-gradient(90deg, var(--mui-palette-divider) 1px, transparent 1px)',
-          ].join(', '),
-          backgroundSize: '48px 48px',
-          opacity: 0.35,
-          maskImage: 'radial-gradient(70% 60% at 50% 40%, #000 0%, transparent 100%)',
-          WebkitMaskImage: 'radial-gradient(70% 60% at 50% 40%, #000 0%, transparent 100%)',
-        },
       }}
     >
-      {/* Above the ::before grid. */}
+      <AuthBackdrop />
+      {/* Above the fixed backdrop. */}
       <Box
         component="main"
         sx={{
@@ -84,7 +60,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         component="footer"
         direction="row"
         spacing={2}
-        sx={{ position: 'relative', zIndex: 1, mt: 3, justifyContent: 'center' }}
+        sx={{ position: 'relative', zIndex: 1, mt: 2, justifyContent: 'center' }}
       >
         <Link href="/uvjeti-koristenja" variant="caption" color="text.secondary">
           Uvjeti korištenja
