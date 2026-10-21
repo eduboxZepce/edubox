@@ -303,6 +303,14 @@ but must still handle a 403 on an individual resource.
   `z.coerce.number()` is fine — `Number('20')` behaves.
 - `purchases` unique index excludes `denied`, so a denied request **can** be re-submitted.
 - New API route → add it to `src/lib/openapi/registry.ts`.
+- **A new table needs explicit grants in the migration that creates it.** Since
+  2026-10-30 Supabase no longer gives `anon`/`authenticated`/`service_role` access to
+  new tables in `public`, so a table without them fails with 42501 through
+  supabase-js however correct its RLS is. Copy the shape of 0039: `select` to `anon`,
+  `select, insert, update, delete` to `authenticated` and `service_role`, plus
+  `usage, select` on any sequence a column default calls. Grants open the door; RLS
+  is still the lock. Migrations 0001–0038 carry no grants of their own, and 0039 is
+  what makes a schema rebuilt from them (new project, branch, `db reset`) work.
 - **A FK cascade is an UPDATE, and triggers fire on it.** `courses.owner_id` is
   `ON DELETE SET NULL`, so deleting a teacher cascades into an update that the
   ownership guard blocked — teacher accounts were undeletable until 0018 added an
