@@ -16,7 +16,6 @@ import PaymentInstructions from '@/components/purchases/PaymentInstructions';
 import { errorMessage } from '@/lib/api/errorMessage';
 import { formatPrice } from '@/lib/format';
 import { toast } from '@/store/useToastStore';
-import { FEATURES } from '@/lib/features';
 
 /**
  * Price and the call to action, for a viewer who doesn't own the course yet.
@@ -101,9 +100,7 @@ export default function CoursePurchasePanel({
           </Typography>
         </Stack>
 
-        {/* With purchases switched off the panel is only the price: there is
-            no request to send, no reference and no payment details. */}
-        {!FEATURES.purchases ? null : state === 'requested' ? (
+        {state === 'requested' ? (
           <Stack spacing={2}>
             <Alert severity="info" icon={<HourglassEmptyIcon fontSize="inherit" />}>
               {isFree

@@ -308,19 +308,18 @@ with it lands you on the dashboard.
 
 Project → **Settings → Environment Variables**. Tick the environments shown:
 
-| Variable                                                                | Value                                 | Production | Preview  | Local (`.env.local`) |
-| ----------------------------------------------------------------------- | ------------------------------------- | :--------: | :------: | :------------------: |
-| `NEXT_PUBLIC_SUPABASE_URL`                                              | Part 4.2                              |     ✓      |    ✓     |          ✓           |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY`                                         | Part 4.2                              |     ✓      |    ✓     |          ✓           |
-| `SUPABASE_SERVICE_ROLE_KEY`                                             | Part 4.2                              |     ✓      |    ✓     |          ✓           |
-| `NEXT_PUBLIC_SITE_URL`                                                  | `https://www.<domain>`                |     ✓      |    —     |   — (leave empty)    |
-| `NEXT_PUBLIC_GOOGLE_CLIENT_ID`                                          | Part 7.1                              |     ✓      |    ✓     |          ✓           |
-| `RESEND_API_KEY`                                                        | `website` key, Part 6.2               |     ✓      |    —     | — (keeps dev quiet)  |
-| `EMAIL_FROM`                                                            | `<name> <obavijesti@<domain>>`        |     ✓      |    —     |          —           |
-| `CONTACT_EMAIL_TO`                                                      | `info@<domain>`                       |     ✓      |    —     |          —           |
-| `CRON_SECRET`                                                           | a long random string (command below)  |     ✓      |    —     |          —           |
-| `SUPABASE_PROJECT_REF`, `SUPABASE_DB_PASSWORD`, `SUPABASE_ACCESS_TOKEN` | Part 4.2                              |     —      |    —     |          ✓           |
-| `NEXT_PUBLIC_FEATURE_*`                                                 | `false` to hide an unfinished feature |  optional  | optional |       optional       |
+| Variable                                                                | Value                                | Production | Preview | Local (`.env.local`) |
+| ----------------------------------------------------------------------- | ------------------------------------ | :--------: | :-----: | :------------------: |
+| `NEXT_PUBLIC_SUPABASE_URL`                                              | Part 4.2                             |     ✓      |    ✓    |          ✓           |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY`                                         | Part 4.2                             |     ✓      |    ✓    |          ✓           |
+| `SUPABASE_SERVICE_ROLE_KEY`                                             | Part 4.2                             |     ✓      |    ✓    |          ✓           |
+| `NEXT_PUBLIC_SITE_URL`                                                  | `https://www.<domain>`               |     ✓      |    —    |   — (leave empty)    |
+| `NEXT_PUBLIC_GOOGLE_CLIENT_ID`                                          | Part 7.1                             |     ✓      |    ✓    |          ✓           |
+| `RESEND_API_KEY`                                                        | `website` key, Part 6.2              |     ✓      |    —    | — (keeps dev quiet)  |
+| `EMAIL_FROM`                                                            | `<name> <obavijesti@<domain>>`       |     ✓      |    —    |          —           |
+| `CONTACT_EMAIL_TO`                                                      | `info@<domain>`                      |     ✓      |    —    |          —           |
+| `CRON_SECRET`                                                           | a long random string (command below) |     ✓      |    —    |          —           |
+| `SUPABASE_PROJECT_REF`, `SUPABASE_DB_PASSWORD`, `SUPABASE_ACCESS_TOKEN` | Part 4.2                             |     —      |    —    |          ✓           |
 
 A random `CRON_SECRET`:
 
@@ -330,10 +329,6 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 Why `NEXT_PUBLIC_SITE_URL` is Production-only: left unset, each preview deployment links to
 itself and local development to `localhost:3000`. Never paste `http://localhost:3000` into Vercel.
-
-Feature flags: a missing flag means **on**. To launch with, say, the blog hidden, add
-`NEXT_PUBLIC_FEATURE_BLOG=false`; delete the variable to show it. The full list is in
-`.env.example`.
 
 **`NEXT_PUBLIC_*` values are baked in at build time**, so after changing any of them,
 **redeploy** (Deployments → latest → ⋮ → Redeploy).

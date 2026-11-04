@@ -1,6 +1,5 @@
 import type { UserRole } from '@/lib/auth/routes';
 import type { Database } from '@/types/database.types';
-import { FEATURES, type FeatureName } from '@/lib/features';
 
 export type NotificationType = Database['public']['Enums']['notification_type'];
 
@@ -43,26 +42,17 @@ export const NOTIFICATION_GROUPS: Record<
   {
     title: string;
     description: string;
-    /**
-     * The feature this group's events belong to. While it is switched off the
-     * group is neither shown in settings nor sent — see
-     * `isNotificationTypeEnabled`.
-     */
-    feature?: FeatureName;
   }
 > = {
   purchases: {
-    feature: 'purchases',
     title: 'Kupovine',
     description: 'Zahtjevi za pristup obukama i odluke o njima.',
   },
   submissions: {
-    feature: 'tasks',
     title: 'Zadaci',
     description: 'Predaje zadataka, poruke u prepisci i odluke predavača.',
   },
   certificates: {
-    feature: 'certificates',
     title: 'Certifikati',
     description: 'Izdavanje certifikata i slanje štampanih primjeraka.',
   },
@@ -71,7 +61,6 @@ export const NOTIFICATION_GROUPS: Record<
     description: 'Promjene na vašem nalogu i na obukama koje vodite.',
   },
   support: {
-    feature: 'support',
     title: 'Podrška',
     description: 'Pitanja i problemi upućeni administratorima.',
   },
@@ -206,18 +195,4 @@ export const NOTIFICATION_TYPES = Object.keys(NOTIFICATION_CATALOG) as Notificat
  */
 export function notificationTypesForRole(role: UserRole): NotificationType[] {
   return NOTIFICATION_TYPES.filter((type) => NOTIFICATION_CATALOG[type].audience.includes(role));
-}
-
-/**
- * Whether this type may be shown or sent under the current feature flags.
- *
- * Notifications as a whole switch off with `notifications`; each group also
- * goes quiet with its own feature. The second half matters even when nothing in
- * the UI can trigger the event: issuing a certificate happens on its own when a
- * course is finished, and a "your certificate is ready" message would announce
- * a feature that is meant to look unbuilt.
- */
-export function isNotificationTypeEnabled(type: NotificationType): boolean {
-  const feature = NOTIFICATION_GROUPS[NOTIFICATION_CATALOG[type].group].feature;
-  return FEATURES.notifications && (!feature || FEATURES[feature]);
 }

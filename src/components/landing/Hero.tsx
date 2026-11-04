@@ -9,7 +9,6 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Reveal from '@/components/landing/Reveal';
 import { MARKETING_BLEED } from '@/components/layout/marketingGutter';
-import { FEATURES } from '@/lib/features';
 import { BRAND_ASSETS } from '@/lib/brand/assets.generated';
 import { SITE } from '@/lib/siteConfig';
 
@@ -141,16 +140,15 @@ export default function Hero() {
                 >
                   Registriraj se
                 </Button>
-                {FEATURES.catalog ? (
-                  <Button
-                    href="/courses"
-                    variant="outlined"
-                    size="large"
-                    sx={{ borderColor: 'divider', color: 'text.primary' }}
-                  >
-                    Pregledaj obuke
-                  </Button>
-                ) : null}
+
+                <Button
+                  href="/courses"
+                  variant="outlined"
+                  size="large"
+                  sx={{ borderColor: 'divider', color: 'text.primary' }}
+                >
+                  Pregledaj obuke
+                </Button>
               </Stack>
 
               <Stack

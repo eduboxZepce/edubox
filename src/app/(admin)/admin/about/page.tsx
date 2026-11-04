@@ -1,6 +1,4 @@
 import { notFound } from 'next/navigation';
-import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
@@ -18,7 +16,6 @@ import DetailList from '@/components/data/DetailList';
 import { getAuthContext } from '@/lib/auth/guards';
 import { formatDateTime, formatRelativeTime } from '@/lib/format';
 import { SITE } from '@/lib/siteConfig';
-import { FEATURES, type FeatureName } from '@/lib/features';
 import packageJson from '../../../../../package.json';
 import versions from '@/lib/appVersions.json';
 
@@ -50,35 +47,6 @@ const sections = Object.entries(versions.sections as Record<string, Section>);
 const LAYER_LABEL = { frontend: 'Frontend', backend: 'Backend' } as const;
 
 /**
- * Display names for the feature flags, in the order they are listed.
- *
- * A `Record` over `FeatureName`, so adding a flag without naming it here fails
- * to compile. Worded as plain availability on purpose — the card is for
- * keeping track of what is switched on, not for explaining the mechanism.
- */
-const FEATURE_LABELS: Record<FeatureName, string> = {
-  catalog: 'Katalog obuka',
-  purchases: 'Kupovine i plaćanje',
-  quizzes: 'Kvizovi',
-  tasks: 'Zadaci i pregled',
-  certificates: 'Certifikati',
-  notifications: 'Obavještenja',
-  support: 'Podrška',
-  blog: 'Blog',
-  newsletter: 'Newsletter',
-  teachers: 'Predavači',
-  themeSwitch: 'Tamni način',
-};
-
-/**
- * Flags switched on first, then the rest; within each group the order of
- * `FEATURE_LABELS`. `sort` is stable, so that second rule comes for free.
- */
-const FEATURE_ORDER = (Object.keys(FEATURE_LABELS) as FeatureName[]).sort(
-  (a, b) => Number(FEATURES[b]) - Number(FEATURES[a]),
-);
-
-/**
  * Tighter cells for the reference tables. `size="small"` still leaves each row
  * tall enough that a dozen of them fill the screen; these are lists to scan,
  * not records to read.
@@ -102,7 +70,7 @@ export default async function AboutAppPage() {
     <PageContainer>
       <PageHeader
         title="O aplikaciji"
-        description={`Izdanje, verzije po cjelinama i dostupnost dijelova platforme ${SITE.name}.`}
+        description={`Izdanje i verzije po cjelinama platforme ${SITE.name}.`}
       />
 
       <ContentCard title="Izdanje">
@@ -166,45 +134,6 @@ export default async function AboutAppPage() {
                   </TableCell>
                   <TableCell>
                     <VersionCell slot={section.backend} />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </ContentCard>
-
-      <ContentCard title="Dostupnost" disablePadding>
-        <TableContainer>
-          <Table size="small" sx={COMPACT_TABLE_SX}>
-            <TableHead>
-              <TableRow>
-                <TableCell>Cjelina</TableCell>
-                <TableCell align="center" sx={{ width: 120 }}>
-                  Aktivno
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {FEATURE_ORDER.map((feature) => (
-                <TableRow key={feature}>
-                  <TableCell>{FEATURE_LABELS[feature]}</TableCell>
-                  <TableCell align="center">
-                    {FEATURES[feature] ? (
-                      <CheckCircleOutlinedIcon
-                        color="success"
-                        fontSize="small"
-                        titleAccess="Da"
-                        sx={{ verticalAlign: 'middle' }}
-                      />
-                    ) : (
-                      <HighlightOffIcon
-                        color="disabled"
-                        fontSize="small"
-                        titleAccess="Ne"
-                        sx={{ verticalAlign: 'middle' }}
-                      />
-                    )}
                   </TableCell>
                 </TableRow>
               ))}

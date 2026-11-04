@@ -17,7 +17,6 @@ import { useListParams } from '@/hooks/useListParams';
 import { formatDate } from '@/lib/format';
 import { USER_ROLE, accountStatus } from '@/lib/status';
 import type { Profile } from '@/lib/schemas/users.schema';
-import { FEATURES } from '@/lib/features';
 
 /**
  * Registered users. Read-only by design — see the note on the page itself.
@@ -55,7 +54,7 @@ export default function AdminUsersPage() {
             width={200}
             options={[
               { value: 'student', label: 'Studenti' },
-              ...(FEATURES.teachers ? [{ value: 'teacher', label: 'Predavači' }] : []),
+              { value: 'teacher', label: 'Predavači' },
               { value: 'admin', label: 'Administratori' },
             ]}
           />

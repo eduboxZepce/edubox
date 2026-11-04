@@ -27,9 +27,7 @@ import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { NavPending } from '@/components/feedback/NavProgress';
-import { FEATURES } from '@/lib/features';
 import { initials } from '@/lib/format';
-import { SETTINGS_SECTIONS } from '@/lib/settingsSections';
 import NotificationBell from '@/components/notifications/NotificationBell';
 import { useLogout } from '@/hooks/useLogout';
 import Logo from '@/components/layout/Logo';
@@ -91,18 +89,16 @@ type NavLink = {
 };
 
 function navForRole(role: UserRole): NavLink[] {
-  const catalog: NavLink[] = FEATURES.catalog
-    ? [
-        {
-          label: 'Katalog',
-          href: '/courses',
-          icon: StorefrontOutlinedIcon,
-          // Exact: a course page and its modules sit under `/courses/…`, and an
-          // enrolled student studying one is not "in the catalogue".
-          exact: true,
-        },
-      ]
-    : [];
+  const catalog: NavLink[] = [
+    {
+      label: 'Katalog',
+      href: '/courses',
+      icon: StorefrontOutlinedIcon,
+      // Exact: a course page and its modules sit under `/courses/…`, and an
+      // enrolled student studying one is not "in the catalogue".
+      exact: true,
+    },
+  ];
 
   if (role === 'student') {
     // Purchases, certificates and issues are reached from the hub, each with
@@ -259,7 +255,7 @@ export default function AppHeader({
 
         <Box sx={{ flex: 1 }} />
 
-        {FEATURES.notifications ? <NotificationBell /> : null}
+        <NotificationBell />
 
         <ButtonBase
           onClick={(event) => setAnchorEl(event.currentTarget)}
@@ -356,28 +352,22 @@ export default function AppHeader({
 
           {/* Account-level, so it is here for every role rather than in one
               role's bar and another's sidebar. */}
-          {FEATURES.support ? (
-            <MenuItem component={NextLink} href={supportHrefForRole(role)} onClick={close}>
-              <ListItemIcon>
-                <SupportOutlinedIcon fontSize="small" />
-              </ListItemIcon>
-              <Typography variant="body2">Podrška</Typography>
-            </MenuItem>
-          ) : null}
+          <MenuItem component={NextLink} href={supportHrefForRole(role)} onClick={close}>
+            <ListItemIcon>
+              <SupportOutlinedIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="body2">Podrška</Typography>
+          </MenuItem>
 
-          {/* One entry for one screen; `/settings` lands on the first tab. Every
-              tab belongs to a feature flag, so with all of them off there is no
-              settings screen to open. */}
-          {SETTINGS_SECTIONS.length > 0 ? (
-            <MenuItem component={NextLink} href="/settings" onClick={close}>
-              <ListItemIcon>
-                <SettingsOutlinedIcon fontSize="small" />
-              </ListItemIcon>
-              <Typography variant="body2">Postavke</Typography>
-            </MenuItem>
-          ) : null}
+          {/* One entry for one screen; `/settings` lands on the first tab. */}
+          <MenuItem component={NextLink} href="/settings" onClick={close}>
+            <ListItemIcon>
+              <SettingsOutlinedIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="body2">Postavke</Typography>
+          </MenuItem>
 
-          {FEATURES.support || SETTINGS_SECTIONS.length > 0 ? <Divider /> : null}
+          <Divider />
 
           {/* The only way out, at every width — last, because it is the
               destructive one. */}

@@ -26,40 +26,37 @@ import { formatDate } from '@/lib/format';
 import { publishStatus } from '@/lib/status';
 import { progressPercent } from '@/lib/courseAccess';
 import { isStatus } from '@/lib/api/errorMessage';
-import { FEATURES } from '@/lib/features';
 import type { CourseStats } from '@/lib/schemas/courses.schema';
 
 type StudentRow = CourseStats['students'][number];
 
-/** Four tiles with everything on; the purchases and submissions ones are flagged. */
-const statSpan = 12 / [true, true, FEATURES.purchases, FEATURES.tasks].filter(Boolean).length;
+/** Four tiles in one row on desktop. */
+const statSpan = 3;
 
-/** Spread into the student table's columns — empty when certificates are off. */
-const certificateColumn: DataTableColumn<StudentRow>[] = FEATURES.certificates
-  ? [
-      {
-        id: 'certificate',
-        header: 'Certifikat',
-        cell: (s) =>
-          s.certificate ? (
-            // Staff may open it — RLS admits the admin and the owning teacher
-            // alongside the student.
-            <Link
-              href={`/certificates/${s.certificate.readable_id}`}
-              underline="hover"
-              variant="body2"
-              onClick={(event) => event.stopPropagation()}
-            >
-              {s.certificate.readable_id}
-            </Link>
-          ) : (
-            <Typography variant="body2" color="text.disabled">
-              —
-            </Typography>
-          ),
-      },
-    ]
-  : [];
+/** The student table's last column: a link to the certificate, once issued. */
+const certificateColumn: DataTableColumn<StudentRow>[] = [
+  {
+    id: 'certificate',
+    header: 'Certifikat',
+    cell: (s) =>
+      s.certificate ? (
+        // Staff may open it — RLS admits the admin and the owning teacher
+        // alongside the student.
+        <Link
+          href={`/certificates/${s.certificate.readable_id}`}
+          underline="hover"
+          variant="body2"
+          onClick={(event) => event.stopPropagation()}
+        >
+          {s.certificate.readable_id}
+        </Link>
+      ) : (
+        <Typography variant="body2" color="text.disabled">
+          —
+        </Typography>
+      ),
+  },
+];
 
 /**
  * One course, seen from the teaching side: how many people are on it, how far
@@ -146,29 +143,27 @@ export default function AdminCourseOverviewPage(props: PageProps<'/admin/courses
                         icon={WorkspacePremiumOutlinedIcon}
                       />
                     </Grid>
-                    {FEATURES.purchases ? (
-                      <Grid size={{ xs: 6, md: statSpan }}>
-                        <StatCard
-                          label="Zahtjeva na čekanju"
-                          value={data.requested_count}
-                          icon={ReceiptLongOutlinedIcon}
-                          href={`/admin/purchases?courseId=${id}`}
-                        />
-                      </Grid>
-                    ) : null}
-                    {FEATURES.tasks ? (
-                      <Grid size={{ xs: 6, md: statSpan }}>
-                        <StatCard
-                          label="Rješenja za pregled"
-                          value={data.pending_submissions}
-                          icon={AssignmentTurnedInOutlinedIcon}
-                          href={`/admin/submissions?courseId=${id}`}
-                        />
-                      </Grid>
-                    ) : null}
+
+                    <Grid size={{ xs: 6, md: statSpan }}>
+                      <StatCard
+                        label="Zahtjeva na čekanju"
+                        value={data.requested_count}
+                        icon={ReceiptLongOutlinedIcon}
+                        href={`/admin/purchases?courseId=${id}`}
+                      />
+                    </Grid>
+
+                    <Grid size={{ xs: 6, md: statSpan }}>
+                      <StatCard
+                        label="Rješenja za pregled"
+                        value={data.pending_submissions}
+                        icon={AssignmentTurnedInOutlinedIcon}
+                        href={`/admin/submissions?courseId=${id}`}
+                      />
+                    </Grid>
                   </Grid>
 
-                  {FEATURES.tasks && data.pending_submissions > 0 ? (
+                  {data.pending_submissions > 0 ? (
                     <ContentCard>
                       <Stack
                         direction={{ xs: 'column', sm: 'row' }}
@@ -200,7 +195,7 @@ export default function AdminCourseOverviewPage(props: PageProps<'/admin/courses
                       <EmptyState
                         title="Još nema upisanih studenata"
                         description={
-                          FEATURES.purchases && data.requested_count > 0
+                          data.requested_count > 0
                             ? 'Postoje zahtjevi koji čekaju odobrenje.'
                             : 'Kada student dobije pristup, pojavit će se ovdje.'
                         }

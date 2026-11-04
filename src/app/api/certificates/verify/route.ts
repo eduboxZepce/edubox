@@ -38,9 +38,6 @@ const NO_MATCH =
  * POST rather than GET so a surname never lands in access logs or the browser
  * history as a query string. The page's shareable link does carry both, but
  * that is the holder's choice to publish.
- *
- * Not behind the `certificates` feature flag: flags hide UI, they do not gate
- * the API (§7 of docs/project-context.md).
  */
 export const POST = withRoute(async (req) => {
   const ip = clientIp(req);

@@ -4,7 +4,6 @@ import * as React from 'react';
 import { useColorScheme } from '@mui/material/styles';
 import { useMyPreferences } from '@/hooks/usePreferences';
 import { useAuthStore } from '@/store/useAuthStore';
-import { FEATURES } from '@/lib/features';
 
 /**
  * Applies the signed-in user's saved colour scheme.
@@ -34,9 +33,7 @@ export default function ThemeSync() {
 
   // Signed-out visitors have no stored preference to fetch, and asking would
   // 401 on every public page load.
-  // Nothing to apply while the theme switch is off: every page is light, and
-  // a stored `dark` must not leak back in through MUI's mode.
-  const preferences = useMyPreferences({ enabled: signedIn && FEATURES.themeSwitch });
+  const preferences = useMyPreferences({ enabled: signedIn });
   const stored = preferences.data?.theme;
 
   const applied = React.useRef<string | null>(null);

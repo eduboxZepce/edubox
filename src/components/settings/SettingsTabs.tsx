@@ -26,8 +26,7 @@ import { SETTINGS_SECTIONS } from '@/lib/settingsSections';
  * is a Client Component and being explicit here costs nothing; see `theme.ts`
  * for why the distinction matters.
  *
- * The list comes from `SETTINGS_SECTIONS`, which drops any tab whose feature is
- * switched off.
+ * The list comes from `SETTINGS_SECTIONS`, shared with the `/settings` index.
  */
 const SECTIONS = SETTINGS_SECTIONS;
 

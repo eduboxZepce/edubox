@@ -4,7 +4,6 @@ import Stack from '@mui/material/Stack';
 import PageContainer from '@/components/layout/PageContainer';
 import ContentCard from '@/components/layout/ContentCard';
 import EmptyState from '@/components/feedback/EmptyState';
-import { FEATURES } from '@/lib/features';
 
 export const metadata = { title: 'Stranica nije pronađena' };
 
@@ -33,11 +32,10 @@ export default function NotFound() {
               <Button href="/" variant="contained">
                 Početna
               </Button>
-              {FEATURES.catalog ? (
-                <Button href="/courses" color="inherit">
-                  Pogledaj obuke
-                </Button>
-              ) : null}
+
+              <Button href="/courses" color="inherit">
+                Pogledaj obuke
+              </Button>
             </Stack>
           }
         />

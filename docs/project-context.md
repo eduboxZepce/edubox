@@ -1140,8 +1140,7 @@ purchase` shape `assertCourseAccess` exists to prevent — so a teacher clicking
   their choice.
 
 - Service-role client, because `certificates` grants `anon` nothing — the route _is_ the
-  access control, per the §6 rule. Behind the `certificates` flag like the rest of the
-  feature (page, footer link, sitemap); the API stays reachable, as flags never gate APIs.
+  access control, per the §6 rule.
 
 - **The certificate PDF carries a QR code to the check**, prefilled with number and
   surname, drawn as vector squares (`qrcode` for the matrix, pdf-lib rectangles) above the
@@ -2051,8 +2050,7 @@ course-scoped page, add it there or it is URL-only.
 - The library themes itself from a `data-color-mode` attribute rather than from the MUI
   theme, so `<MarkdownEditor>` sets it from `usePaintedColorScheme()` — the class actually
   on `<html>` — and **not** from `useColorScheme()`. MUI's mode is the user's preference,
-  which differs from what is painted whenever a page is held light (the `themeSwitch` flag
-  off, or a page outside the themed list); following it rendered a black editor on a light
+  which differs from what is painted whenever a page is held light (any page outside the themed list); following it rendered a black editor on a light
   page in production.
 
 ### The legal pages became Server Components
@@ -2166,62 +2164,15 @@ course-scoped page, add it there or it is URL-only.
   and links to the opt-out. `EmailContent` gained `body` and `footer` for this; the
   `lines[]` shape stays for notifications, where there is nothing to format.
 
-### Feature flags, for staged presentation (`src/lib/features.ts`)
+### ~~Feature flags~~ — removed
 
-- **Absent means enabled; only the literal `"false"` disables.** The opposite default would
-  mean a fresh clone, a CI run, or a forgotten variable silently ships a crippled app, and
-  every environment would have to list every flag to get the normal product. This way the
-  flags are a deliberate subtraction from a working whole — delete them and everything is
-  back, which is the promise the whole scheme rests on.
-
-- **They must be `NEXT_PUBLIC_`**, and read as literal `process.env.NEXT_PUBLIC_…`
-  expressions. Next substitutes those textually at build time, so `process.env[name]` reads
-  as `undefined` — and most of this app's screens are Client Components, which would then
-  disagree with the server about what is switched on.
-
-- **A flag hides a feature; it does not protect one.** Nav entries disappear and
-  `proxy.ts` 404s the routes (a rewrite, not a redirect — a redirect would advertise that
-  the page exists). The API routes and RLS policies are untouched, and the probe asserts
-  that explicitly: if `/api/issues` ever starts 404ing with the flag off, a presentation
-  aid has quietly become access control.
-
-- Eleven segments: catalog, purchases, quizzes, tasks, certificates, notifications,
-  support, blog, newsletter, teachers, themeSwitch. (A twelfth, `googleAuth`, was removed
-  once Google sign-in was live.) `isDisabledRoute()` is what
-  the proxy asks: `FEATURE_ROUTES` holds prefixes, `FEATURE_ROUTE_PATTERNS` the quiz and
-  task screens (they hang off a module URL no prefix can name).
-
-- **The goal is "looks unbuilt", so a flag must reach every surface, not just the nav.**
-  An audit found three flags (`quizzes`, `teachers`, `themeSwitch`) read nowhere and the
-  rest leaking through dashboard tiles, empty-state buttons, breadcrumbs, the bell and
-  completion messages. When adding UI for a flagged feature, gate it with `FEATURES.x`
-  at the point of rendering; when adding a page, make sure the proxy rule covers it.
-
-- **The catalogue cannot be a plain prefix.** `/courses/{slug}` is both the sales page and
-  the enrolled student's only way into their modules, so with `catalog` off the index
-  404s for everyone and a course page only for a signed-out visitor.
-
-- **A hidden quiz or task still blocks its module.** Completion is derived from what
-  exists, and `POST /modules/:id/complete` refuses a module with either, so a module that
-  has one cannot be finished while its flag is off. Demo with courses built without them.
-
-- **Certificates are still issued with the flag off** — silently. Every on-screen mention
-  is gated and `certificate_issued` is not sent, so students who finish meanwhile find the
-  certificate waiting once the flag is on.
-
-- **Notification groups follow their feature** (`NOTIFICATION_GROUPS[g].feature`,
-  `isNotificationTypeEnabled`): a disabled group is neither listed in settings nor sent,
-  and `notifications` off sends nothing by either channel. Checked in `notifyUsers`, not
-  only in the UI, because some events fire with no UI action behind them.
-
-- **`themeSwitch` off means light everywhere** — `isThemedPath()` returns false and the
-  stored preference is not applied, or an OS-dark user would get a dark app with no toggle
-  to explain it. Every settings tab is flagged, so with all three off the account menu
-  drops "Podešavanja" and `/settings` 404s (`SETTINGS_SECTIONS`).
-
-- **Marketing copy is not gated.** The landing page, FAQ and page descriptions still
-  promise certificates and reviewed tasks; that is prose, and changing it per flag is a
-  copy decision rather than a code one.
+- **Every feature is always available; there is no flag mechanism any more.** The
+  `NEXT_PUBLIC_FEATURE_*` variables and `src/lib/features.ts` existed so the finished app
+  could be presented a segment at a time. The project owner no longer wants to control
+  availability, so the module, every `FEATURES.x` condition, the proxy's 404 rewrite for
+  disabled routes, the notification-group gating and the "Dostupnost" card on
+  `/admin/about` were all deleted rather than left set to "on". Don't reintroduce a
+  per-feature switch without that decision being reversed.
 
 ### One client per copy of the repo: the `brand/` folder
 
@@ -2410,7 +2361,7 @@ course-scoped page, add it there or it is URL-only.
   `noindex` soft 404, because `notFound()` runs after a `loading.tsx` has committed the
   response as 200.
 
-- **The sitemap follows the feature flags** and revalidates hourly, so a newly published
+- **The sitemap revalidates hourly**, so a newly published
   course appears without a deploy. `priority`/`changefreq` are omitted (Google ignores
   them); `lastModified` is given only where it is real.
 

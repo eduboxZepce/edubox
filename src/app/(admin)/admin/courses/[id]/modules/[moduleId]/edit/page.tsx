@@ -19,7 +19,6 @@ import { useCourseModules, useUpdateModule } from '@/hooks/useModules';
 import { moduleToFormValues, toUpdateModulePayload } from '@/lib/schemas/module-form.schema';
 import type { ModuleFormValues } from '@/lib/schemas/module-form.schema';
 import { toast } from '@/store/useToastStore';
-import { FEATURES } from '@/lib/features';
 
 /**
  * ═══════════════════════════════════════════════════════════════════════════
@@ -103,24 +102,21 @@ export default function EditModulePage(
                 description="Izmjena modula."
                 actions={
                   <Stack direction="row" spacing={1.5}>
-                    {FEATURES.quizzes ? (
-                      <Button
-                        href={`/admin/courses/${courseId}/modules/${currentModule.id}/quiz`}
-                        variant="outlined"
-                        startIcon={<QuizOutlinedIcon />}
-                      >
-                        Kviz
-                      </Button>
-                    ) : null}
-                    {FEATURES.tasks ? (
-                      <Button
-                        href={`/admin/courses/${courseId}/modules/${currentModule.id}/task`}
-                        variant="outlined"
-                        startIcon={<AssignmentOutlinedIcon />}
-                      >
-                        Zadatak
-                      </Button>
-                    ) : null}
+                    <Button
+                      href={`/admin/courses/${courseId}/modules/${currentModule.id}/quiz`}
+                      variant="outlined"
+                      startIcon={<QuizOutlinedIcon />}
+                    >
+                      Kviz
+                    </Button>
+
+                    <Button
+                      href={`/admin/courses/${courseId}/modules/${currentModule.id}/task`}
+                      variant="outlined"
+                      startIcon={<AssignmentOutlinedIcon />}
+                    >
+                      Zadatak
+                    </Button>
                   </Stack>
                 }
               />

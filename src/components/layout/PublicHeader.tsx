@@ -11,7 +11,6 @@ import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
 import AppHeader from '@/components/layout/AppHeader';
 import { useAuthStore } from '@/store/useAuthStore';
-import { FEATURES } from '@/lib/features';
 
 /**
  * Top bar for the public-facing pages.
@@ -56,19 +55,19 @@ export default function PublicHeader() {
           <Link href="/" variant="body2" underline="hover" color="text.secondary">
             Početna
           </Link>
-          {FEATURES.catalog ? (
-            <Link href="/courses" variant="body2" underline="hover" color="text.secondary">
-              Obuke
-            </Link>
-          ) : null}
+
+          <Link href="/courses" variant="body2" underline="hover" color="text.secondary">
+            Obuke
+          </Link>
+
           <Link href="/#kako-funkcionise" variant="body2" underline="hover" color="text.secondary">
             Kako funkcionira
           </Link>
-          {FEATURES.blog ? (
-            <Link href="/blog" variant="body2" underline="hover" color="text.secondary">
-              Blog
-            </Link>
-          ) : null}
+
+          <Link href="/blog" variant="body2" underline="hover" color="text.secondary">
+            Blog
+          </Link>
+
           <Link href="/kontakt" variant="body2" underline="hover" color="text.secondary">
             Kontakt
           </Link>

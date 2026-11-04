@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-04T09:26:09.272Z",
+  "updatedAt": "2026-11-04T09:34:56.016Z",
   "sections": {
     "database": {
       "label": "Baza podataka",
@@ -14,8 +14,8 @@
       "label": "Kvizovi",
       "description": "Izrada kvizova i polaganje",
       "frontend": {
-        "version": "1.1.5",
-        "updatedAt": "2026-10-19T12:31:23.115Z"
+        "version": "1.1.6",
+        "updatedAt": "2026-11-04T09:34:56.016Z"
       },
       "backend": {
         "version": "1.1.2",
@@ -26,8 +26,8 @@
       "label": "Moduli i materijali",
       "description": "Moduli, video, PDF materijali i završavanje modula",
       "frontend": {
-        "version": "1.8.2",
-        "updatedAt": "2026-10-19T13:03:28.311Z"
+        "version": "1.8.3",
+        "updatedAt": "2026-11-04T09:34:56.016Z"
       },
       "backend": {
         "version": "1.2.5",
@@ -50,8 +50,8 @@
       "label": "Zadaci i pregled",
       "description": "Zadaci, predaje, poruke i ocjenjivanje",
       "frontend": {
-        "version": "1.3.3",
-        "updatedAt": "2026-10-19T13:03:28.311Z"
+        "version": "1.3.4",
+        "updatedAt": "2026-11-04T09:34:56.016Z"
       },
       "backend": {
         "version": "1.2.3",
@@ -62,8 +62,8 @@
       "label": "Kupovine i plaćanje",
       "description": "Zahtjevi za pristup, odobravanje i podaci za uplatu",
       "frontend": {
-        "version": "1.6.4",
-        "updatedAt": "2026-10-20T16:28:03.769Z"
+        "version": "1.6.5",
+        "updatedAt": "2026-11-04T09:34:56.016Z"
       },
       "backend": {
         "version": "1.1.3",
@@ -74,32 +74,32 @@
       "label": "Certifikati",
       "description": "Izdavanje, stranica certifikata, PDF i dostava",
       "frontend": {
-        "version": "1.6.1",
-        "updatedAt": "2026-10-19T12:31:23.115Z"
+        "version": "1.6.2",
+        "updatedAt": "2026-11-04T09:34:56.016Z"
       },
       "backend": {
-        "version": "1.3.5",
-        "updatedAt": "2026-11-04T09:26:09.272Z"
+        "version": "1.3.6",
+        "updatedAt": "2026-11-04T09:34:56.016Z"
       }
     },
     "notifications": {
       "label": "Obavještenja",
       "description": "Obavještenja u aplikaciji i email",
       "frontend": {
-        "version": "1.1.2",
-        "updatedAt": "2026-10-19T12:31:23.115Z"
+        "version": "1.1.3",
+        "updatedAt": "2026-11-04T09:34:56.016Z"
       },
       "backend": {
-        "version": "1.1.7",
-        "updatedAt": "2026-11-04T09:26:09.272Z"
+        "version": "1.1.8",
+        "updatedAt": "2026-11-04T09:34:56.016Z"
       }
     },
     "users": {
       "label": "Korisnici i uloge",
       "description": "Upravljanje korisnicima, ulogama i aktivacijom",
       "frontend": {
-        "version": "1.4.3",
-        "updatedAt": "2026-10-20T16:28:03.769Z"
+        "version": "1.4.4",
+        "updatedAt": "2026-11-04T09:34:56.016Z"
       },
       "backend": {
         "version": "1.0.5",
@@ -122,8 +122,8 @@
       "label": "Postavke",
       "description": "Pravni dokumenti, newsletter, izgled i korisničke postavke",
       "frontend": {
-        "version": "1.4.2",
-        "updatedAt": "2026-11-04T09:26:09.272Z"
+        "version": "1.4.3",
+        "updatedAt": "2026-11-04T09:34:56.016Z"
       },
       "backend": {
         "version": "1.0.2",
@@ -138,28 +138,28 @@
         "updatedAt": "2026-10-21T10:03:44.672Z"
       },
       "backend": {
-        "version": "1.3.5",
-        "updatedAt": "2026-10-19T13:03:28.311Z"
+        "version": "1.3.6",
+        "updatedAt": "2026-11-04T09:34:56.016Z"
       }
     },
     "public": {
       "label": "Javni sajt",
       "description": "Naslovna, blog, kontakt, SEO i javno zaglavlje",
       "frontend": {
-        "version": "1.26.0",
-        "updatedAt": "2026-11-04T09:26:09.272Z"
+        "version": "1.26.1",
+        "updatedAt": "2026-11-04T09:34:56.016Z"
       },
       "backend": {
-        "version": "1.2.0",
-        "updatedAt": "2026-10-19T12:31:23.115Z"
+        "version": "1.2.1",
+        "updatedAt": "2026-11-04T09:34:56.016Z"
       }
     },
     "courses": {
       "label": "Obuke",
       "description": "Katalog, stranica obuke, izrada i pregled obuka",
       "frontend": {
-        "version": "1.7.6",
-        "updatedAt": "2026-10-20T16:28:03.769Z"
+        "version": "1.7.7",
+        "updatedAt": "2026-11-04T09:34:56.016Z"
       },
       "backend": {
         "version": "1.4.1",
@@ -170,8 +170,8 @@
       "label": "Jezgro",
       "description": "Zajedničke komponente, tema, rasporedi i infrastruktura",
       "frontend": {
-        "version": "1.20.0",
-        "updatedAt": "2026-11-04T09:26:09.272Z"
+        "version": "1.20.1",
+        "updatedAt": "2026-11-04T09:34:56.016Z"
       },
       "backend": {
         "version": "1.8.2",
@@ -180,6 +180,126 @@
     }
   },
   "history": [
+    {
+      "at": "2026-11-04T09:34:56.016Z",
+      "section": "certificates",
+      "layer": "frontend",
+      "from": "1.6.1",
+      "to": "1.6.2",
+      "files": 1
+    },
+    {
+      "at": "2026-11-04T09:34:56.016Z",
+      "section": "settings",
+      "layer": "frontend",
+      "from": "1.4.2",
+      "to": "1.4.3",
+      "files": 7
+    },
+    {
+      "at": "2026-11-04T09:34:56.016Z",
+      "section": "notifications",
+      "layer": "frontend",
+      "from": "1.1.2",
+      "to": "1.1.3",
+      "files": 1
+    },
+    {
+      "at": "2026-11-04T09:34:56.016Z",
+      "section": "core",
+      "layer": "frontend",
+      "from": "1.20.0",
+      "to": "1.20.1",
+      "files": 7
+    },
+    {
+      "at": "2026-11-04T09:34:56.016Z",
+      "section": "courses",
+      "layer": "frontend",
+      "from": "1.7.6",
+      "to": "1.7.7",
+      "files": 5
+    },
+    {
+      "at": "2026-11-04T09:34:56.016Z",
+      "section": "modules",
+      "layer": "frontend",
+      "from": "1.8.2",
+      "to": "1.8.3",
+      "files": 3
+    },
+    {
+      "at": "2026-11-04T09:34:56.016Z",
+      "section": "users",
+      "layer": "frontend",
+      "from": "1.4.3",
+      "to": "1.4.4",
+      "files": 3
+    },
+    {
+      "at": "2026-11-04T09:34:56.016Z",
+      "section": "public",
+      "layer": "frontend",
+      "from": "1.26.0",
+      "to": "1.26.1",
+      "files": 6
+    },
+    {
+      "at": "2026-11-04T09:34:56.016Z",
+      "section": "purchases",
+      "layer": "frontend",
+      "from": "1.6.4",
+      "to": "1.6.5",
+      "files": 2
+    },
+    {
+      "at": "2026-11-04T09:34:56.016Z",
+      "section": "certificates",
+      "layer": "backend",
+      "from": "1.3.5",
+      "to": "1.3.6",
+      "files": 1
+    },
+    {
+      "at": "2026-11-04T09:34:56.016Z",
+      "section": "public",
+      "layer": "backend",
+      "from": "1.2.0",
+      "to": "1.2.1",
+      "files": 1
+    },
+    {
+      "at": "2026-11-04T09:34:56.016Z",
+      "section": "quizzes",
+      "layer": "frontend",
+      "from": "1.1.5",
+      "to": "1.1.6",
+      "files": 1
+    },
+    {
+      "at": "2026-11-04T09:34:56.016Z",
+      "section": "tasks",
+      "layer": "frontend",
+      "from": "1.3.3",
+      "to": "1.3.4",
+      "files": 2
+    },
+    {
+      "at": "2026-11-04T09:34:56.016Z",
+      "section": "notifications",
+      "layer": "backend",
+      "from": "1.1.7",
+      "to": "1.1.8",
+      "files": 2
+    },
+    {
+      "at": "2026-11-04T09:34:56.016Z",
+      "section": "auth",
+      "layer": "backend",
+      "from": "1.3.5",
+      "to": "1.3.6",
+      "files": 1
+    },
     {
       "at": "2026-11-04T09:26:09.272Z",
       "section": "core",
@@ -858,126 +978,6 @@
       "layer": "backend",
       "from": "1.5.3",
       "to": "1.5.4",
-      "files": 1
-    },
-    {
-      "at": "2026-10-18T08:49:52.228Z",
-      "section": "auth",
-      "layer": "frontend",
-      "from": "1.3.2",
-      "to": "1.3.3",
-      "files": 4
-    },
-    {
-      "at": "2026-10-18T08:49:52.228Z",
-      "section": "auth",
-      "layer": "backend",
-      "from": "1.3.2",
-      "to": "1.3.3",
-      "files": 1
-    },
-    {
-      "at": "2026-10-16T17:11:53.203Z",
-      "section": "certificates",
-      "layer": "backend",
-      "from": "1.3.1",
-      "to": "1.3.2",
-      "files": 1
-    },
-    {
-      "at": "2026-10-16T17:11:53.203Z",
-      "section": "notifications",
-      "layer": "backend",
-      "from": "1.1.3",
-      "to": "1.1.4",
-      "files": 2
-    },
-    {
-      "at": "2026-10-16T17:03:51.261Z",
-      "section": "public",
-      "layer": "frontend",
-      "from": "1.22.0",
-      "to": "1.23.0",
-      "files": 3
-    },
-    {
-      "at": "2026-10-16T17:03:51.261Z",
-      "section": "public",
-      "layer": "backend",
-      "from": "1.1.3",
-      "to": "1.1.4",
-      "files": 1
-    },
-    {
-      "at": "2026-10-16T17:03:51.261Z",
-      "section": "notifications",
-      "layer": "backend",
-      "from": "1.1.2",
-      "to": "1.1.3",
-      "files": 2
-    },
-    {
-      "at": "2026-10-16T08:14:03.500Z",
-      "section": "core",
-      "layer": "backend",
-      "from": "1.5.2",
-      "to": "1.5.3",
-      "files": 3
-    },
-    {
-      "at": "2026-10-16T08:14:03.500Z",
-      "section": "public",
-      "layer": "frontend",
-      "from": "1.21.1",
-      "to": "1.22.0",
-      "files": 11
-    },
-    {
-      "at": "2026-10-16T08:14:03.500Z",
-      "section": "auth",
-      "layer": "frontend",
-      "from": "1.3.1",
-      "to": "1.3.2",
-      "files": 2
-    },
-    {
-      "at": "2026-10-16T08:14:03.500Z",
-      "section": "courses",
-      "layer": "frontend",
-      "from": "1.7.2",
-      "to": "1.7.3",
-      "files": 5
-    },
-    {
-      "at": "2026-10-16T08:14:03.500Z",
-      "section": "core",
-      "layer": "frontend",
-      "from": "1.14.0",
-      "to": "1.15.0",
-      "files": 6
-    },
-    {
-      "at": "2026-10-16T08:14:03.500Z",
-      "section": "public",
-      "layer": "backend",
-      "from": "1.1.2",
-      "to": "1.1.3",
-      "files": 2
-    },
-    {
-      "at": "2026-10-16T07:57:52.287Z",
-      "section": "auth",
-      "layer": "frontend",
-      "from": "1.3.0",
-      "to": "1.3.1",
-      "files": 5
-    },
-    {
-      "at": "2026-10-16T07:57:52.287Z",
-      "section": "auth",
-      "layer": "backend",
-      "from": "1.3.1",
-      "to": "1.3.2",
       "files": 1
     }
   ]

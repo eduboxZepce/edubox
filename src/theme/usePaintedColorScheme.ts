@@ -7,8 +7,8 @@ import { DARK_CLASS } from './colorSchemeRules';
  * The colour scheme the page is actually painted in — read from the class on
  * `<html>`, not from MUI's `useColorScheme()`.
  *
- * The two disagree whenever `<ColorSchemeScope>` holds a page light: with the
- * `themeSwitch` flag off, or on a page outside the themed list, MUI still
+ * The two disagree whenever `<ColorSchemeScope>` holds a page light — on a
+ * page outside the themed list, MUI still
  * reports the user's stored (or OS) `dark` while the document is light. A
  * component that themes itself from MUI's value then renders dark inside a
  * light page — which is how the Markdown editor came to show up black.

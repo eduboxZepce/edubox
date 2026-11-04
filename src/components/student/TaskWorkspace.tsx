@@ -32,7 +32,6 @@ import { displayFileName } from '@/lib/storage';
 import { SUBMISSION_STATUS } from '@/lib/status';
 import { toast } from '@/store/useToastStore';
 import type { TaskSubmission } from '@/lib/schemas/task-submissions.schema';
-import { FEATURES } from '@/lib/features';
 
 /**
  * A student's view of a module's task: the brief, and the conversation about
@@ -81,7 +80,7 @@ export default function TaskWorkspace({
         breadcrumbs={[
           // The catalogue crumb goes with the catalogue; the course is still a
           // reachable page for anyone who can open this one.
-          ...(FEATURES.catalog ? [{ label: 'Obuke', href: '/courses' }] : []),
+          { label: 'Obuke', href: '/courses' },
           { label: courseName, href: `/courses/${courseSlug}` },
           { label: moduleTitle, href: moduleHref },
           { label: 'Zadatak' },

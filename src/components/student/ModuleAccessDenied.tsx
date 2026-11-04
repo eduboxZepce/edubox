@@ -3,7 +3,6 @@ import ContentCard from '@/components/layout/ContentCard';
 import PageContainer from '@/components/layout/PageContainer';
 import EmptyState from '@/components/feedback/EmptyState';
 import type { ModulePageAccess } from '@/lib/auth/modulePageAccess';
-import { FEATURES } from '@/lib/features';
 
 /**
  * The two ways `checkModulePageAccess` can say no, rendered the same on every
@@ -28,17 +27,9 @@ export default function ModuleAccessDenied({
             title="Obuka nije pronađena"
             description="Obuka ne postoji ili trenutno nije objavljena."
             action={
-              // Module pages are signed-in only, so with the catalogue off the
-              // student's own list is the sensible way back.
-              FEATURES.catalog ? (
-                <Button href="/courses" variant="contained">
-                  Sve obuke
-                </Button>
-              ) : (
-                <Button href="/dashboard/courses" variant="contained">
-                  Moje obuke
-                </Button>
-              )
+              <Button href="/courses" variant="contained">
+                Sve obuke
+              </Button>
             }
           />
         ) : (

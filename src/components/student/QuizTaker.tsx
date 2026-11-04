@@ -26,7 +26,6 @@ import { useCourseProgress } from '@/hooks/useProgress';
 import { errorMessage } from '@/lib/api/errorMessage';
 import { toast } from '@/store/useToastStore';
 import type { QuizAttemptResult } from '@/lib/schemas/quizzes.schema';
-import { FEATURES } from '@/lib/features';
 
 /**
  * A student taking a module's quiz.
@@ -99,7 +98,7 @@ export default function QuizTaker({
         breadcrumbs={[
           // The catalogue crumb goes with the catalogue; the course is still a
           // reachable page for anyone who can open this one.
-          ...(FEATURES.catalog ? [{ label: 'Obuke', href: '/courses' }] : []),
+          { label: 'Obuke', href: '/courses' },
           { label: courseName, href: `/courses/${courseSlug}` },
           { label: moduleTitle, href: moduleHref },
           { label: 'Kviz' },
@@ -155,12 +154,12 @@ export default function QuizTaker({
                   <Alert severity="success">Modul je završen. Sljedeći modul je otključan.</Alert>
                 ) : null}
 
-                {result.certificate_issued && FEATURES.certificates ? (
+                {result.certificate_issued && (
                   <Alert severity="success" icon={<WorkspacePremiumOutlinedIcon />}>
                     <AlertTitle>Čestitamo — obuka je završena</AlertTitle>
                     Certifikat je izdan i čeka vas na kontrolnoj ploči.
                   </Alert>
-                ) : null}
+                )}
 
                 <Stack direction="row" spacing={1.5}>
                   <Button href={moduleHref} variant="contained" startIcon={<ArrowBackIcon />}>

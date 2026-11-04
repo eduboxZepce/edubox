@@ -23,7 +23,6 @@ import { PURCHASE_STATUS, USER_ROLE, accountStatus, deliveryStatus } from '@/lib
 import { isStatus } from '@/lib/api/errorMessage';
 import type { AdminPurchase } from '@/lib/schemas/purchases.schema';
 import type { AdminCertificate } from '@/lib/schemas/certificates.schema';
-import { FEATURES } from '@/lib/features';
 
 /**
  * One user, with everything the platform knows about them in one place.
@@ -37,14 +36,8 @@ export default function AdminUserDetailPage(props: PageProps<'/admin/users/[id]'
   const { id } = React.use(props.params);
 
   const user = useAdminUser(id);
-  const purchases = useAdminPurchases(
-    { studentId: id, pageSize: 50 },
-    { enabled: FEATURES.purchases },
-  );
-  const certificates = useAdminCertificates(
-    { studentId: id, pageSize: 50 },
-    { enabled: FEATURES.certificates },
-  );
+  const purchases = useAdminPurchases({ studentId: id, pageSize: 50 });
+  const certificates = useAdminCertificates({ studentId: id, pageSize: 50 });
 
   if (user.isError && isStatus(user.error, 404)) {
     return (
@@ -105,120 +98,116 @@ export default function AdminUserDetailPage(props: PageProps<'/admin/users/[id]'
                 <ContentCard title="Uloge i prava">
                   <Alert severity="info">
                     Email adresu mijenja sam korisnik kroz svoj nalog — ovdje se ne može izmijeniti.
-                    {FEATURES.teachers
-                      ? ' Predavač uređuje isključivo obuke koje posjeduje; ako mu oduzmete tu ulogu, odmah gubi pristup njihovom sadržaju, ali obuke ostaju sačuvane.'
-                      : null}
+                    {
+                      ' Predavač uređuje isključivo obuke koje posjeduje; ako mu oduzmete tu ulogu, odmah gubi pristup njihovom sadržaju, ali obuke ostaju sačuvane.'
+                    }
                   </Alert>
                 </ContentCard>
               </Grid>
             </Grid>
 
-            {FEATURES.purchases ? (
-              <ContentCard title="Zahtjevi za kupovinu" disablePadding>
-                <QueryState
-                  query={purchases}
-                  errorTitle="Zahtjeve nije moguće učitati"
-                  isEmpty={(page) => page.data.length === 0}
-                  empty={
-                    <EmptyState
-                      title="Nema zahtjeva"
-                      description="Ovaj korisnik još nije zatražio nijednu obuku."
-                    />
-                  }
-                >
-                  {(page) => (
-                    <DataTable<AdminPurchase>
-                      rows={page.data}
-                      getRowId={(row) => row.id}
-                      onRowClick={(row) => `/admin/purchases/${row.id}`}
-                      columns={[
-                        {
-                          id: 'course',
-                          header: 'Obuka',
-                          cell: (row) => row.courses?.name ?? '—',
-                        },
-                        {
-                          id: 'price',
-                          header: 'Cijena',
-                          align: 'right',
-                          cell: (row) => formatPrice(row.price),
-                        },
-                        {
-                          id: 'status',
-                          header: 'Status',
-                          cell: (row) => <StatusChip {...PURCHASE_STATUS[row.status]} />,
-                        },
-                        {
-                          id: 'created',
-                          header: 'Poslan',
-                          cell: (row) => formatDateTime(row.created_at),
-                        },
-                        {
-                          // The same actions as the purchases queue, so access to
-                          // one course can be revoked from the person's own page
-                          // rather than by hunting for the row there.
-                          id: 'actions',
-                          header: '',
-                          align: 'right',
-                          width: 220,
-                          cell: (row) => (
-                            <Stack
-                              direction="row"
-                              sx={{ justifyContent: 'flex-end' }}
-                              onClick={(event) => event.stopPropagation()}
-                            >
-                              <PurchaseActions purchase={row} />
-                            </Stack>
-                          ),
-                        },
-                      ]}
-                    />
-                  )}
-                </QueryState>
-              </ContentCard>
-            ) : null}
+            <ContentCard title="Zahtjevi za kupovinu" disablePadding>
+              <QueryState
+                query={purchases}
+                errorTitle="Zahtjeve nije moguće učitati"
+                isEmpty={(page) => page.data.length === 0}
+                empty={
+                  <EmptyState
+                    title="Nema zahtjeva"
+                    description="Ovaj korisnik još nije zatražio nijednu obuku."
+                  />
+                }
+              >
+                {(page) => (
+                  <DataTable<AdminPurchase>
+                    rows={page.data}
+                    getRowId={(row) => row.id}
+                    onRowClick={(row) => `/admin/purchases/${row.id}`}
+                    columns={[
+                      {
+                        id: 'course',
+                        header: 'Obuka',
+                        cell: (row) => row.courses?.name ?? '—',
+                      },
+                      {
+                        id: 'price',
+                        header: 'Cijena',
+                        align: 'right',
+                        cell: (row) => formatPrice(row.price),
+                      },
+                      {
+                        id: 'status',
+                        header: 'Status',
+                        cell: (row) => <StatusChip {...PURCHASE_STATUS[row.status]} />,
+                      },
+                      {
+                        id: 'created',
+                        header: 'Poslan',
+                        cell: (row) => formatDateTime(row.created_at),
+                      },
+                      {
+                        // The same actions as the purchases queue, so access to
+                        // one course can be revoked from the person's own page
+                        // rather than by hunting for the row there.
+                        id: 'actions',
+                        header: '',
+                        align: 'right',
+                        width: 220,
+                        cell: (row) => (
+                          <Stack
+                            direction="row"
+                            sx={{ justifyContent: 'flex-end' }}
+                            onClick={(event) => event.stopPropagation()}
+                          >
+                            <PurchaseActions purchase={row} />
+                          </Stack>
+                        ),
+                      },
+                    ]}
+                  />
+                )}
+              </QueryState>
+            </ContentCard>
 
-            {FEATURES.certificates ? (
-              <ContentCard title="Certifikati" disablePadding>
-                <QueryState
-                  query={certificates}
-                  errorTitle="Certifikate nije moguće učitati"
-                  isEmpty={(page) => page.data.length === 0}
-                  empty={
-                    <EmptyState
-                      title="Nema certifikata"
-                      description="Korisnik još nije završio nijednu obuku."
-                    />
-                  }
-                >
-                  {(page) => (
-                    <DataTable<AdminCertificate>
-                      rows={page.data}
-                      getRowId={(row) => row.id}
-                      onRowClick={(row) => `/admin/certificates/${row.id}`}
-                      columns={[
-                        { id: 'readable', header: 'Broj', cell: (row) => row.readable_id },
-                        { id: 'course', header: 'Obuka', cell: (row) => row.courses?.name ?? '—' },
-                        {
-                          id: 'delivery',
-                          header: 'Dostava',
-                          cell: (row) => (
-                            <StatusChip
-                              {...deliveryStatus(row.requested_delivery, row.delivered_at)}
-                            />
-                          ),
-                        },
-                        {
-                          id: 'created',
-                          header: 'Izdan',
-                          cell: (row) => formatDateTime(row.created_at),
-                        },
-                      ]}
-                    />
-                  )}
-                </QueryState>
-              </ContentCard>
-            ) : null}
+            <ContentCard title="Certifikati" disablePadding>
+              <QueryState
+                query={certificates}
+                errorTitle="Certifikate nije moguće učitati"
+                isEmpty={(page) => page.data.length === 0}
+                empty={
+                  <EmptyState
+                    title="Nema certifikata"
+                    description="Korisnik još nije završio nijednu obuku."
+                  />
+                }
+              >
+                {(page) => (
+                  <DataTable<AdminCertificate>
+                    rows={page.data}
+                    getRowId={(row) => row.id}
+                    onRowClick={(row) => `/admin/certificates/${row.id}`}
+                    columns={[
+                      { id: 'readable', header: 'Broj', cell: (row) => row.readable_id },
+                      { id: 'course', header: 'Obuka', cell: (row) => row.courses?.name ?? '—' },
+                      {
+                        id: 'delivery',
+                        header: 'Dostava',
+                        cell: (row) => (
+                          <StatusChip
+                            {...deliveryStatus(row.requested_delivery, row.delivered_at)}
+                          />
+                        ),
+                      },
+                      {
+                        id: 'created',
+                        header: 'Izdan',
+                        cell: (row) => formatDateTime(row.created_at),
+                      },
+                    ]}
+                  />
+                )}
+              </QueryState>
+            </ContentCard>
           </>
         )}
       </QueryState>

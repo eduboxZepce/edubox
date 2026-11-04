@@ -18,7 +18,6 @@ import StatCard from '@/components/data/StatCard';
 import { usePurchases } from '@/hooks/usePurchases';
 import { useCertificates } from '@/hooks/useCertificates';
 import { useIssues } from '@/hooks/useIssues';
-import { FEATURES } from '@/lib/features';
 import { useAuthStore } from '@/store/useAuthStore';
 
 /**
@@ -78,49 +77,43 @@ export default function StudentDashboardPage() {
           />
         </Grid>
 
-        {FEATURES.purchases ? (
-          <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-            <StatCard
-              label="Zahtjevi na čekanju"
-              caption="Uplate i pozivi na broj"
-              value={pending.data?.meta.total}
-              icon={ReceiptLongOutlinedIcon}
-              href="/dashboard/purchases"
-              loading={pending.isPending}
-              error={pending.isError}
-              // The one tile that means "something of yours is unresolved".
-              highlight
-            />
-          </Grid>
-        ) : null}
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+          <StatCard
+            label="Zahtjevi na čekanju"
+            caption="Uplate i pozivi na broj"
+            value={pending.data?.meta.total}
+            icon={ReceiptLongOutlinedIcon}
+            href="/dashboard/purchases"
+            loading={pending.isPending}
+            error={pending.isError}
+            // The one tile that means "something of yours is unresolved".
+            highlight
+          />
+        </Grid>
 
-        {FEATURES.certificates ? (
-          <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-            <StatCard
-              label="Certifikati"
-              caption="Završene obuke"
-              value={certificates.data?.meta.total}
-              icon={WorkspacePremiumOutlinedIcon}
-              href="/dashboard/certificates"
-              loading={certificates.isPending}
-              error={certificates.isError}
-            />
-          </Grid>
-        ) : null}
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+          <StatCard
+            label="Certifikati"
+            caption="Završene obuke"
+            value={certificates.data?.meta.total}
+            icon={WorkspacePremiumOutlinedIcon}
+            href="/dashboard/certificates"
+            loading={certificates.isPending}
+            error={certificates.isError}
+          />
+        </Grid>
 
-        {FEATURES.support ? (
-          <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-            <StatCard
-              label="Podrška"
-              caption="Otvoreni zahtjevi"
-              value={openIssues.data?.meta.total}
-              icon={SupportOutlinedIcon}
-              href="/issues"
-              loading={openIssues.isPending}
-              error={openIssues.isError}
-            />
-          </Grid>
-        ) : null}
+        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+          <StatCard
+            label="Podrška"
+            caption="Otvoreni zahtjevi"
+            value={openIssues.data?.meta.total}
+            icon={SupportOutlinedIcon}
+            href="/issues"
+            loading={openIssues.isPending}
+            error={openIssues.isError}
+          />
+        </Grid>
       </Grid>
 
       {/*
@@ -133,31 +126,30 @@ export default function StudentDashboardPage() {
         link that leads *out* of it should not be the first or largest thing on
         the page.
       */}
-      {FEATURES.catalog ? (
-        <Card
-          sx={{
-            bgcolor: 'primary.main',
-            color: 'primary.contrastText',
-            backgroundImage: 'none',
-            border: 'none',
-          }}
-        >
-          <CardActionArea href="/courses" sx={{ px: 3, py: 2 }}>
-            <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-              <ExploreOutlinedIcon />
-              <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Typography variant="subtitle2" sx={{ color: 'inherit', fontWeight: 700 }}>
-                  Pregledaj obuke
-                </Typography>
-                <Typography variant="body2" sx={{ opacity: 0.85 }}>
-                  Pronađite novu obuku u katalogu i zatražite pristup.
-                </Typography>
-              </Box>
-              <ArrowForwardIcon fontSize="small" />
-            </Stack>
-          </CardActionArea>
-        </Card>
-      ) : null}
+
+      <Card
+        sx={{
+          bgcolor: 'primary.main',
+          color: 'primary.contrastText',
+          backgroundImage: 'none',
+          border: 'none',
+        }}
+      >
+        <CardActionArea href="/courses" sx={{ px: 3, py: 2 }}>
+          <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
+            <ExploreOutlinedIcon />
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+              <Typography variant="subtitle2" sx={{ color: 'inherit', fontWeight: 700 }}>
+                Pregledaj obuke
+              </Typography>
+              <Typography variant="body2" sx={{ opacity: 0.85 }}>
+                Pronađite novu obuku u katalogu i zatražite pristup.
+              </Typography>
+            </Box>
+            <ArrowForwardIcon fontSize="small" />
+          </Stack>
+        </CardActionArea>
+      </Card>
     </PageContainer>
   );
 }

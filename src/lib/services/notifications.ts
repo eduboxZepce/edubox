@@ -5,7 +5,7 @@ import { createServiceRoleClient } from '@/lib/supabase/service-role';
 import { sendEmail } from '@/lib/email/client';
 import { publicEnv } from '@/lib/env';
 import { renderEmail } from '@/lib/email/template';
-import { isNotificationTypeEnabled, type NotificationType } from '@/lib/notifications/catalog';
+import type { NotificationType } from '@/lib/notifications/catalog';
 
 type ServiceClient = ReturnType<typeof createServiceRoleClient>;
 
@@ -75,11 +75,6 @@ function absoluteUrl(path: string): string {
  * handlers should call `notifyAfterResponse` instead.
  */
 export async function notifyUsers(svc: ServiceClient, input: NotifyInput): Promise<void> {
-  // A switched-off feature sends nothing, by either channel. See
-  // `isNotificationTypeEnabled` for why this is checked here and not only in
-  // the UI.
-  if (!isNotificationTypeEnabled(input.type)) return;
-
   const userIds = [...new Set(input.userIds)].filter(Boolean);
   if (userIds.length === 0) return;
 

@@ -1,5 +1,3 @@
-import { FEATURES } from '@/lib/features';
-
 /**
  * Which pages honour the user's colour scheme, and which are always light.
  *
@@ -61,16 +59,8 @@ export const THEMED_PATTERN = '^/courses/[^/]+/modules(?:/|$)';
  */
 export const SIGNED_IN_THEMED_PATTERN = '^/courses(?:/|$)';
 
-/**
- * True when the page at `pathname` follows the user's saved colour scheme.
- *
- * With `themeSwitch` off, no page does: the app is light everywhere, as if dark
- * mode had never been built. That also covers a user who chose dark before the
- * flag went off, and anyone whose OS prefers dark — MUI would otherwise follow
- * the system setting with no toggle anywhere to explain why.
- */
+/** True when the page at `pathname` follows the user's saved colour scheme. */
 export function isThemedPath(pathname: string): boolean {
-  if (!FEATURES.themeSwitch) return false;
   const underPrefix = THEMED_PREFIXES.some(
     (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
   );
@@ -80,10 +70,8 @@ export function isThemedPath(pathname: string): boolean {
 /**
  * Whether the page follows the user's scheme for this viewer: the gated
  * sections always, the course pages only when signed in, nothing else ever.
- * `themeSwitch` off still wins (inside `isThemedPath`, and checked here too).
  */
 export function followsUserScheme(pathname: string, signedIn: boolean): boolean {
-  if (!FEATURES.themeSwitch) return false;
   if (isThemedPath(pathname)) return true;
   return signedIn && new RegExp(SIGNED_IN_THEMED_PATTERN).test(pathname);
 }
@@ -138,9 +126,7 @@ export const DARK_CLASS = 'dark';
  * document ends up in exactly the state a genuine light session produces, with
  * nothing to enumerate and nothing left to leak.
  */
-export const colorSchemeScopeScript = `(function(){try{var p=location.pathname;var themed=${JSON.stringify(
-  FEATURES.themeSwitch,
-)}&&(${JSON.stringify(THEMED_PREFIXES)}.some(function(x){return p===x||p.indexOf(x+'/')===0})||new RegExp(${JSON.stringify(
+export const colorSchemeScopeScript = `(function(){try{var p=location.pathname;var themed=(${JSON.stringify(THEMED_PREFIXES)}.some(function(x){return p===x||p.indexOf(x+'/')===0})||new RegExp(${JSON.stringify(
   THEMED_PATTERN,
 )}).test(p)||(new RegExp(${JSON.stringify(SIGNED_IN_THEMED_PATTERN)}).test(p)&&new RegExp(${JSON.stringify(
   SESSION_COOKIE_PATTERN,

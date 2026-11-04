@@ -32,7 +32,6 @@ import { useCourseAccess } from '@/hooks/useCourseAccess';
 import { unlockedModuleIds } from '@/lib/courseAccess';
 import { errorMessage, isStatus } from '@/lib/api/errorMessage';
 import { toast } from '@/store/useToastStore';
-import { FEATURES } from '@/lib/features';
 
 /**
  * A student working through one module: video, materials, and the way on to its
@@ -101,27 +100,14 @@ export default function ModuleViewer({
   const courseFinished = progress.data?.course_completed === true && !access.bypassSequence;
   const certificates = useCertificates(
     { courseId, pageSize: 1 },
-    { enabled: FEATURES.certificates && courseFinished && access.isResolved && !access.isStaff },
+    { enabled: courseFinished && access.isResolved && !access.isStaff },
   );
   const certificate = certificates.data?.data[0];
 
   const [materialIndex, setMaterialIndex] = React.useState(0);
 
-  const quizExists = !(quiz.isError && isStatus(quiz.error, 404));
-  const taskExists = !(task.isError && isStatus(task.error, 404));
-
-  /*
-   * What the student is *shown* is narrower than what exists: a quiz or task
-   * whose feature flag is off is hidden as if it had never been built.
-   *
-   * The "Završi modul" card below still keys off existence, not visibility —
-   * the endpoint refuses any module with a quiz or task, so offering the button
-   * there would only produce an error. A module whose requirement is hidden is
-   * therefore not finishable until the flag is back on; build demo courses
-   * without them while a flag is off.
-   */
-  const hasQuiz = FEATURES.quizzes && quizExists;
-  const hasTask = FEATURES.tasks && taskExists;
+  const hasQuiz = !(quiz.isError && isStatus(quiz.error, 404));
+  const hasTask = !(task.isError && isStatus(task.error, 404));
 
   return (
     <PageContainer>
@@ -160,7 +146,7 @@ export default function ModuleViewer({
               breadcrumbs={[
                 // The catalogue crumb goes with the catalogue; the course is still a
                 // reachable page for anyone who can open this one.
-                ...(FEATURES.catalog ? [{ label: 'Obuke', href: '/courses' }] : []),
+                { label: 'Obuke', href: '/courses' },
                 { label: courseName, href: `/courses/${courseSlug}` },
                 { label: currentModule.title },
               ]}
@@ -360,7 +346,7 @@ export default function ModuleViewer({
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
                         Prošli ste sve module obuke „{courseName}”.
-                        {FEATURES.certificates ? ' Certifikat je izdan na vaše ime.' : null}
+                        {' Certifikat je izdan na vaše ime.'}
                       </Typography>
                     </Stack>
 
@@ -368,7 +354,7 @@ export default function ModuleViewer({
                         optimistically: it is issued by the same request that
                         completed the module, so for a moment it exists in the
                         response but not yet in this query. */}
-                    {!FEATURES.certificates ? null : certificate ? (
+                    {certificate ? (
                       <Button
                         href={`/certificates/${certificate.readable_id}`}
                         variant="contained"
@@ -395,7 +381,7 @@ export default function ModuleViewer({
                 which would flash a "Završi modul" button at someone who
                 already has.
               */}
-              {!quizExists && !taskExists && !access.bypassSequence && progress.data ? (
+              {!hasQuiz && !hasTask && !access.bypassSequence && progress.data ? (
                 <ContentCard
                   title="Završetak modula"
                   description={
@@ -420,7 +406,7 @@ export default function ModuleViewer({
                         completeModule.mutate(moduleId, {
                           onSuccess: (result) => {
                             toast.success(
-                              result.data.certificate_issued && FEATURES.certificates
+                              result.data.certificate_issued
                                 ? 'Modul je završen. Završili ste obuku — certifikat je izdan.'
                                 : 'Modul je završen.',
                             );

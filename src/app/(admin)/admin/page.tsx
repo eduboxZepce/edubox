@@ -28,7 +28,6 @@ import { useAdminUsers } from '@/hooks/useUsers';
 import { formatDate, formatPrice } from '@/lib/format';
 import { publishStatus } from '@/lib/status';
 import { useAuthStore } from '@/store/useAuthStore';
-import { FEATURES } from '@/lib/features';
 
 /**
  * Admin landing page.
@@ -53,14 +52,8 @@ export default function AdminDashboardPage() {
   // platform totals and a teacher their own, with no branching here.
   const courses = useAdminCourses({ pageSize: 1 });
   const publishedCourses = useAdminCourses({ pageSize: 1, published: true });
-  const pendingPurchases = useAdminPurchases(
-    { pageSize: 1, status: 'requested' },
-    { enabled: FEATURES.purchases },
-  );
-  const pendingSubmissions = useAdminSubmissions(
-    { pageSize: 1, status: 'pending' },
-    { enabled: FEATURES.tasks },
-  );
+  const pendingPurchases = useAdminPurchases({ pageSize: 1, status: 'requested' });
+  const pendingSubmissions = useAdminSubmissions({ pageSize: 1, status: 'pending' });
 
   // Users are platform-wide administration; the endpoint is admin-only, so a
   // teacher must not even ask for it.
@@ -73,24 +66,14 @@ export default function AdminDashboardPage() {
    * dashboard predates support existing, which is why this tile is a late
    * addition rather than part of the original four.
    */
-  const openIssues = useIssues(
-    { pageSize: 1, status: 'open' },
-    { enabled: isAdmin && FEATURES.support },
-  );
+  const openIssues = useIssues({ pageSize: 1, status: 'open' }, { enabled: isAdmin });
 
   // The one list that fetches real rows — the five most recent courses.
   const recentCourses = useAdminCourses({ pageSize: 5 });
 
-  // Which tiles exist depends on the role and on the feature flags, so the
-  // span is worked out from the count rather than written per case: 12 split
-  // evenly, which Grid accepts as a fraction (12/5 = 2.4).
-  const tileCount = [
-    true,
-    FEATURES.purchases,
-    FEATURES.tasks,
-    isAdmin,
-    isAdmin && FEATURES.support,
-  ].filter(Boolean).length;
+  // Admins get two more tiles than teachers (users, support), so the span is
+  // 12 split evenly over the count, which Grid accepts as a fraction (12/5 = 2.4).
+  const tileCount = isAdmin ? 5 : 3;
   const statSpan = 12 / tileCount;
 
   return (
@@ -108,8 +91,8 @@ export default function AdminDashboardPage() {
       />
 
       {/*
-        Up to five tiles for an admin, three for a teacher, fewer when a
-        feature is switched off. `statSpan` divides the row evenly rather than
+        Five tiles for an admin, three for a teacher. `statSpan` divides the
+        row evenly rather than
         leaving a five-tile set wrapping 4 + 1.
       */}
       <Grid container spacing={2}>
@@ -124,33 +107,29 @@ export default function AdminDashboardPage() {
           />
         </Grid>
 
-        {FEATURES.purchases ? (
-          <Grid size={{ xs: 12, sm: 6, lg: statSpan }}>
-            <StatCard
-              label="Zahtjevi na čekanju"
-              value={pendingPurchases.data?.meta.total}
-              icon={ReceiptLongOutlinedIcon}
-              href="/admin/purchases"
-              loading={pendingPurchases.isPending}
-              error={pendingPurchases.isError}
-              highlight
-            />
-          </Grid>
-        ) : null}
+        <Grid size={{ xs: 12, sm: 6, lg: statSpan }}>
+          <StatCard
+            label="Zahtjevi na čekanju"
+            value={pendingPurchases.data?.meta.total}
+            icon={ReceiptLongOutlinedIcon}
+            href="/admin/purchases"
+            loading={pendingPurchases.isPending}
+            error={pendingPurchases.isError}
+            highlight
+          />
+        </Grid>
 
-        {FEATURES.tasks ? (
-          <Grid size={{ xs: 12, sm: 6, lg: statSpan }}>
-            <StatCard
-              label="Zadaci za pregled"
-              value={pendingSubmissions.data?.meta.total}
-              icon={AssignmentTurnedInOutlinedIcon}
-              href="/admin/submissions"
-              loading={pendingSubmissions.isPending}
-              error={pendingSubmissions.isError}
-              highlight
-            />
-          </Grid>
-        ) : null}
+        <Grid size={{ xs: 12, sm: 6, lg: statSpan }}>
+          <StatCard
+            label="Zadaci za pregled"
+            value={pendingSubmissions.data?.meta.total}
+            icon={AssignmentTurnedInOutlinedIcon}
+            href="/admin/submissions"
+            loading={pendingSubmissions.isPending}
+            error={pendingSubmissions.isError}
+            highlight
+          />
+        </Grid>
 
         {isAdmin ? (
           <Grid size={{ xs: 12, sm: 6, lg: statSpan }}>
@@ -165,7 +144,7 @@ export default function AdminDashboardPage() {
           </Grid>
         ) : null}
 
-        {isAdmin && FEATURES.support ? (
+        {isAdmin && (
           <Grid size={{ xs: 12, sm: 6, lg: statSpan }}>
             <StatCard
               label="Otvoreni zahtjevi za podršku"
@@ -177,7 +156,7 @@ export default function AdminDashboardPage() {
               highlight
             />
           </Grid>
-        ) : null}
+        )}
       </Grid>
 
       <ContentCard

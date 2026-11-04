@@ -22,7 +22,6 @@ import { useCertificate } from '@/hooks/useCertificates';
 import { useAuthStore } from '@/store/useAuthStore';
 import { formatDate } from '@/lib/format';
 import { isStatus } from '@/lib/api/errorMessage';
-import { FEATURES } from '@/lib/features';
 import { surnameOf, verificationHref } from '@/lib/certificateVerification';
 import { toast } from '@/store/useToastStore';
 
@@ -73,11 +72,9 @@ export default function CertificatePage(props: PageProps<'/certificates/[certifi
             description="Ovaj certifikat ne postoji ili nemate pristup njemu."
             icon={<WorkspacePremiumOutlinedIcon />}
             action={
-              FEATURES.catalog ? (
-                <Button href="/courses" variant="contained">
-                  Pogledaj obuke
-                </Button>
-              ) : undefined
+              <Button href="/courses" variant="contained">
+                Pogledaj obuke
+              </Button>
             }
           />
         </ContentCard>
@@ -196,9 +193,7 @@ export default function CertificatePage(props: PageProps<'/certificates/[certifi
             </ContentCard>
 
             {/* Only the holder shares the check link; staff have no use for it. */}
-            {FEATURES.certificates &&
-            certificate.student_id === myId &&
-            certificate.profiles?.full_name ? (
+            {certificate.student_id === myId && certificate.profiles?.full_name ? (
               <ContentCard
                 title="Provjera za poslodavce"
                 description="Ova stranica je privatna. Podijeli link ispod — svako ko ga otvori vidi da je certifikat važeći, bez prijave."

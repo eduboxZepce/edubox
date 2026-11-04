@@ -139,7 +139,7 @@ export default function MarkdownEditor({
    * The library themes itself from a `data-color-mode` attribute rather than
    * from our theme, so it has to be told — and it is told the scheme the page
    * is *painted* in, not MUI's mode. Those differ whenever a page is held light
-   * (the `themeSwitch` flag off, for one), and following MUI's mode is what
+   * (any page outside the themed list), and following MUI's mode is what
    * made the editor render black on a light page.
    */
 

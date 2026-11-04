@@ -6,7 +6,6 @@ import WhyUs from '@/components/landing/WhyUs';
 import Faq from '@/components/landing/Faq';
 import CtaBanner from '@/components/landing/CtaBanner';
 import { SITE, SITE_DOMAIN } from '@/lib/siteConfig';
-import { FEATURES } from '@/lib/features';
 import JsonLd from '@/components/seo/JsonLd';
 import { absoluteUrl, pageMetadata } from '@/lib/seo';
 
@@ -83,9 +82,7 @@ export default function LandingPage() {
       <JsonLd data={SITE_JSON_LD} />
       <Hero />
       <StatsBar />
-      {/* A grid of courses linking into a catalogue that is switched off
-          would be a row of dead ends. */}
-      {FEATURES.catalog ? <FeaturedCourses /> : null}
+      <FeaturedCourses />
       <HowItWorks />
       <WhyUs />
       <Faq />

@@ -4,7 +4,6 @@ import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { FEATURES } from '@/lib/features';
 import { listFooterCategories } from '@/lib/server/categories';
 import { SITE } from '@/lib/siteConfig';
 import Logo from '@/components/layout/Logo';
@@ -35,37 +34,30 @@ type FooterSection = { title: string; links: { label: string; href: string }[] }
 /*
  * Async because the course column is read from the database (see
  * `listFooterCategories`). Every other link comes from `siteConfig.ts` or is a
- * fixed route. Sections for switched-off features are left out, so the footer
- * never links to a page that 404s.
+ * fixed route.
  */
 export default async function PublicFooter() {
-  const categories = FEATURES.catalog ? await listFooterCategories() : [];
+  const categories = await listFooterCategories();
 
   const sections: FooterSection[] = [
-    ...(FEATURES.catalog
-      ? [
-          {
-            title: 'Obuke',
-            links: [
-              ...categories.map((category) => ({
-                label: category.name,
-                href: `/courses?categoryId=${category.id}`,
-              })),
-              { label: 'Sve obuke', href: '/courses' },
-            ],
-          },
-        ]
-      : []),
+    {
+      title: 'Obuke',
+      links: [
+        ...categories.map((category) => ({
+          label: category.name,
+          href: `/courses?categoryId=${category.id}`,
+        })),
+        { label: 'Sve obuke', href: '/courses' },
+      ],
+    },
     {
       // "O nama" (/o-nama) was linked here before the page existed, which put a
       // link to a 404 on every public page. Add it back together with the page.
       title: 'Platforma',
       links: [
-        ...(FEATURES.blog ? [{ label: 'Blog', href: '/blog' }] : []),
+        { label: 'Blog', href: '/blog' },
         { label: 'Kontakt', href: '/kontakt' },
-        ...(FEATURES.certificates
-          ? [{ label: 'Provjera certifikata', href: '/provjera-certifikata' }]
-          : []),
+        { label: 'Provjera certifikata', href: '/provjera-certifikata' },
         { label: 'Uvjeti korištenja', href: '/uvjeti-koristenja' },
         { label: 'Politika privatnosti', href: '/politika-privatnosti' },
       ],

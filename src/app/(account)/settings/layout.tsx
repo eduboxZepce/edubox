@@ -16,8 +16,7 @@ import SettingsTabs from '@/components/settings/SettingsTabs';
 export default function SettingsLayout({ children }: { children: React.ReactNode }) {
   return (
     <PageContainer maxWidth="form">
-      {/* No description listing the sections: which ones exist depends on the
-          feature flags, and the tabs right below already name them. */}
+      {/* No description listing the sections: the tabs right below name them. */}
       <PageHeader title="Postavke" />
 
       <Stack spacing={3}>

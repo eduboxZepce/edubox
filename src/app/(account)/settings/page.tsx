@@ -1,4 +1,4 @@
-import { notFound, redirect } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { SETTINGS_SECTIONS } from '@/lib/settingsSections';
 
 /**
@@ -8,12 +8,7 @@ import { SETTINGS_SECTIONS } from '@/lib/settingsSections';
  * A redirect rather than duplicating the notifications screen here, so there is
  * exactly one page rendering that matrix and the tab highlighting has a real
  * URL to match against.
- *
- * "First" means first *enabled*: every tab belongs to a feature flag, and with
- * all of them off there is no settings screen at all.
  */
 export default function SettingsIndexPage() {
-  const first = SETTINGS_SECTIONS[0];
-  if (!first) notFound();
-  redirect(first.href);
+  redirect(SETTINGS_SECTIONS[0].href);
 }
