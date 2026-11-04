@@ -5,7 +5,7 @@ import HowItWorks from '@/components/landing/HowItWorks';
 import WhyUs from '@/components/landing/WhyUs';
 import Faq from '@/components/landing/Faq';
 import CtaBanner from '@/components/landing/CtaBanner';
-import { SITE } from '@/lib/siteConfig';
+import { SITE, SITE_DOMAIN } from '@/lib/siteConfig';
 import { FEATURES } from '@/lib/features';
 import JsonLd from '@/components/seo/JsonLd';
 import { absoluteUrl, pageMetadata } from '@/lib/seo';
@@ -35,8 +35,8 @@ const SITE_JSON_LD = {
   '@id': absoluteUrl('/#website'),
   name: SITE.name,
   // Google tries `name` first and falls back to these; without them it may
-  // settle on the bare domain ("edubox-zepce.ba") as the site name.
-  alternateName: [SITE.shortName, 'edubox-zepce.ba'],
+  // settle on the bare domain as the site name.
+  alternateName: [SITE.shortName, SITE_DOMAIN],
   url: absoluteUrl('/'),
   inLanguage: 'bs',
   publisher: { '@id': absoluteUrl('/#organization') },

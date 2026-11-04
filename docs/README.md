@@ -9,6 +9,7 @@ the files tools look for at the repo root: `README.md`, `CLAUDE.md` and `AGENTS.
 | [`project-context.md`](project-context.md)                                 | Decisions, conventions and traps. **Read before writing code**; append when a decision is made                           |
 | **`guides/`**                                                              | How-tos for people working on or running the project                                                                     |
 | [`guides/frontend-developer-guide.md`](guides/frontend-developer-guide.md) | Orientation to the codebase and how to build a page here                                                                 |
+| [`guides/new-client-setup.md`](guides/new-client-setup.md)                 | **Setting the platform up for a new client**: the `brand/` folder, then every outside account, key and DNS record        |
 | [`guides/email-setup.md`](guides/email-setup.md)                           | Step-by-step setup of the site's email addresses (ImprovMX + Resend + Gmail)                                             |
 | **`build-specs/`**                                                         | The original specs the project was generated from — historical, superseded where they disagree with `project-context.md` |
 | [`build-specs/00-master-prompt.md`](build-specs/00-master-prompt.md)       | How the four specs were fed to the build                                                                                 |

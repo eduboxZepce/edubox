@@ -12,7 +12,7 @@ import Section from '@/components/landing/Section';
 import { SITE } from '@/lib/siteConfig';
 
 /**
- * "Zašto Edubox" — the credibility section. A brand-coloured statement panel
+ * "Zašto {shortName}" — the credibility section. A brand-coloured statement panel
  * on the left, four short differentiators on the right.
  *
  * Static content: unlike `<FeaturedCourses>` there is no data source, and no

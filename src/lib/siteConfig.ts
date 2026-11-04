@@ -1,176 +1,23 @@
 /**
  * Site-wide facts: the brand, how to reach us, who we legally are.
  *
- * ## Why this is a file and not environment variables
+ * **The values are not here.** They live in `brand/config.ts` at the repo
+ * root, next to the logo, so that setting up a new client is one folder. This
+ * module re-exports them under the name the app has always used (`SITE`) and
+ * adds the few values derived from them, so no component needs to know where
+ * the config file sits.
  *
- * Everything here is the same in every environment — local, Vercel preview and
- * production all show the same phone number — and all of it is public. Env vars
- * earn their place when a value is secret or differs per deployment; neither is
- * true here. As env vars these would be untyped strings, copied by hand into
- * three Vercel environments, edited in a dashboard with no review, and still
- * needing a redeploy to change (`NEXT_PUBLIC_*` is inlined at build time). As a
- * file they are typed, reviewed like any other copy, and changed in one place.
- *
- * The test for adding something: **would it ever differ between preview and
- * production, or must it stay secret?** If yes, it belongs in `.env.example`.
- * If no, it belongs here.
- *
- * ## What is deliberately not here
- *
- * - **Payment details** (recipient, bank, account number) live in the database
- *   (`payment_settings`, edited at `/admin/settings/payment`). An admin must be
- *   able to correct an account number without a deploy.
- * - **Terms and privacy policy** — also the database (`/admin/settings/legal`),
- *   for the same reason.
- * - **Course categories in the footer** come from the `categories` table, so
- *   adding a category in `/admin/categories` is all it takes.
- * - **Section copy** (hero, how it works, FAQ answers…) stays in its
- *   component under `src/components/landing/`. This file holds the *facts* that
- *   copy quotes, so a fact quoted in several places changes once.
- *
- * Values marked `PLACEHOLDER` must be replaced before launch.
+ * See `brand/config.ts` for what belongs in the config and what does not, and
+ * `docs/guides/new-client-setup.md` for the whole new-client checklist.
  */
-/** Figures `getLiveStats()` (`src/lib/server/landingStats.ts`) can read from the database. */
-export type LiveStatKey = 'publishedCourses' | 'students' | 'completionRate';
+import { BRAND } from '../../brand/config';
 
-type SiteStat = {
-  /** Shown as is, or as the floor when `live` is set. */
-  value: number;
-  suffix?: string;
-  label: string;
-  /**
-   * Read the real figure from the database and show it instead of `value`
-   * once it is higher. `value` stays the floor, so a new platform does not
-   * open with "0 students".
-   */
-  live?: LiveStatKey;
-};
+export type { LiveStatKey, SiteStat, BrandConfig } from '@/lib/brand/types';
 
-type SiteConfig = {
-  url: string;
-  name: string;
-  shortName: string;
-  tagline: string;
-  description: string;
-  contact: {
-    email: string;
-    phone: { display: string; tel: string };
-    hours: string;
-  };
-  service: {
-    replyTime: string;
-    reviewHours: number;
-  };
-  stats: SiteStat[];
-  social: { label: string; href: string }[];
-  company: { legalName: string; address: string; idNumber: string };
-};
+export const SITE = BRAND;
 
-/**
- * Hours within which a submitted task gets feedback. A constant of its own
- * because two entries below quote it: the service promise and a stat.
- */
-const REVIEW_HOURS = 48;
+/** `www.example.ba` — the host of the canonical URL, as printed in copy. */
+export const SITE_HOST = new URL(SITE.url).host;
 
-export const SITE: SiteConfig = {
-  /**
-   * The canonical production origin — `www`, `https`, no trailing slash. The
-   * apex domain redirects here (`next.config.ts`). Used when a production build
-   * has no `NEXT_PUBLIC_SITE_URL`, so canonical URLs, the sitemap and share
-   * images can never point at a `*.vercel.app` alias. See `publicEnv.siteUrl`.
-   */
-  url: 'https://www.edubox-zepce.ba',
-
-  /**
-   * The brand in full. Wherever the platform introduces itself: the home page
-   * title, meta descriptions, the footer copyright, emails and the certificate.
-   */
-  name: 'Edubox Žepče',
-
-  /**
-   * The brand where space is tight or the full name has already been said: the
-   * logo, the admin sidebar, the "— Edubox" suffix on every page title.
-   */
-  shortName: 'Edubox',
-
-  /** Second half of the home page title: "Edubox Žepče — {tagline}". */
-  tagline: 'online obuke sa certifikatom',
-
-  /** One sentence: the footer blurb and the default meta description. */
-  description: 'Platforma za online obuke s pregledom zadataka i certifikatom po završetku.',
-
-  contact: {
-    /**
-     * The one public address — /kontakt, the footer, the legal texts, and the
-     * fallback recipient of the contact form. There used to be a separate
-     * support address beside it; one inbox is what the client asked for, and
-     * enrolled students also have the in-app support channel.
-     */
-    email: 'info@edubox-zepce.ba',
-    /**
-     * `display` is what people read, `tel` is what a phone dials — written
-     * separately because spacing that helps reading breaks a `tel:` link.
-     */
-    phone: { display: '+387 32 880 273', tel: '+38732880273' },
-    /** When the phone is answered. */
-    hours: 'Ponedjeljak – petak, 09:00 – 17:00',
-  },
-
-  /**
-   * What the site promises about response times. Each is quoted in more than
-   * one sentence, so a promise the team cannot keep is corrected here once.
-   */
-  service: {
-    /**
-     * How fast a message gets an answer. Read as the end of a sentence —
-     * "Odgovaramo radnim danima, u pravilu {replyTime}." — on /kontakt, in its
-     * search snippet, and under the FAQ.
-     */
-    replyTime: 'u toku istog dana',
-    /** Task feedback, in hours. The FAQ answer and the stats band. */
-    reviewHours: REVIEW_HOURS,
-  },
-
-  /**
-   * The figures under the hero, in order. An empty list hides the band, which
-   * is the right state until real numbers exist: invented ones are worse than
-   * none. `suffix` follows the number ("h", "%"); thousands are grouped
-   * automatically.
-   * Entries with `live` are floors: the real count replaces them once it is
-   * higher. The review deadline has no `live` source — a bigger number there
-   * would be worse, not better.
-   */
-  stats: [
-    { value: 12, label: 'OBJAVLJENIH OBUKA', live: 'publishedCourses' },
-    { value: 350, label: 'REGISTRIRANIH STUDENATA', live: 'students' },
-    { value: REVIEW_HOURS, suffix: 'h', label: 'ROK ZA PREGLED PREDANOG ZADATKA' },
-    { value: 78, suffix: '%', label: 'STUDENATA ZAVRŠI UPISANU OBUKU', live: 'completionRate' },
-  ],
-
-  /**
-   * Profiles linked from the footer. An entry with an empty `href` is not
-   * rendered, so a network the business is not on is simply left blank.
-   * Empty until the real profile URLs are known: they used to point at the
-   * networks' home pages, which read as links to profiles that do not exist.
-   */
-  social: [
-    { label: 'Instagram', href: '' },
-    { label: 'LinkedIn', href: '' },
-    { label: 'Facebook', href: '' },
-  ],
-
-  /**
-   * The legal entity behind the site, printed under the footer's copyright.
-   * Empty fields are skipped, so the line grows as the details are confirmed.
-   * Must match the controller named in the privacy policy and the provider
-   * named in the terms (both in `legal_documents`).
-   */
-  company: {
-    /** Registered name. */
-    legalName: 'Razvojna agencija Žepče',
-    /** Address of the registered seat. */
-    address: 'Ulica Prva bb, 72230 Žepče',
-    /** Identification number (JIB / ID broj). */
-    idNumber: '4218693330009',
-  },
-};
+/** `example.ba` — the bare domain, without `www.`. */
+export const SITE_DOMAIN = SITE_HOST.replace(/^www\./, '');

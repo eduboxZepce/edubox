@@ -1,5 +1,37 @@
 import { createTheme, alpha } from '@mui/material/styles';
 import NextLink from 'next/link';
+import { SITE } from '@/lib/siteConfig';
+
+/**
+ * The brand colours come from `brand/config.ts`; everything else in the
+ * palette is neutral and shared by every client.
+ *
+ * `contrastText` is chosen, not configured: whichever of white or near-black
+ * contrasts more with the colour (WCAG relative luminance). A client with a
+ * pale brand colour therefore gets dark button text without anyone having to
+ * know to ask for it.
+ */
+const { primary, secondary } = SITE.colors;
+
+function luminance(hex: string): number {
+  const [r, g, b] = [1, 3, 5].map((i) => {
+    const c = parseInt(hex.slice(i, i + 2), 16) / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+const WHITE = '#ffffff';
+const INK = '#0b0d12';
+
+function contrastText(hex: string): string {
+  const l = luminance(hex);
+  const onWhite = 1.05 / (l + 0.05);
+  const onInk = (l + 0.05) / (luminance(INK) + 0.05);
+  return onWhite >= onInk ? WHITE : INK;
+}
+
+const brand = (main: string) => ({ main, contrastText: contrastText(main) });
 
 /**
  * Central MUI theme. Pages are built manually on top of this, so keep the
@@ -19,8 +51,8 @@ export const theme = createTheme({
     light: {
       palette: {
         mode: 'light',
-        primary: { main: '#2f5bea', contrastText: '#ffffff' },
-        secondary: { main: '#7b3fe4', contrastText: '#ffffff' },
+        primary: brand(primary.light),
+        secondary: brand(secondary.light),
         success: { main: '#1f9d55' },
         warning: { main: '#c98a00' },
         error: { main: '#d63c3c' },
@@ -32,8 +64,8 @@ export const theme = createTheme({
     dark: {
       palette: {
         mode: 'dark',
-        primary: { main: '#6d8dff', contrastText: '#0b0d12' },
-        secondary: { main: '#a479ff', contrastText: '#0b0d12' },
+        primary: brand(primary.dark),
+        secondary: brand(secondary.dark),
         success: { main: '#3fc978' },
         warning: { main: '#e0a838' },
         error: { main: '#ea6363' },

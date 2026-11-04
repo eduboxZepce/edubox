@@ -12,16 +12,18 @@ log the rule that page established, or the trap it hit.
 
 ## 0. Commands
 
-| Command                 | Does                                                                                    |
-| ----------------------- | --------------------------------------------------------------------------------------- |
-| `npm run dev`           | Dev server (port 3000; use `-p 3001` if it's taken)                                     |
-| `npm run check`         | typecheck + lint + format:check — run before saying "done"                              |
-| `npm run typecheck`     | `next typegen && tsc --noEmit`; typegen MUST run first for new routes                   |
-| `npm run db:seed`       | Re-seed. Destroys and recreates its own accounts + courses                              |
-| `npm run db:verify-rls` | **29 assertions** that teacher isolation still holds. Run after ANY policy change       |
-| `npm run db:types`      | Regenerate `src/types/database.types.ts` after a migration                              |
-| `npm run db:push`       | Apply migrations to the remote project (reads `SUPABASE_DB_PASSWORD` from `.env.local`) |
-| `npm run supabase -- …` | Any other Supabase CLI command, run as **this** project's account                       |
+| Command                         | Does                                                                                    |
+| ------------------------------- | --------------------------------------------------------------------------------------- |
+| `npm run dev`                   | Dev server (port 3000; use `-p 3001` if it's taken)                                     |
+| `npm run check`                 | typecheck + lint + format:check — run before saying "done"                              |
+| `npm run typecheck`             | `next typegen && tsc --noEmit`; typegen MUST run first for new routes                   |
+| `npm run db:seed`               | Re-seed. Destroys and recreates its own accounts + courses                              |
+| `npm run brand`                 | Regenerate logo/icons/share image/email template from `brand/` — after any change there |
+| `npm run make-admin -- <email>` | Promote an existing account to admin (first admin of a new installation)                |
+| `npm run db:verify-rls`         | **29 assertions** that teacher isolation still holds. Run after ANY policy change       |
+| `npm run db:types`              | Regenerate `src/types/database.types.ts` after a migration                              |
+| `npm run db:push`               | Apply migrations to the remote project (reads `SUPABASE_DB_PASSWORD` from `.env.local`) |
+| `npm run supabase -- …`         | Any other Supabase CLI command, run as **this** project's account                       |
 
 There is no local Supabase — everything runs against the linked remote project.
 
@@ -2221,11 +2223,65 @@ course-scoped page, add it there or it is URL-only.
   promise certificates and reviewed tasks; that is prose, and changing it per flag is a
   copy decision rather than a code one.
 
-### Env vars versus `siteConfig.ts`
+### One client per copy of the repo: the `brand/` folder
+
+- **Everything that makes this one client's site lives in `brand/`** — `config.ts` (name,
+  domain, colours, contact, company, stats), `logo.svg`, `hero.jpg`, optionally
+  `og-image.jpg` — plus env vars and the database. A new client is a copy of the repo with
+  that folder replaced; `docs/guides/new-client-setup.md` is the whole checklist. **No
+  component may hard-code a brand fact, colour or domain** — read `SITE` (or
+  `BRAND_ASSETS` for images) instead, or the next copy inherits this client's.
+
+- **`src/lib/siteConfig.ts` re-exports `brand/config.ts` as `SITE`** and derives
+  `SITE_HOST` / `SITE_DOMAIN`, so importers never learn where the file sits. The config
+  file may only `import type` — `scripts/generate-brand-assets.mjs` loads it under plain
+  Node, which strips type imports but cannot resolve `@/` or extensionless runtime imports.
+  The types are in `src/lib/brand/types.ts` for the same reason.
+
+- **`npm run brand` derives every brand file; none is edited by hand.** From `brand/` it
+  writes `public/logo.svg`, `src/app/icon.svg` + `favicon.ico` + `apple-icon.png`, the
+  manifest icons, `public/email-logo.png`, the share card and the hero photo under
+  `public/brand/`, `supabase/templates/confirmation.html` (from
+  `scripts/templates/confirmation.html`), and `src/lib/brand/assets.generated.ts` with the
+  sizes, paths and the certificate mark. Output is deterministic — re-running on an
+  unchanged folder changes nothing.
+
+- **Any SVG works because the logo is nested, never re-interpreted.** The generator places
+  the original as a nested `<svg>` on a larger canvas, so gradients, groups and transforms
+  survive. That is also why the certificate now embeds a 250 px-high PNG of the mark
+  (~600 dpi at 30 pt) instead of drawing path data with `drawSvgPath`: the old
+  `brandMark.ts` only worked for a logo made of flat single-colour paths, and was a third
+  copy of the artwork to keep in step.
+
+- **The hero and share image get a content hash in their filename** (`hero-<hash>.jpg`),
+  which makes the optimiser-cache trap below impossible to hit by accident. The email logo
+  deliberately keeps a fixed name, because emails already in inboxes reference it.
+
+- **Theme colours come from `SITE.colors`; `contrastText` is computed** (WCAG luminance,
+  white vs `#0b0d12`, whichever contrasts more), so a pale brand colour gets dark button
+  text without anyone knowing to ask. For the Edubox colours it reproduces the previous
+  hand-picked values exactly. The same hex values feed the email template, the manifest,
+  `themeColor`, and the share card.
+
+- **Legal texts use `{{placeholders}}`, filled in at render time** (`src/lib/siteTokens.ts`,
+  applied by `<MarkdownContent>` and `renderMarkdownEmail`): `{{site.name}}`,
+  `{{site.url}}`, `{{site.host}}`, `{{contact.email}}`, `{{company.legalName}}`, … Migration
+  0034 now ships them that way, so the starting terms and privacy policy are correct for any
+  client. Databases that ran the earlier 0034 hold literal Edubox text, which renders the
+  same. Unknown placeholders stay visible, like the payment-purpose template.
+
+- **The first admin is made with `npm run make-admin -- email`**, because
+  `prevent_unauthorized_role_change()` rejects a role change from the SQL editor (it runs
+  as `postgres`, neither admin nor `service_role`). The script uses the service-role key.
+
+- **The apex → `www` redirect is derived from `SITE.url`** in `next.config.ts` (which
+  imports `brand/config.ts`), and is skipped when the URL has no `www.`.
+
+### Env vars versus `brand/config.ts`
 
 - **The test: is it secret, or does it differ between local, preview and production?**
   Then it is an env var (`.env.example`, which also says which Vercel environment needs
-  each one). Otherwise it is config in `src/lib/siteConfig.ts` (`SITE`): brand name,
+  each one). Otherwise it is config in `brand/config.ts` (`SITE`): brand name,
   tagline, public contact emails, phone, hours, social links, company legal details.
   Those are the same everywhere and public. As env vars they would be untyped strings
   copied by hand into three Vercel environments, edited with no review, and still need a
@@ -2257,23 +2313,18 @@ course-scoped page, add it there or it is URL-only.
   `title.absolute`. Note "Kursevi" is still correct as the _nav label_ for the courses
   list — only the brand moved.
 
-- **The brand is "Edubox Žepče" (`SITE.name`), "Edubox" for short (`SITE.shortName`).**
+- **The brand is `SITE.name` in full, `SITE.shortName` for short** (here "Edubox Žepče" /
+  "Edubox").
   Full where the platform introduces itself — home page title, meta descriptions, footer
   copyright, emails, the certificate, the share image. Short where space is tight or the
-  full name is already on screen — the logo, the admin sidebar, the `%s — Edubox` title
-  suffix, the API docs, "Zašto Edubox". Neither is ever typed out in a component.
+  full name is already on screen — the logo, the admin sidebar, the `%s — {shortName}`
+  title suffix, the API docs, "Zašto {shortName}". Neither is ever typed out in a component.
 
-- **The logo mark exists in three forms, and they must change together.**
-  `public/logo.svg` is what browsers load (via `<Logo />` / `<LogoMark />`);
-  `src/app/icon.svg` is the same artwork padded square for the favicon, with
-  `favicon.ico` and `apple-icon.png` rasterised from it; `src/lib/brandMark.ts` holds the
-  raw path data for code that draws the mark itself (the certificate PDF via pdf-lib, and
-  `npm run brand:assets`, which renders `public/og-image.jpg` and the manifest icons
-  `icon-192.png` / `icon-512.png`). The PDF route cannot read `public/` — on Vercel it is
-  not in the function bundle, the certificate-fonts trap again. After a logo change, re-run
-  `npm run brand:assets` and commit the output. Emails use a fourth form,
-  `public/email-logo.png` — a PNG because Gmail does not render SVG — loaded by absolute URL
-  from `publicEnv.siteUrl`; it is hand-made, so replace it by hand too.
+- ~~**The logo mark exists in three forms, and they must change together.**~~ **Superseded**
+  by `npm run brand` (see "the `brand/` folder" above): `brand/logo.svg` is the only form
+  anyone edits, and every other one is generated from it. The constraint that shaped the old
+  design still holds — the PDF route cannot read `public/` on Vercel — which is why the
+  certificate mark is embedded in `assets.generated.ts`.
 
 - **Every email has one frame** (`src/lib/email/template.ts`): logo + name header,
   heading, "Poštovani/a {ime}," greeting, body, button, "Srdačan pozdrav, Tim Edubox
@@ -2288,7 +2339,8 @@ course-scoped page, add it there or it is URL-only.
   `hero-illustration.jpg` was overwritten, `/_next/image` kept answering with the old
   picture (`X-Nextjs-Cache: STALE`) while widths that had never been requested showed
   the new one — the hero looked broken on some screens and not others. **Give a new
-  image a new filename**; that is why the hero is now `hero-classroom.jpg`.
+  image a new filename**. `npm run brand` now does this itself for the hero and the share
+  image (content hash in the name).
 
 - **`CONTACT_EMAIL_TO` is env even though `SITE.contact.email` exists**, because it is
   the one contact value that should differ per environment: a preview's test messages
@@ -2319,14 +2371,13 @@ course-scoped page, add it there or it is URL-only.
   previewing a draft would have given it public metadata — and reading cookies would
   make the sitemap dynamic. RLS still applies; it bypasses nothing.
 
-- **The default share image is a static `public/og-image.jpg`, not an
+- **The default share image is a static file (`public/brand/og-<hash>.jpg`), not an
   `opengraph-image.tsx` file.** File-based metadata outranks the `metadata` object, so a
   root `opengraph-image` would replace every blog cover and course thumbnail with the
   generic card. It replaced an `/og` route (rendered by `ImageResponse`): a plain JPEG is
-  smaller (~26 KB), CDN-cached, and replaceable by a designer without touching code. It is
-  generated by `scripts/generate-brand-assets.mjs` — a placeholder; overwrite it with a
-  designed 1200×630 image whenever one exists, ideally under a new filename (platforms cache
-  share images per URL).
+  smaller (~26 KB), CDN-cached, and replaceable by a designer without touching code: drop
+  a designed 1200×630 image at `brand/og-image.jpg` and run `npm run brand`; without one
+  it generates a card from the logo, name and colours.
 
 - **Course share images carry no `og:image:width/height`.** The thumbnail is whatever an
   admin uploaded, and stating dimensions we have not measured would be a guess; Facebook and

@@ -26,21 +26,29 @@
 -- If one of those changes, these texts need changing too.
 --
 -- Written in Bosnian (ijekavian), addressing the reader as "ti" like the rest
--- of the public pages. The provider's details must match `SITE.company` in
--- `src/lib/siteConfig.ts`, which prints them in the footer.
+-- of the public pages.
+--
+-- ## Placeholders, not one client's details
+--
+-- The platform name, address, company and contact email are written as
+-- `{{site.name}}`, `{{company.legalName}}`, `{{contact.email}}` and so on.
+-- `<MarkdownContent>` fills them in from `brand/config.ts` at render time
+-- (`src/lib/siteTokens.ts`), so this same starting text is correct for every
+-- client the platform is set up for. Databases that ran an earlier version of
+-- this migration hold the literal text instead; that renders identically.
 
 update public.legal_documents
 set content = btrim($privacy$
-Ova politika privatnosti objašnjava kako platforma Edubox Žepče (u daljnjem tekstu: „Platforma”), dostupna na adresi [www.edubox-zepce.ba](https://www.edubox-zepce.ba), prikuplja, koristi i štiti tvoje lične podatke.
+Ova politika privatnosti objašnjava kako platforma {{site.name}} (u daljnjem tekstu: „Platforma”), dostupna na adresi [{{site.host}}]({{site.url}}), prikuplja, koristi i štiti tvoje lične podatke.
 
 ## 1. Kontrolor podataka
 
 Kontrolor tvojih ličnih podataka je:
 
-**Razvojna agencija Žepče**\
-Ulica Prva bb, 72230 Žepče, Bosna i Hercegovina\
-ID broj: 4218693330009\
-Email: [info@edubox-zepce.ba](mailto:info@edubox-zepce.ba)
+**{{company.legalName}}**\
+{{company.address}}, Bosna i Hercegovina\
+ID broj: {{company.idNumber}}\
+Email: [{{contact.email}}](mailto:{{contact.email}})
 
 ## 2. Koje podatke prikupljamo
 
@@ -136,7 +144,7 @@ Neki od ovih pružalaca podatke obrađuju izvan Bosne i Hercegovine, u Europskoj
 
 ## 6. Čuvanje podataka
 
-Podatke čuvamo dok je tvoj nalog aktivan ili dok je to potrebno za svrhe navedene u ovoj politici. Nalog ne možeš obrisati sam/a: brisanje zatraži emailom na [info@edubox-zepce.ba](mailto:info@edubox-zepce.ba). Nakon brisanja naloga tvoji lični podaci se brišu u roku od 30 dana, osim onih koje smo po zakonu dužni čuvati duže.
+Podatke čuvamo dok je tvoj nalog aktivan ili dok je to potrebno za svrhe navedene u ovoj politici. Nalog ne možeš obrisati sam/a: brisanje zatraži emailom na [{{contact.email}}](mailto:{{contact.email}}). Nakon brisanja naloga tvoji lični podaci se brišu u roku od 30 dana, osim onih koje smo po zakonu dužni čuvati duže.
 
 Poruke poslane putem kontakt forme čuvamo dok je to potrebno da bismo odgovorili na upit.
 
@@ -165,7 +173,7 @@ U skladu sa Zakonom o zaštiti ličnih podataka Bosne i Hercegovine, imaš pravo
 - povući saglasnost za obradu podataka, na primjer odjavom s newslettera,
 - uložiti prigovor na obradu koja se zasniva na legitimnom interesu.
 
-Zahtjev možeš poslati na [info@edubox-zepce.ba](mailto:info@edubox-zepce.ba). Odgovorit ćemo u roku od 30 dana.
+Zahtjev možeš poslati na [{{contact.email}}](mailto:{{contact.email}}). Odgovorit ćemo u roku od 30 dana.
 
 Također imaš pravo podnijeti prigovor Agenciji za zaštitu ličnih/osobnih podataka u Bosni i Hercegovini ([www.azlp.ba](https://www.azlp.ba)).
 
@@ -179,13 +187,13 @@ Ovu politiku možemo povremeno ažurirati. Sve izmjene bit će objavljene na ovo
 
 ## 12. Kontakt
 
-Za sva pitanja u vezi s privatnošću piši nam na [info@edubox-zepce.ba](mailto:info@edubox-zepce.ba).
+Za sva pitanja u vezi s privatnošću piši nam na [{{contact.email}}](mailto:{{contact.email}}).
 $privacy$, E'\n')
 where slug = 'privacy' and content = '';
 
 update public.legal_documents
 set content = btrim($terms$
-Ovi uvjeti korištenja (u daljnjem tekstu: „Uvjeti”) uređuju korištenje platforme Edubox Žepče (u daljnjem tekstu: „Platforma”), dostupne na adresi [www.edubox-zepce.ba](https://www.edubox-zepce.ba).
+Ovi uvjeti korištenja (u daljnjem tekstu: „Uvjeti”) uređuju korištenje platforme {{site.name}} (u daljnjem tekstu: „Platforma”), dostupne na adresi [{{site.host}}]({{site.url}}).
 
 Otvaranjem naloga potvrđuješ da si pročitao/la i prihvatio/la ove Uvjete i [Politiku privatnosti](/politika-privatnosti). Ako se s njima ne slažeš, nemoj otvarati nalog niti slati zahtjeve za pristup obukama.
 
@@ -193,10 +201,10 @@ Otvaranjem naloga potvrđuješ da si pročitao/la i prihvatio/la ove Uvjete i [P
 
 Platformom upravlja:
 
-**Razvojna agencija Žepče**\
-Ulica Prva bb, 72230 Žepče, Bosna i Hercegovina\
-ID broj: 4218693330009\
-Email: [info@edubox-zepce.ba](mailto:info@edubox-zepce.ba)
+**{{company.legalName}}**\
+{{company.address}}, Bosna i Hercegovina\
+ID broj: {{company.idNumber}}\
+Email: [{{contact.email}}](mailto:{{contact.email}})
 
 ## 2. Pojmovi
 
@@ -229,7 +237,7 @@ Zahtjev može biti odbijen, na primjer ako uplata nije stigla ili ne odgovara ci
 
 - Ako uplatiš, a pristup obuci ne odobrimo, vraćamo ti cijeli iznos.
 - Povrat uplate možeš zatražiti u roku od 14 dana od odobrenja pristupa, pod uvjetom da nisi završio/la nijedan modul obuke.
-- Zahtjev za povrat šalješ na [info@edubox-zepce.ba](mailto:info@edubox-zepce.ba), uz poziv na broj. Novac vraćamo na račun s kojeg je uplata izvršena, u roku od 14 dana od prihvatanja zahtjeva, a pristup obuci se tada ukida.
+- Zahtjev za povrat šalješ na [{{contact.email}}](mailto:{{contact.email}}), uz poziv na broj. Novac vraćamo na račun s kojeg je uplata izvršena, u roku od 14 dana od prihvatanja zahtjeva, a pristup obuci se tada ukida.
 
 ## 6. Učenje na Platformi
 
@@ -275,7 +283,7 @@ Newsletter primaš samo ako se na njega prijaviš, a odjaviti se možeš u svako
 
 ## 11. Podrška
 
-Pitanja i probleme možeš nam poslati kao zahtjev za podršku unutar Platforme ili emailom na [info@edubox-zepce.ba](mailto:info@edubox-zepce.ba).
+Pitanja i probleme možeš nam poslati kao zahtjev za podršku unutar Platforme ili emailom na [{{contact.email}}](mailto:{{contact.email}}).
 
 ## 12. Dostupnost i odgovornost
 
@@ -285,7 +293,7 @@ U mjeri u kojoj to zakon dozvoljava, ne odgovaramo za posrednu štetu nastalu ko
 
 ## 13. Deaktivacija i brisanje naloga
 
-- Brisanje naloga možeš zatražiti u svakom trenutku emailom na [info@edubox-zepce.ba](mailto:info@edubox-zepce.ba). Brisanjem gubiš pristup obukama i certifikatima.
+- Brisanje naloga možeš zatražiti u svakom trenutku emailom na [{{contact.email}}](mailto:{{contact.email}}). Brisanjem gubiš pristup obukama i certifikatima.
 - Nalog možemo deaktivirati ako prekršiš ove Uvjete. Deaktivacija ne briše tvoje podatke, a ponovnom aktivacijom pristup se vraća.
 
 ## 14. Izmjene Uvjeta
@@ -298,6 +306,6 @@ Na ove Uvjete primjenjuje se pravo Bosne i Hercegovine. Sporove nastojimo riješ
 
 ## 16. Kontakt
 
-Za sva pitanja u vezi s ovim Uvjetima piši nam na [info@edubox-zepce.ba](mailto:info@edubox-zepce.ba).
+Za sva pitanja u vezi s ovim Uvjetima piši nam na [{{contact.email}}](mailto:{{contact.email}}).
 $terms$, E'\n')
 where slug = 'terms' and content = '';

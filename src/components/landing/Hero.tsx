@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 import Reveal from '@/components/landing/Reveal';
 import { MARKETING_BLEED } from '@/components/layout/marketingGutter';
 import { FEATURES } from '@/lib/features';
+import { BRAND_ASSETS } from '@/lib/brand/assets.generated';
+import { SITE } from '@/lib/siteConfig';
 
 /**
  * Hero section for the landing page — the first thing a visitor sees.
@@ -64,8 +66,8 @@ export default function Hero() {
       {/* Full-width background image, spanning the entire hero. */}
       <Box sx={{ position: 'absolute', inset: 0 }}>
         <Image
-          src="/hero-classroom.jpg"
-          alt="Školska klupa s ruksakom, učenici razgovaraju u pozadini"
+          src={BRAND_ASSETS.heroImage}
+          alt={SITE.hero.alt}
           fill
           style={{ objectFit: 'cover' }}
           priority

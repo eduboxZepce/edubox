@@ -1,6 +1,7 @@
 import 'server-only';
 import { publicEnv } from '@/lib/env';
 import { SITE } from '@/lib/siteConfig';
+import { BRAND_ASSETS } from '@/lib/brand/assets.generated';
 
 /**
  * The one email layout, rendered to HTML and plain text together.
@@ -16,7 +17,8 @@ import { SITE } from '@/lib/siteConfig';
  *
  * ## The one external asset is the logo, and it is allowed to fail
  *
- * `public/email-logo.png` — a PNG, because Gmail does not render SVG. Many
+ * `public/email-logo.png` — a PNG, because Gmail does not render SVG; generated
+ * from `brand/logo.svg` by `npm run brand`. Many
  * clients block remote images until the reader allows them, so the brand name
  * is set as text beside it rather than baked into the picture: with images off
  * the header still says who wrote. Its URL comes from `publicEnv.siteUrl`, so
@@ -81,7 +83,7 @@ export type EmailContent = {
 const BRAND = SITE.name;
 
 /** `primary.main` from the light theme. Hex, because email has no variables. */
-const BRAND_COLOR = '#2f5bea';
+const BRAND_COLOR = SITE.colors.primary.light;
 const HEADING_COLOR = '#111827';
 const TEXT_COLOR = '#374151';
 const MUTED_COLOR = '#6b7280';
@@ -192,7 +194,7 @@ export function renderEmail(content: EmailContent): { html: string; text: string
                   <table role="presentation" cellpadding="0" cellspacing="0">
                     <tr>
                       <td style="vertical-align:middle;padding-right:10px;">
-                        <img src="${escapeHtml(siteUrl)}/email-logo.png" width="32" height="29" alt="" style="display:block;border:0;" />
+                        <img src="${escapeHtml(siteUrl)}${BRAND_ASSETS.emailLogo.src}" width="${BRAND_ASSETS.emailLogo.width}" height="${BRAND_ASSETS.emailLogo.height}" alt="" style="display:block;border:0;" />
                       </td>
                       <td style="vertical-align:middle;">
                         <span style="font-size:18px;font-weight:700;color:${BRAND_COLOR};letter-spacing:-0.01em;">${escapeHtml(BRAND)}</span>

@@ -5,7 +5,7 @@ import path from 'node:path';
 import { PDFDocument, rgb, type PDFFont, type PDFPage } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
 import QRCode from 'qrcode';
-import { BRAND_MARK } from '@/lib/brandMark';
+import { BRAND_ASSETS } from '@/lib/brand/assets.generated';
 import { SITE } from '@/lib/siteConfig';
 
 /**
@@ -232,18 +232,24 @@ export async function renderCertificatePdf(input: CertificateDocument): Promise<
    * hung everything off the top and left a dead band across the lower third —
    * a certificate should fill its page.
    */
-  // The mark, centred above the wordmark. drawSvgPath places the path's own
-  // origin (its top-left corner) at x/y and flips the y axis for us.
-  const markHeight = 30;
-  const markScale = markHeight / BRAND_MARK.height;
-  for (const d of BRAND_MARK.paths) {
-    page.drawSvgPath(d, {
-      x: centre - (BRAND_MARK.width * markScale) / 2,
-      y: PAGE_HEIGHT - 44,
-      scale: markScale,
-      color: rgb(12 / 255, 91 / 255, 238 / 255),
-    });
-  }
+  /*
+   * The mark, centred above the wordmark, in the logo's own colours. It is a
+   * high-resolution PNG generated from `brand/logo.svg` by `npm run brand`
+   * (embedded in the module, because `public/` is not in the function bundle
+   * on Vercel). 30 pt high; a very wide logo is capped at 140 pt instead.
+   * drawImage positions by the bottom-left corner, hence `- markHeight`.
+   */
+  const { certificateMark } = BRAND_ASSETS;
+  const mark = await doc.embedPng(certificateMark.png);
+  const markRatio = certificateMark.width / certificateMark.height;
+  const markHeight = Math.min(30, 140 / markRatio);
+  const markWidth = markHeight * markRatio;
+  page.drawImage(mark, {
+    x: centre - markWidth / 2,
+    y: PAGE_HEIGHT - 44 - markHeight,
+    width: markWidth,
+    height: markHeight,
+  });
 
   // The brand as a wordmark; follows SITE.name like the issuer line below.
   drawCentred(page, SITE.name.toUpperCase(), {

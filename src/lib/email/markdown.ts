@@ -2,6 +2,8 @@ import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
 import type { Root, RootContent, PhrasingContent } from 'mdast';
+import { SITE } from '@/lib/siteConfig';
+import { fillSiteTokens } from '@/lib/siteTokens';
 
 /**
  * Markdown → email HTML.
@@ -52,7 +54,7 @@ const STYLES = {
   h1: 'margin:24px 0 12px;font-size:20px;line-height:1.35;color:#111827;font-weight:700;',
   h2: 'margin:24px 0 12px;font-size:17px;line-height:1.4;color:#111827;font-weight:700;',
   h3: 'margin:20px 0 8px;font-size:15px;line-height:1.4;color:#111827;font-weight:700;',
-  a: 'color:#1f4fd8;text-decoration:underline;',
+  a: `color:${SITE.colors.primary.light};text-decoration:underline;`,
   li: 'margin:0 0 8px;font-size:15px;line-height:1.6;color:#374151;',
   list: 'margin:0 0 16px;padding-left:22px;',
   blockquote:
@@ -263,7 +265,8 @@ function textInline(nodes: PhrasingContent[]): string {
  * honest picture of the email rather than an approximation.
  */
 export function renderMarkdownEmail(markdown: string): { html: string; text: string } {
-  const tree = unified().use(remarkParse).use(remarkGfm).parse(markdown) as Root;
+  // `{{site.name}}` and friends are filled in first, as in `<MarkdownContent>`.
+  const tree = unified().use(remarkParse).use(remarkGfm).parse(fillSiteTokens(markdown)) as Root;
 
   return {
     html: renderBlocks(tree.children),

@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next';
+import { BRAND } from './brand/config';
 
 /**
  * A Vercel build must never publish `localhost` as the site's address.
@@ -62,18 +63,21 @@ const nextConfig: NextConfig = {
   images: { remotePatterns: imagePatterns },
 
   /**
-   * One canonical host: the apex domain answers with a 301 to `www`, path and
-   * query intact, so links and search results converge on one address. Matches
-   * `SITE.url`. HTTP → HTTPS needs no rule — Vercel redirects it for every
-   * domain itself. Adding the apex as a redirect domain in Vercel's dashboard
-   * does the same job; this keeps it in the repo either way.
+   * One canonical host: when `url` in `brand/config.ts` is a `www.` address,
+   * the bare domain answers with a 301 to it, path and query intact, so links
+   * and search results converge on one address. HTTP → HTTPS needs no rule —
+   * Vercel redirects it for every domain itself. Adding the apex as a redirect
+   * domain in Vercel's dashboard does the same job; this keeps it in the repo
+   * either way.
    */
   async redirects() {
+    const canonical = new URL(BRAND.url);
+    if (!canonical.host.startsWith('www.')) return [];
     return [
       {
         source: '/:path*',
-        has: [{ type: 'host', value: 'edubox-zepce.ba' }],
-        destination: 'https://www.edubox-zepce.ba/:path*',
+        has: [{ type: 'host', value: canonical.host.slice('www.'.length) }],
+        destination: `${canonical.origin}/:path*`,
         statusCode: 301,
       },
     ];

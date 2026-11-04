@@ -1,4 +1,8 @@
-# Email setup — edubox-zepce.ba
+# Email setup
+
+> Written for any client: replace `example.ba` with the client's domain and "Naziv platforme"
+> with the brand `name` from `brand/config.ts`. This is Parts 5–6 of
+> [new-client-setup.md](new-client-setup.md), in full detail.
 
 Step-by-step instructions for the three addresses the site uses, **with no web hosting:
 just the domain, plus two free services.** Do the parts in order; each one ends with a
@@ -22,11 +26,11 @@ SENDING (Resend)
 There are **no mailboxes anywhere.** Mail for your domain is passed straight to Gmail, and
 Gmail is where you read, keep and answer it.
 
-| Address                      | What it is                  | Receives mail?     | Can you send as it? |
-| ---------------------------- | --------------------------- | ------------------ | ------------------- |
-| `info@edubox-zepce.ba`       | ImprovMX alias → Gmail      | Yes                | Yes, from Gmail     |
-| `podrska@edubox-zepce.ba`    | ImprovMX alias → Gmail      | Yes                | Yes, from Gmail     |
-| `obavijesti@edubox-zepce.ba` | Nothing; only a sender name | No, replies bounce | Only the website    |
+| Address                 | What it is                  | Receives mail?     | Can you send as it? |
+| ----------------------- | --------------------------- | ------------------ | ------------------- |
+| `info@example.ba`       | ImprovMX alias → Gmail      | Yes                | Yes, from Gmail     |
+| `podrska@example.ba`    | ImprovMX alias → Gmail      | Yes                | Yes, from Gmail     |
+| `obavijesti@example.ba` | Nothing; only a sender name | No, replies bounce | Only the website    |
 
 **Why two services:**
 
@@ -48,15 +52,15 @@ still sees which address the mail was sent to (that's what Part 3.3 relies on).
 ## Part 0 — DNS lives in Vercel
 
 Everything below means adding **DNS records**, and for this domain they are added in
-**Vercel**, not Globalhost. Globalhost is only the registrar: the domain's nameservers
+**Vercel**, not at the registrar (e.g. Globalhost). The registrar only sells the domain: the domain's nameservers
 point at Vercel (`ns1.vercel-dns.com`, `ns2.vercel-dns.com`), so any record typed into
-Globalhost's DNS panel is ignored by the rest of the internet.
+the registrar's DNS panel is ignored by the rest of the internet.
 
 ### Where to add a record
 
 1. [vercel.com](https://vercel.com) → your team → **Domains** tab (top of the dashboard,
    not inside the project).
-2. Click `edubox-zepce.ba` → **DNS Records**.
+2. Click `example.ba` → **DNS Records**.
 3. Fill in the form at the top and click **Add**:
    - **Name:** only the part _before_ the domain: `send`, `_dmarc`, `resend._domainkey`.
      For a record on the domain itself, **leave it empty** (Vercel doesn't use `@`).
@@ -70,7 +74,7 @@ at the website (ALIAS / A / CNAME) are what keeps the site online. Email only ev
 _adds_ MX and TXT records next to them.
 
 After adding a record, the list should show it as e.g. `send` (or
-`send.edubox-zepce.ba`), **not** `send.edubox-zepce.ba.edubox-zepce.ba`. That doubled
+`send.example.ba`), **not** `send.example.ba.example.ba`. That doubled
 name comes from typing the full name into the Name field, and it's the most common
 mistake.
 
@@ -82,14 +86,14 @@ show you what to expect; providers occasionally change them.
 If you prefer the terminal, every record can be added with `vercel dns add`, e.g.:
 
 ```sh
-vercel dns add edubox-zepce.ba '' MX mx1.improvmx.com 10
-vercel dns add edubox-zepce.ba _dmarc TXT 'v=DMARC1; p=none; rua=mailto:info@edubox-zepce.ba'
-vercel dns ls edubox-zepce.ba
+vercel dns add example.ba '' MX mx1.improvmx.com 10
+vercel dns add example.ba _dmarc TXT 'v=DMARC1; p=none; rua=mailto:info@example.ba'
+vercel dns ls example.ba
 ```
 
 `''` is the empty name (the domain itself). The dashboard does exactly the same thing.
 
-✅ **Check:** in Globalhost's domain settings, the nameservers are the two
+✅ **Check:** in the registrar's domain settings, the nameservers are the two
 `vercel-dns.com` ones. If they're something else, stop: the records belong wherever those
 nameservers point, not in Vercel.
 
@@ -100,12 +104,12 @@ nameservers point, not in Vercel.
 ### 1.1 Add the domain
 
 1. Sign up at [improvmx.com](https://improvmx.com) (free plan).
-2. Enter the domain `edubox-zepce.ba` and your Gmail address.
+2. Enter the domain `example.ba` and your Gmail address.
 3. ImprovMX shows the DNS records it needs. **Leave that page open.**
 
 ### 1.2 Add the records
 
-In Vercel → Domains → `edubox-zepce.ba` → DNS Records (Part 0):
+In Vercel → Domains → `example.ba` → DNS Records (Part 0):
 
 | Type | Name    | Value                                  | Priority |
 | ---- | ------- | -------------------------------------- | -------- |
@@ -116,7 +120,7 @@ In Vercel → Domains → `edubox-zepce.ba` → DNS Records (Part 0):
 **Before adding, look at what's already there** (records with an empty name):
 
 - **Other MX records:** there normally aren't any in Vercel. If there are (for example
-  copied over when the domain moved from Globalhost), **delete them**. Mail goes to
+  copied over when the domain moved from the registrar), **delete them**. Mail goes to
   whichever MX it likes, so a leftover one sends some of your mail into nowhere.
 - **An existing TXT starting with `v=spf1`:** delete it and add the one above instead.
   Two SPF records on the same name break both.
@@ -139,13 +143,13 @@ ImprovMX dashboard → your domain → **Aliases**:
 itself when it comes back through forwarding, so a test from your own Gmail looks broken
 when it isn't.
 
-1. From another account, write to `info@edubox-zepce.ba` → arrives in Gmail.
-2. From another account, write to `podrska@edubox-zepce.ba` → arrives in Gmail, and the
+1. From another account, write to `info@example.ba` → arrives in Gmail.
+2. From another account, write to `podrska@example.ba` → arrives in Gmail, and the
    "to" line says `podrska@`.
-3. From another account, write to `nepostoji@edubox-zepce.ba` → the sender gets a bounce.
+3. From another account, write to `nepostoji@example.ba` → the sender gets a bounce.
 
 If forwarded mail lands in Gmail's **Spam**: open it, click **Not spam**, then make a
-filter (Gmail search bar → ⚙ options → _To:_ `info@edubox-zepce.ba OR podrska@edubox-zepce.ba`
+filter (Gmail search bar → ⚙ options → _To:_ `info@example.ba OR podrska@example.ba`
 → **Create filter** → tick **Never send it to Spam**).
 
 ---
@@ -158,7 +162,7 @@ proven you own.
 ### 2.1 Add the domain
 
 1. Sign up at [resend.com](https://resend.com).
-2. **Domains → Add Domain** → `edubox-zepce.ba`.
+2. **Domains → Add Domain** → `example.ba`.
 3. **Region:** **EU (Ireland)**.
 4. Resend shows about three records. **Leave that page open.**
 
@@ -182,18 +186,19 @@ Resend → **Verify DNS Records**. Wait until the domain shows **Verified**.
 
 ### 2.4 Create two API keys
 
-Resend → **API Keys → Create API Key**, twice. Both with **Sending access**, domain
-`edubox-zepce.ba`:
+Resend → **API Keys → Create API Key**, three times. All with **Sending access**, domain
+`example.ba`:
 
-| Name      | Used by                       |
-| --------- | ----------------------------- |
-| `website` | Vercel (Part 4)               |
-| `gmail`   | Gmail's Send mail as (Part 3) |
+| Name       | Used by                                              |
+| ---------- | ---------------------------------------------------- |
+| `website`  | Vercel (Part 4)                                      |
+| `supabase` | Supabase custom SMTP (new-client-setup.md, Part 6.3) |
+| `gmail`    | Gmail's Send mail as (Part 3)                        |
 
 Copy each one straight away into a password manager; Resend shows a key only once.
 
-**Why two keys:** if you ever need to revoke one (say the Gmail one leaks), the website
-keeps working, and vice versa.
+**Why separate keys:** if you ever need to revoke one (say the Gmail one leaks), the website
+and the sign-up emails keep working, and vice versa.
 
 ---
 
@@ -204,8 +209,8 @@ keeps working, and vice versa.
 1. Gmail **on a computer** → ⚙ → **See all settings** → **Accounts and Import**.
 2. **Send mail as** → **Add another email address**.
 3. In the popup:
-   - **Name:** `Edubox Žepče`
-   - **Email address:** `info@edubox-zepce.ba`
+   - **Name:** `Naziv platforme`
+   - **Email address:** `info@example.ba`
    - **Treat as an alias:** leave ticked
    - **Next Step**
 4. SMTP screen:
@@ -220,8 +225,8 @@ keeps working, and vice versa.
 
 ### 3.2 Add `podrska@`
 
-Repeat 3.1 with **Email address** `podrska@edubox-zepce.ba` and the same SMTP settings
-and the same key. You can use any name, e.g. `Edubox Žepče — podrška`.
+Repeat 3.1 with **Email address** `podrska@example.ba` and the same SMTP settings
+and the same key. You can use any name, e.g. `Naziv platforme — podrška`.
 
 (No mailbox is needed: Resend lets you send as any address on a verified domain.)
 
@@ -245,9 +250,9 @@ rule above applies there too.
 
 ✅ **Check (again from another account):**
 
-1. Write to `podrska@` → in Gmail, **Reply** → the From line shows `podrska@edubox-zepce.ba`
+1. Write to `podrska@` → in Gmail, **Reply** → the From line shows `podrska@example.ba`
    → send.
-2. On the other account it shows as from `podrska@edubox-zepce.ba`, with no mention of
+2. On the other account it shows as from `podrska@example.ba`, with no mention of
    Gmail.
 3. On the other account (if it's Gmail): open the reply → **⋮ → Show original** →
    `SPF: PASS`, `DKIM: PASS`.
@@ -258,11 +263,11 @@ rule above applies there too.
 
 Vercel → project → **Settings → Environment Variables**, environment **Production**:
 
-| Name               | Value                                       |
-| ------------------ | ------------------------------------------- |
-| `RESEND_API_KEY`   | the `website` key from 2.4                  |
-| `EMAIL_FROM`       | `Edubox Žepče <obavijesti@edubox-zepce.ba>` |
-| `CONTACT_EMAIL_TO` | `info@edubox-zepce.ba`                      |
+| Name               | Value                                     |
+| ------------------ | ----------------------------------------- |
+| `RESEND_API_KEY`   | the `website` key from 2.4                |
+| `EMAIL_FROM`       | `Naziv platforme <obavijesti@example.ba>` |
+| `CONTACT_EMAIL_TO` | `info@example.ba`                         |
 
 Then **redeploy** (Deployments → latest → ⋮ → Redeploy). Env changes only apply to new
 deployments.
@@ -273,7 +278,7 @@ sending them, which is what stops you from accidentally emailing the seeded test
 **How the website handles replies:**
 
 - **Notifications and the newsletter:** no reply-to. The footer says _"Na ovu poruku nije
-  moguće odgovoriti — pišite nam na info@edubox-zepce.ba."_ Anyone who replies anyway gets
+  moguće odgovoriti — pišite nam na info@example.ba."_ Anyone who replies anyway gets
   a bounce (no catch-all, Part 1.3).
 - **Contact form:** goes from `obavijesti@` to `info@` → ImprovMX → your Gmail, with the
   visitor set as reply-to. Clicking **Reply** answers the visitor directly, and since the
@@ -286,17 +291,17 @@ sending them, which is what stops you from accidentally emailing the seeded test
 
 ## Part 5 — DMARC
 
-One more record in Vercel → Domains → `edubox-zepce.ba` → DNS Records:
+One more record in Vercel → Domains → `example.ba` → DNS Records:
 
-| Type | Name     | Value                                               |
-| ---- | -------- | --------------------------------------------------- |
-| TXT  | `_dmarc` | `v=DMARC1; p=none; rua=mailto:info@edubox-zepce.ba` |
+| Type | Name     | Value                                          |
+| ---- | -------- | ---------------------------------------------- |
+| TXT  | `_dmarc` | `v=DMARC1; p=none; rua=mailto:info@example.ba` |
 
 Gmail and Yahoo expect a domain that sends mail to have one. `p=none` means "just report,
 don't block". Big providers will send a small daily report to `info@` (so, to your Gmail).
 After a few weeks with no surprises, change `p=none` to `p=quarantine`.
 
-If the reports are annoying: Gmail filter on `subject:(Report domain: edubox-zepce.ba)` →
+If the reports are annoying: Gmail filter on `subject:(Report domain: example.ba)` →
 **Skip the Inbox**.
 
 ✅ **Check:** repeat the Part 3 test → **Show original** → `SPF: PASS`, `DKIM: PASS`,
@@ -321,7 +326,7 @@ Limits change; check both pricing pages when you sign up.
 
 ## Final checklist
 
-- [ ] Nameservers at Globalhost are Vercel's; records go in Vercel → Domains (Part 0)
+- [ ] Nameservers at the registrar are Vercel's; records go in Vercel → Domains (Part 0)
 - [ ] ImprovMX: MX ×2 + SPF added, old MX removed, only one `v=spf1` on the domain, status green
 - [ ] ImprovMX: catch-all `*` deleted; `info` and `podrska` → Gmail
 - [ ] Test mail to `info@` and `podrska@` from another account arrives in Gmail
@@ -335,13 +340,13 @@ Limits change; check both pricing pages when you sign up.
 
 ## Troubleshooting
 
-| Symptom                                               | Likely cause                                                                                                                            |
-| ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| Your own test from Gmail to `info@` never shows up    | Normal: Gmail hides its own mail coming back. Test from another account.                                                                |
-| Some mail arrives, some doesn't                       | A leftover MX record (empty name) in Vercel besides ImprovMX's two. Delete it.                                                          |
-| ImprovMX or Resend never turns green / Verified       | Name typed with the domain doubled (`send.edubox-zepce.ba.edubox-zepce.ba`), or records added at Globalhost instead of Vercel (Part 0). |
-| Mail to a made-up address arrives instead of bouncing | The ImprovMX catch-all `*` alias still exists.                                                                                          |
-| Forwarded mail lands in Gmail spam                    | Mark **Not spam** and add the "Never send it to Spam" filter (Part 1.3).                                                                |
-| Gmail Send mail as says authentication failed         | Username must be the word `resend`; password is the API key, not your Resend login password.                                            |
-| Gmail replies suddenly bounce                         | Resend's daily limit reached, or the `gmail` key was revoked.                                                                           |
-| Site's notification settings say email isn't active   | `RESEND_API_KEY` or `EMAIL_FROM` missing in Vercel, or no redeploy after adding them.                                                   |
+| Symptom                                               | Likely cause                                                                                                                     |
+| ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Your own test from Gmail to `info@` never shows up    | Normal: Gmail hides its own mail coming back. Test from another account.                                                         |
+| Some mail arrives, some doesn't                       | A leftover MX record (empty name) in Vercel besides ImprovMX's two. Delete it.                                                   |
+| ImprovMX or Resend never turns green / Verified       | Name typed with the domain doubled (`send.example.ba.example.ba`), or records added at the registrar instead of Vercel (Part 0). |
+| Mail to a made-up address arrives instead of bouncing | The ImprovMX catch-all `*` alias still exists.                                                                                   |
+| Forwarded mail lands in Gmail spam                    | Mark **Not spam** and add the "Never send it to Spam" filter (Part 1.3).                                                         |
+| Gmail Send mail as says authentication failed         | Username must be the word `resend`; password is the API key, not your Resend login password.                                     |
+| Gmail replies suddenly bounce                         | Resend's daily limit reached, or the `gmail` key was revoked.                                                                    |
+| Site's notification settings say email isn't active   | `RESEND_API_KEY` or `EMAIL_FROM` missing in Vercel, or no redeploy after adding them.                                            |

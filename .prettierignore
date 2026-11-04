@@ -6,3 +6,8 @@ package-lock.json
 src/types/database.types.ts
 supabase/.temp
 src/lib/appVersions.json
+
+# Email HTML is hand-tuned for mail clients (inline styles, compact markup);
+# reflowing it is a risk with no benefit. The second file is generated.
+scripts/templates/*.html
+supabase/templates/

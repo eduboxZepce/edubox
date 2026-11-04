@@ -16,6 +16,7 @@ import QueryState from '@/components/feedback/QueryState';
 import { useLegalDocument, useUpdateLegalDocument } from '@/hooks/useSiteContent';
 import { errorMessage } from '@/lib/api/errorMessage';
 import { formatDateTime } from '@/lib/format';
+import { SITE_TOKENS } from '@/lib/siteTokens';
 import { toast } from '@/store/useToastStore';
 import type { LegalDocument, LegalSlug } from '@/lib/schemas/legal.schema';
 
@@ -82,6 +83,18 @@ function LegalEditor({ document: doc }: { document: LegalDocument }) {
         disabled={update.isPending}
         helperText="Koristite alatnu traku iznad za naslove, podebljano, liste i linkove. Tekst se čuva u Markdown formatu."
       />
+
+      {/*
+        The placeholders are filled in by <MarkdownContent> from brand/config.ts
+        (see src/lib/siteTokens.ts). Listing them here is what lets an admin
+        keep using them rather than typing the facts out by hand.
+      */}
+      <Typography variant="caption" color="text.secondary">
+        Oznake u vitičastim zagradama zamjenjuju se podacima platforme pri prikazu:{' '}
+        {Object.entries(SITE_TOKENS)
+          .map(([key, value]) => `{{${key}}} → ${value || '(prazno)'}`)
+          .join(' · ')}
+      </Typography>
 
       <Stack
         direction="row"

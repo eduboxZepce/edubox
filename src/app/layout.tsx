@@ -29,7 +29,7 @@ const geistMono = Geist_Mono({
  * `pageMetadata()` in `src/lib/seo.ts`; these cover the rest.
  *
  * - `template` appends the brand to every title, so a page declares only its
- *   own name (`title: 'Kontakt'` → "Kontakt — Edubox"). The suffix is the short
+ *   own name (`title: 'Kontakt'` → "Kontakt — {shortName}"). The suffix is the short
  *   name; the full one is already in the home page's title and in every
  *   description.
  * - `metadataBase` turns relative canonical and image paths into absolute URLs,
@@ -54,12 +54,12 @@ export const metadata: Metadata = {
 
 /*
  * The browser chrome colour on mobile (address bar, task switcher): the brand
- * blue, or the dark background for a dark-scheme device. Matches
+ * colour (`brand/config.ts`), or the dark background for a dark-scheme device. Matches
  * `theme_color` in `manifest.ts` and the palettes in `theme.ts`.
  */
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#2f5bea' },
+    { media: '(prefers-color-scheme: light)', color: SITE.colors.primary.light },
     { media: '(prefers-color-scheme: dark)', color: '#0e0f13' },
   ],
 };

@@ -1,9 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { SITE } from '@/lib/siteConfig';
+import { BRAND_ASSETS } from '@/lib/brand/assets.generated';
 
 /**
- * The mark on its own — `public/logo.svg`, sized in `em` so it scales with
+ * The mark on its own — `public/logo.svg` (copied there from `brand/logo.svg`
+ * by `npm run brand`), sized in `em` so it scales with
  * whatever text it sits beside. Exported for places that already wrap the
  * brand in a link of their own (the admin sidebar), where `<Logo />` would
  * nest one link inside another.
@@ -14,10 +16,10 @@ import { SITE } from '@/lib/siteConfig';
 export function LogoMark() {
   return (
     <Image
-      src="/logo.svg"
+      src={BRAND_ASSETS.logo.src}
       alt=""
-      width={490}
-      height={449}
+      width={BRAND_ASSETS.logo.width}
+      height={BRAND_ASSETS.logo.height}
       unoptimized
       style={{ height: '1.15em', width: 'auto', flexShrink: 0 }}
     />
@@ -26,8 +28,8 @@ export function LogoMark() {
 
 /**
  * The short name, set a touch below its line box. Centring a box against the
- * mark centres the text's line box, which carries descender space the word
- * "Edubox" barely uses — so the letters read as sitting high beside the mark.
+ * mark centres the text's line box, which carries descender space a short
+ * lower-case name barely uses — so the letters read as sitting high beside the mark.
  * In `em` so the nudge scales with the variant around it.
  */
 export function LogoName() {
@@ -38,7 +40,7 @@ export function LogoName() {
  * Single source for the brand: the mark plus the short name.
  *
  * The mark is decorative (`alt=""`) because the name is right beside it —
- * announcing "Edubox logo, Edubox" to a screen reader says the same thing twice.
+ * announcing "logo, {name}" before the name to a screen reader says the same thing twice.
  * Sizing follows the surrounding `Typography`, so callers pick the scale with a
  * variant rather than a prop.
  */

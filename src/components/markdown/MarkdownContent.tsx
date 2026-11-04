@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import { fillSiteTokens } from '@/lib/siteTokens';
 
 /**
  * Renders Markdown. The single renderer for every piece of Markdown in the app:
@@ -37,6 +38,12 @@ import Typography from '@mui/material/Typography';
  * somewhere less trusted. It also removes the need for a sanitiser.
  *
  * `remarkGfm` adds tables, strikethrough, task lists and bare-URL autolinking.
+ *
+ * ## `{{site.name}}` and other placeholders
+ *
+ * Filled in from `brand/config.ts` before parsing (`fillSiteTokens`), so the
+ * legal texts can name the platform and the company without hard-coding one
+ * client's details into the database.
  */
 export default function MarkdownContent({ content }: { content: string }) {
   return (
@@ -200,7 +207,7 @@ export default function MarkdownContent({ content }: { content: string }) {
           ),
         }}
       >
-        {content}
+        {fillSiteTokens(content)}
       </Markdown>
     </Box>
   );
