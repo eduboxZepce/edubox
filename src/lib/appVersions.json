@@ -1,13 +1,13 @@
 {
-  "updatedAt": "2026-10-21T10:03:44.672Z",
+  "updatedAt": "2026-11-04T08:57:40.778Z",
   "sections": {
     "database": {
       "label": "Baza podataka",
       "description": "Shema, RLS politike, okidači i migracije",
       "frontend": null,
       "backend": {
-        "version": "1.11.0",
-        "updatedAt": "2026-10-21T08:35:01.253Z"
+        "version": "1.12.0",
+        "updatedAt": "2026-11-04T08:57:40.778Z"
       }
     },
     "quizzes": {
@@ -180,6 +180,14 @@
     }
   },
   "history": [
+    {
+      "at": "2026-11-04T08:57:40.778Z",
+      "section": "database",
+      "layer": "backend",
+      "from": "1.11.0",
+      "to": "1.12.0",
+      "files": 2
+    },
     {
       "at": "2026-10-21T10:03:44.672Z",
       "section": "auth",
@@ -971,14 +979,6 @@
       "from": "1.5.0",
       "to": "1.5.1",
       "files": 1
-    },
-    {
-      "at": "2026-10-02T17:36:29.174Z",
-      "section": "core",
-      "layer": "backend",
-      "from": "1.4.3",
-      "to": "1.5.0",
-      "files": 3
     }
   ]
 }

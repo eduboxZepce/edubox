@@ -1,0 +1,99 @@
+<!--
+  Supabase Auth → Email Templates → "Confirm signup".
+  Subject: Potvrdite email adresu — Edubox Žepče
+
+  This file is the source of truth; the hosted project does not read it. After
+  editing, paste the body into the dashboard (or push it with the Management
+  API). It mirrors the frame in src/lib/email/template.ts — same colours, same
+  header, same sign-off — so the first email a student receives looks like
+  every one after it.
+
+  No greeting by name, on purpose: `{{ .Data.full_name }}` is whatever the
+  person typed into the sign-up form, and anyone can register *someone else's*
+  address. Echoing the name would let a stranger put their own words (a link,
+  a phone number) into an email that arrives from us. "Poštovani/a," is safe.
+
+  Variables used: {{ .ConfirmationURL }} (Supabase's verify link, which then
+  redirects to /auth/callback?code=… via emailRedirectTo) and {{ .SiteURL }}
+  (for the logo, which must be publicly reachable — localhost shows a broken
+  image, as with every other email).
+-->
+<!doctype html>
+<html lang="bs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Potvrdite email adresu</title>
+  </head>
+  <body style="margin:0;padding:0;background:#f3f4f6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;">
+    <div style="display:none;max-height:0;overflow:hidden;opacity:0;">Još samo jedan korak: potvrdite adresu i vaš nalog je spreman.&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;&#8204;</div>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f3f4f6;padding:32px 12px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border-radius:12px;border:1px solid #e5e7eb;border-top:4px solid #2f5bea;">
+            <tr>
+              <td style="padding:22px 28px 18px;border-bottom:1px solid #e5e7eb;">
+                <a href="{{ .SiteURL }}" style="text-decoration:none;">
+                  <table role="presentation" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td style="vertical-align:middle;padding-right:10px;">
+                        <img src="{{ .SiteURL }}/email-logo.png" width="32" height="29" alt="" style="display:block;border:0;" />
+                      </td>
+                      <td style="vertical-align:middle;">
+                        <span style="font-size:18px;font-weight:700;color:#2f5bea;letter-spacing:-0.01em;">Edubox Žepče</span>
+                      </td>
+                    </tr>
+                  </table>
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:28px 28px 32px;">
+                <h1 style="margin:0 0 20px;font-size:21px;line-height:1.35;color:#111827;">Potvrdite email adresu</h1>
+                <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#374151;">Poštovani/a,</p>
+                <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#374151;">
+                  hvala vam što ste otvorili nalog na platformi Edubox Žepče. Prije prve prijave
+                  potrebno je još samo potvrditi da je ova email adresa vaša.
+                </p>
+                <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#374151;">
+                  Kliknite na dugme ispod i vaš nalog je spreman — nakon toga možete pregledati
+                  obuke i poslati zahtjev za pristup.
+                </p>
+                <p style="margin:24px 0 0;">
+                  <a href="{{ .ConfirmationURL }}"
+                     style="display:inline-block;padding:12px 22px;border-radius:8px;background:#2f5bea;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;">
+                    Potvrdi email adresu
+                  </a>
+                </p>
+                <p style="margin:24px 0 0;font-size:13px;line-height:1.6;color:#6b7280;">
+                  Ako dugme ne radi, kopirajte ovaj link u preglednik:<br />
+                  <a href="{{ .ConfirmationURL }}" style="color:#2f5bea;word-break:break-all;">{{ .ConfirmationURL }}</a>
+                </p>
+                <p style="margin:16px 0 0;font-size:13px;line-height:1.6;color:#6b7280;">
+                  Link vrijedi ograničeno vrijeme i može se iskoristiti samo jednom. Ako je istekao,
+                  ponovo se registrirajte istom adresom i poslat ćemo vam novi.
+                </p>
+                <p style="margin:28px 0 0;font-size:15px;line-height:1.6;color:#374151;">
+                  Srdačan pozdrav,<br /><strong style="color:#111827;">Tim Edubox Žepče</strong>
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:20px 28px 24px;background:#f9fafb;border-top:1px solid #e5e7eb;border-radius:0 0 12px 12px;">
+                <p style="margin:0;font-size:12px;line-height:1.6;color:#6b7280;">
+                  Ovu poruku ste dobili jer je ova adresa upisana pri registraciji na platformi Edubox Žepče.<br />
+                  Ako niste vi otvorili nalog, slobodno zanemarite poruku — bez potvrde nalog neće biti aktiviran.<br />
+                  Na ovu poruku nije moguće odgovoriti — pišite nam na info@edubox-zepce.ba.
+                </p>
+                <p style="margin:12px 0 0;font-size:12px;line-height:1.6;color:#9ca3af;">
+                  © Razvojna agencija Žepče · www.edubox-zepce.ba<br />
+                  Ulica Prva bb, 72230 Žepče · ID broj: 4218693330009
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

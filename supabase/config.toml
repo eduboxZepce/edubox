@@ -243,6 +243,12 @@ otp_expiry = 3600
 # admin_email = "admin@email.com"
 # sender_name = "Admin"
 
+# Sign-up confirmation. The hosted project does not read this file — paste the
+# subject and HTML into Dashboard → Authentication → Email Templates.
+[auth.email.template.confirmation]
+subject = "Potvrdite email adresu — Edubox Žepče"
+content_path = "./supabase/templates/confirmation.html"
+
 # Uncomment to customize email template
 # [auth.email.template.invite]
 # subject = "You have been invited"
