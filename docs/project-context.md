@@ -2432,6 +2432,15 @@ course-scoped page, add it there or it is URL-only.
   Google button on `/register` is disabled until the box is ticked; the one on `/login`
   can still create an account without it.
 
+- **The register form carries a honeypot** (`<HoneypotField>`, a `website` input moved
+  off-screen, `tabIndex -1`, `aria-hidden`). When it holds a value the form shows the
+  normal "check your email" screen and creates nothing — an error would tell the bot
+  which field gave it away. **It only stops bots that drive the page.** Sign-up calls
+  Supabase from the browser with the public anon key, so a script can hit
+  `/auth/v1/signup` directly and never see the form. Real protection is a CAPTCHA
+  enforced by Supabase (Auth → Bot and Abuse Protection, `[auth.captcha]`), which would
+  also need a `captchaToken` passed to `signUp` and to the Google button's flow.
+
 - **One public email address**, `SITE.contact.email` (info@edubox-zepce.ba). The separate
   `supportEmail` is gone.
 

@@ -11,6 +11,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import AuthCard, { AuthCardProgress } from '@/components/AuthCard';
 import GoogleSignInButton from '@/components/auth/GoogleSignInButton';
+import HoneypotField, { isHoneypotFilled } from '@/components/form/HoneypotField';
 import { createClient } from '@/lib/supabase/client';
 import { publicEnv } from '@/lib/env';
 
@@ -26,9 +27,17 @@ export default function RegisterPage() {
 
   const passwordMismatch = confirmPassword.length > 0 && password !== confirmPassword;
 
-  async function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
+
+    // A bot filled the trap field. Show the same "check your email" screen a
+    // person would get, without creating anything: an error would tell the
+    // bot exactly which field gave it away.
+    if (isHoneypotFilled(event.currentTarget)) {
+      setSent(true);
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError('Lozinke se ne podudaraju.');
@@ -100,7 +109,10 @@ export default function RegisterPage() {
       }
     >
       <AuthCardProgress active={pending} />
-      <form onSubmit={handleSubmit} noValidate>
+      {/* `position: relative` anchors the off-screen honeypot to the form
+          rather than to whatever positioned ancestor happens to be above it. */}
+      <form onSubmit={handleSubmit} noValidate style={{ position: 'relative' }}>
+        <HoneypotField />
         <Stack spacing={2}>
           {error ? <Alert severity="error">{error}</Alert> : null}
 
